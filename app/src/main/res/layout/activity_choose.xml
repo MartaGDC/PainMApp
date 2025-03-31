@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:orientation="vertical">
         <androidx.cardview.widget.CardView
-            android:id="@+id/sensitive"
+            android:id="@+id/sensorial"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/blue"

@@ -8,7 +8,7 @@ import java.util.Date
 
 @Entity(tableName="evaluations_table")
 data class EvaluationEntity (
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name="id") val idEvaluation: Int = 0,
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name="idEvaluation") val idEvaluation: Int = 0,
     @ColumnInfo(name="patient") val patientName : String,
     @ColumnInfo(name="researcher") val researcherName : String,
     @ColumnInfo(name="date") val date : String,
