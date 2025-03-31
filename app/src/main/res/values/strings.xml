@@ -3,4 +3,7 @@
     <string name="title_activity_splash">SplashActivity</string>
     <string name="patientName">Nombre del paciente</string>
     <string name="researcherName">Nombre del investigador</string>
+    <string name="sensorySymptoms">Síntomas sensitivos</string>
+    <string name="psicosocial">Evaluación psicosocial</string>
+    <string name="motorSymptoms">Síntomas motores</string>
 </resources>

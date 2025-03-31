@@ -42,18 +42,22 @@
                 android:id="@+id/PatientName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/Median"
                 android:hint="@string/patientName"
+                style="@style/Median"
                 android:textStyle="normal"
-                android:layout_margin="30dp"/>
+                android:inputType="textCapWords"
+                android:layout_margin="30dp"
+                android:imeOptions="actionNext"/>
             <EditText
                 android:id="@+id/ResearcherName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:hint="@string/researcherName"
                 style="@style/Median"
                 android:textStyle="normal"
-                android:hint="@string/researcherName"
-                android:layout_margin="30dp"/>
+                android:inputType="textCapWords"
+                android:layout_margin="30dp"
+                android:imeOptions="actionDone"/>
         </LinearLayout>
     </LinearLayout>
 
