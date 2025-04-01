@@ -26,7 +26,7 @@ class ChooseActivity : AppCompatActivity() {
     private lateinit var psicosocial: CardView
     private lateinit var currentDate: String
     private lateinit var database: PatientDatabase
-    private var idGenerado: Int = 0
+    private var idGenerado: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,8 +67,8 @@ class ChooseActivity : AppCompatActivity() {
     private fun navigateToSensorial() {
         val intent = Intent(this, SensorialActivity::class.java).apply {
             putExtra("ID_TEST", idGenerado)
-            startActivity(intent)
         }
+        startActivity(intent)
     }
     private fun navigateToMotor() {
         TODO()

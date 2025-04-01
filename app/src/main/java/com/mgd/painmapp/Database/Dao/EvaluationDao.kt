@@ -13,5 +13,5 @@ interface EvaluationDao {
     fun getEvaluations(): List<EvaluationEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertEvaluation(evaluation: EvaluationEntity): Int //Para recuperar el id del registro insertado
+    suspend fun insertEvaluation(evaluation: EvaluationEntity): Long //Para recuperar el id del registro insertado
 }

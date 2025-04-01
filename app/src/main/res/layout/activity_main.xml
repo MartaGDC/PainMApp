@@ -7,58 +7,80 @@
     android:layout_height="match_parent"
     android:background="@color/grey"
     tools:context=".MainActivity">
-
     <LinearLayout
+        android:id="@+id/LLdatos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:gravity="center">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
+            android:orientation="horizontal">
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/Median"
-                android:text="Paciente"
-                android:padding="40dp"/>
-            <TextView
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Median"
+                    android:text="Paciente"
+                    android:padding="40dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Median"
+                    android:text="Investigador/a"
+                    android:padding="40dp"/>
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/Median"
-                android:text="Investigador/a"
-                android:padding="40dp"/>
+                android:orientation="vertical">
+                <EditText
+                    android:id="@+id/PatientName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/patientName"
+                    style="@style/Median"
+                    android:textStyle="normal"
+                    android:inputType="textCapWords"
+                    android:layout_margin="30dp"
+                    android:imeOptions="actionNext"/>
+                <EditText
+                    android:id="@+id/ResearcherName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/researcherName"
+                    style="@style/Median"
+                    android:textStyle="normal"
+                    android:inputType="textCapWords"
+                    android:layout_margin="30dp"
+                    android:imeOptions="actionDone"/>
+            </LinearLayout>
         </LinearLayout>
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <EditText
-                android:id="@+id/PatientName"
+            app:layout_constraintTop_toBottomOf="@id/LLdatos"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="40dp"
+            android:backgroundTint="@color/yellow"
+            app:cardCornerRadius="50dp">
+            <TextView
+                android:gravity="center"
+                style="@style/Median"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/patientName"
-                style="@style/Median"
-                android:textStyle="normal"
-                android:inputType="textCapWords"
-                android:layout_margin="30dp"
-                android:imeOptions="actionNext"/>
-            <EditText
-                android:id="@+id/ResearcherName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="@string/researcherName"
-                style="@style/Median"
-                android:textStyle="normal"
-                android:inputType="textCapWords"
-                android:layout_margin="30dp"
-                android:imeOptions="actionDone"/>
-        </LinearLayout>
+                android:layout_margin="20dp"
+                android:text="Siguente" />
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
 
 
