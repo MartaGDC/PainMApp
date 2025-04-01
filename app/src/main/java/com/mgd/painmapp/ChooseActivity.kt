@@ -25,8 +25,6 @@ class ChooseActivity : AppCompatActivity() {
     private lateinit var motor: CardView
     private lateinit var psicosocial: CardView
     private lateinit var currentDate: String
-    private lateinit var database: PatientDatabase
-    private var idGenerado: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,34 +37,22 @@ class ChooseActivity : AppCompatActivity() {
         researcherName = intent.getStringExtra("RESEARCHER_NAME").toString()
         currentDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
         sensorial.setOnClickListener {
-            fillDatabase("sensorial")
             navigateToSensorial()
         }
         motor.setOnClickListener {
-            fillDatabase("motor")
             navigateToMotor()
         }
         psicosocial.setOnClickListener {
-            fillDatabase("psicosocial")
             navigateToPsicosocial()
-        }
-    }
-
-    private fun fillDatabase(type: String) {
-        val EvaluationEntity =
-            Evaluation(patientName, researcherName, currentDate, type).toDatabase()
-        database = Room.databaseBuilder(
-            this, PatientDatabase::class.java,
-            "patient_database"
-        ).build()
-        CoroutineScope(Dispatchers.IO).launch {
-            idGenerado = database.getEvaluationDao().insertEvaluation(EvaluationEntity)
         }
     }
 
     private fun navigateToSensorial() {
         val intent = Intent(this, SensorialActivity::class.java).apply {
-            putExtra("ID_TEST", idGenerado)
+            putExtra("PATIENT_NAME", patientName)
+            putExtra("RESEARCHER_NAME", researcherName)
+            putExtra("DATE", currentDate)
+            putExtra("TYPE", "sensorial")
         }
         startActivity(intent)
     }

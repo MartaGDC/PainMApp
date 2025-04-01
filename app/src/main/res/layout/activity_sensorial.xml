@@ -28,29 +28,28 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="50dp"
         android:gravity="center">
-        <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/RVsymptoms"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="50dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+            android:paddingTop="50dp"
+            android:layout_weight="1"/>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="50dp"
             android:layout_weight="0.95">
             <ImageView
+                android:id="@+id/IVfrente"
                 android:layout_width="wrap_content"
                 android:layout_height="560dp"
                 android:contentDescription="Cuerpo de frente"
                 android:src="@drawable/frente"
                 app:layout_constraintBottom_toTopOf="@id/frente"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="25dp"/>
             <TextView
                 android:id="@+id/frente"
                 style="@style/Small"
@@ -58,6 +57,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="FRENTE"
+                android:layout_marginTop="25dp"
+                app:layout_constraintTop_toBottomOf="@id/IVfrente"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -68,13 +69,15 @@
             android:layout_marginStart="50dp"
             android:layout_weight="0.95">
             <ImageView
+                android:id="@+id/IVespalda"
                 android:layout_width="wrap_content"
                 android:layout_height="560dp"
                 android:contentDescription="Cuerpo de espaldas"
                 android:src="@drawable/espalda"
                 app:layout_constraintBottom_toTopOf="@id/espalda"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="25dp" />
             <TextView
                 android:id="@+id/espalda"
                 style="@style/Small"
@@ -82,9 +85,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="ESPALDA"
+                app:layout_constraintTop_toBottomOf="@id/IVespalda"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="25dp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
         <LinearLayout
             android:layout_width="0dp"
