@@ -3,8 +3,10 @@ package com.mgd.painmapp
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.Path
+import android.graphics.RectF
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
@@ -13,48 +15,58 @@ import androidx.core.content.ContextCompat.*
 import androidx.core.graphics.PathParser
 import org.xmlpull.v1.XmlPullParser
 
-
-private const val PENCIL_STROKE_WIDTH = 8f
-
-class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
+class MapBackView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     //Variables para el pincel
-    private var bPath: Path? = null //Guiado por las coordenadas del canva. Es el trazo
-    private val bPaths = mutableListOf<Path>()
-    private val bPaint: Paint = Paint() //Dar formato al trazo
-
+    private var bPath : Path? = null
+    private val bPaths = mutableListOf<Path>() //Guiado por las coordenadas del canva. Es el trazo
+    private val bPaint: Paint = Paint().apply{ //Dar formato al trazo
+        isAntiAlias = true //Bordes suavizados (evita pixelado)
+        isDither = true //Mejora la calidad de los colores
+        style = Paint.Style.STROKE //Hace formas, pero no pinta dentro de ellas
+        strokeJoin = Paint.Join.ROUND //Las uniones entre lineas son redondeadas
+        strokeCap = Paint.Cap.ROUND //Los extremos de las líneas son redondeados
+        color = getColor(context, android.R.color.black) //Modificar colores!!!!!!!!!!!!!!!!!!!!!!!!!!!!!_
+        strokeWidth = 12f // PENSAR LO DEL SLIDE PARA EL TAMAÑO DEL PICEL
+    }
     //Variables para crear el canva con forma humana
-    private val cPath : Path = Path()
-
+    private val cPath = Path()
+    private val scaleMatrix = Matrix()
     //Variables para respuesta tactil
     private var bX = 0f
     private var mY = 0f
 
-    //PINCEL
+
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        initialize()
+        loadHumanCanvas()
+        scaleAndCenterHumanCanvas()
     }
-    private fun initialize() {
-        bPaint.isAntiAlias = true //Bordes suavizados (evita pixelado)
-        bPaint.isDither = true //Mejora la calidad de los colores
-        bPaint.style = Paint.Style.STROKE //Hace formas, pero no pinta dentro de ellas
-        bPaint.strokeJoin = Paint.Join.ROUND //Las uniones entre lineas son redondeadas
-        bPaint.strokeCap = Paint.Cap.ROUND //Los extremos de las líneas son redondeados
-        setPen() //Funcion creda para definir el color y el ancho del trazo
-    }
-        private fun setPen() { //Modificar colores!!!!!!!!!!!!!!!!!!!!!!!!!!!!!___________________________________ PENSAR LO DEL SLIDE PARA EL TAMAÑO DEL PICEL
-        bPaint.color = getColor(context, android.R.color.black)
-        bPaint.strokeWidth = PENCIL_STROKE_WIDTH
-    }
-
 
     //CANVAS HUMANO (svg importado al proyecto como vector --> primer path de su xml es el relevante
-    private fun drawHumanCanvas(canvas: Canvas) {
-        val pathData = getHumanCanvas(context, R.drawable.frente).toString()
-        val paredPath = PathParser.createPathFromPathData(pathData)
-        cPath.addPath(paredPath)
-        Log.d("pathData", pathData)
-        canvas.drawPath(cPath, bPaint)
+    private fun scaleAndCenterHumanCanvas() {
+        val bounds = RectF()
+        cPath.computeBounds(bounds, true)  // Dimensiones del path actual
+        // Calcula la escala
+        val scaleX = width / bounds.width()
+        val scaleY = height / bounds.height()
+        var scaleFactor = scaleY*0.785f
+        if(scaleFactor*bounds.width() > width){
+            scaleFactor = scaleX
+        }
+        scaleMatrix.reset()
+        scaleMatrix.setScale(scaleFactor, scaleFactor, bounds.centerX(), bounds.centerY())
+        cPath.transform(scaleMatrix)
+
+        // Desplazamiento necesario para centrar el path
+        val dx = (width - bounds.width()) / 2 - bounds.left
+        val dy = (height - bounds.height()) / 2 - bounds.top
+        scaleMatrix.postTranslate(dx, dy)
+        cPath.transform(scaleMatrix)
+    }
+    private fun loadHumanCanvas() {
+        val pathData = getHumanCanvas(context, R.drawable.espalda) ?: return
+        val humanPath = PathParser.createPathFromPathData(pathData)
+        cPath.set(humanPath)
     }
     private fun getHumanCanvas(context: Context, drawableId: Int): String? {
         val resources = context.resources
@@ -75,18 +87,27 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+
         return null
     }
 
+
+
     //RESPUESTA TACTIL
     override fun onDraw(canvas: Canvas) {
-        canvas.let {
-            it.save()
-            drawHumanCanvas(it)
-            drawPathsOnCanvas(it)
-            it.restore()
-        }
+        val cDrawable = context.getDrawable(R.drawable.espalda)
+        canvas.save()
+        canvas.clipPath(cPath)
+        val bounds = RectF()
+        cPath.computeBounds(bounds, true)
+        cDrawable?.setBounds(bounds.left.toInt()-20, bounds.top.toInt(), bounds.right.toInt()+20, bounds.bottom.toInt())
+        cDrawable?.draw(canvas)
+
+        drawPathsOnCanvas(canvas)
+        canvas.restore()
+        //canvas.drawPath(cPath, bPaint) //Borrar cuando tenga el dibujo del layout apañado
     }
+
     private fun drawPathsOnCanvas(canvas: Canvas) {
         for(path in bPaths) {
             canvas.drawPath(path, bPaint)

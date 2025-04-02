@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="50dp"
+        android:layout_marginVertical="50dp"
         android:layout_marginHorizontal="20dp"
         android:text="Localización" />
     <LinearLayout
@@ -32,11 +32,10 @@
             android:layout_height="match_parent"
             android:layout_marginStart="50dp"
             android:layout_weight="1">
-            <com.mgd.painmapp.MapView
+            <com.mgd.painmapp.MapFrontView
                 android:id="@+id/IVfrente"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="560dp"
-                android:contentDescription="Cuerpo de frente"
                 app:layout_constraintBottom_toTopOf="@id/frente"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -75,17 +74,15 @@
             android:layout_height="match_parent"
             android:layout_marginStart="50dp"
             android:layout_weight="1">
-            <ImageView
+            <com.mgd.painmapp.MapBackView
                 android:id="@+id/IVespalda"
                 android:layout_width="match_parent"
                 android:layout_height="560dp"
                 android:contentDescription="Cuerpo de espaldas"
-                android:src="@drawable/espalda"
-                android:layout_marginTop="25dp"
                 app:layout_constraintBottom_toTopOf="@id/espalda"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="25dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
