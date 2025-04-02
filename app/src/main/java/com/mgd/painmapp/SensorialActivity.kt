@@ -2,6 +2,7 @@ package com.mgd.painmapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -44,7 +45,18 @@ class SensorialActivity : AppCompatActivity() {
         currentDate = intent.getStringExtra("DATE").toString()
         type = intent.getStringExtra("TYPE").toString()
 
+        /*database = Room.databaseBuilder(
+            this, PatientDatabase::class.java,
+            "patient_database"
+        ).build()
+        this.deleteDatabase("patient_database") */
+        database = Room.databaseBuilder(
+            this, PatientDatabase::class.java,
+            "patient_database"
+        ).build()
+
         CVAdd.setOnClickListener {
+            Log.d("Click", "selecciona añadir sintoma")
             fillDatabase()
             val intent = Intent(this, LocationActivity::class.java).apply {
                 putExtra("ID", idGenerado)
@@ -53,37 +65,31 @@ class SensorialActivity : AppCompatActivity() {
         }
 
         initUI()
-
-        database = Room.databaseBuilder(
-            this, PatientDatabase::class.java,
-            "student_database"
-        ).build()
-        CoroutineScope(Dispatchers.IO).launch {
-            val symptomsList = database.getSymptomDao().getSymptomsByEvaluation(idGenerado)
-            val symptoms = symptomsList.map { it.toSymptom() }
-            runOnUiThread {
-                adapter.updateList(symptoms)
-            }
-        }
     }
 
     private fun fillDatabase() {
         val EvaluationEntity =
             Evaluation(patientName, researcherName, currentDate, type).toDatabase()
-        database = Room.databaseBuilder(
-            this, PatientDatabase::class.java,
-            "patient_database"
-        ).build()
         CoroutineScope(Dispatchers.IO).launch {
             idGenerado = database.getEvaluationDao().insertEvaluation(EvaluationEntity)
         }
     }
 
     private fun initUI(){
-        adapter = SymptomsAdapter(emptyList())
+        adapter = SymptomsAdapter(emptyList(), this)
+        if(idGenerado != null ){
+            CoroutineScope(Dispatchers.IO).launch {
+                val symptomsList = database.getSymptomDao().getSymptomsByEvaluation(idGenerado)
+                val symptoms = symptomsList.map { it.toSymptom() }
+                runOnUiThread {
+                    adapter.updateList(symptoms)
+                }
+            }
+        }
         binding.RVsymptoms.setHasFixedSize(true)
         binding.RVsymptoms.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.RVsymptoms.adapter = adapter
-
     }
+
+
 }

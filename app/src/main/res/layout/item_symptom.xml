@@ -19,6 +19,7 @@
             style="@style/Small"
             android:paddingEnd="10dp"/>
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/CVSymptom"
             app:strokeColor="@color/dark_blue"
             app:strokeWidth="3dp"
             android:layout_width="match_parent"
