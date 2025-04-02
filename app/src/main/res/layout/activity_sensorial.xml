@@ -9,7 +9,6 @@
     android:orientation="vertical"
     tools:context=".SensorialActivity">
     <androidx.cardview.widget.CardView
-        android:id="@+id/sensorial"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -48,6 +47,7 @@
                 android:src="@drawable/frente"
                 app:layout_constraintBottom_toTopOf="@id/frente"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="25dp"/>
             <TextView
@@ -76,6 +76,7 @@
                 android:src="@drawable/espalda"
                 app:layout_constraintBottom_toTopOf="@id/espalda"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="25dp" />
             <TextView

@@ -1,10 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LocationActivity">
+    android:background="@color/grey"
+    android:orientation="vertical"
+    tools:context=".SensorialActivity">
+    <TextView
+        style="@style/Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:layout_marginHorizontal="20dp"
+        android:text="Localización" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp"
+        android:gravity="center"
+        android:paddingHorizontal="100dp">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:paddingTop="50dp"
+            android:layout_weight="0.5"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="50dp"
+            android:layout_weight="1">
+            <com.mgd.painmapp.MapView
+                android:id="@+id/IVfrente"
+                android:layout_width="wrap_content"
+                android:layout_height="560dp"
+                android:contentDescription="Cuerpo de frente"
+                app:layout_constraintBottom_toTopOf="@id/frente"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="25dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Derecha"
+                style="@style/Small"
+                app:layout_constraintStart_toStartOf="@id/IVfrente"
+                app:layout_constraintTop_toTopOf="@id/IVfrente"
+                android:padding="20dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Izquierda"
+                style="@style/Small"
+                app:layout_constraintEnd_toEndOf="@id/IVfrente"
+                app:layout_constraintTop_toTopOf="@id/IVfrente"
+                android:padding="20dp" />
+            <TextView
+                android:id="@+id/frente"
+                style="@style/Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="FRENTE"
+                android:layout_marginTop="25dp"
+                app:layout_constraintTop_toBottomOf="@id/IVfrente"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="50dp"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/IVespalda"
+                android:layout_width="match_parent"
+                android:layout_height="560dp"
+                android:contentDescription="Cuerpo de espaldas"
+                android:src="@drawable/espalda"
+                android:layout_marginTop="25dp"
+                app:layout_constraintBottom_toTopOf="@id/espalda"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Izquierda"
+                style="@style/Small"
+                app:layout_constraintStart_toStartOf="@id/IVespalda"
+                app:layout_constraintTop_toTopOf="@id/IVespalda"
+                android:padding="20dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Derecha"
+                style="@style/Small"
+                app:layout_constraintEnd_toEndOf="@id/IVespalda"
+                app:layout_constraintTop_toTopOf="@id/IVespalda"
+                android:padding="20dp" />
+            <TextView
+                android:id="@+id/espalda"
+                style="@style/Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="ESPALDA"
+                app:layout_constraintTop_toBottomOf="@id/IVespalda"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="25dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</LinearLayout>
