@@ -13,6 +13,9 @@
         android:theme="@style/Theme.PainMApp"
         tools:targetApi="31">
         <activity
+            android:name=".SensorialSurveyActivity"
+            android:exported="false" />
+        <activity
             android:name=".LocationActivity"
             android:exported="false" />
         <activity

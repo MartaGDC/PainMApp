@@ -1,20 +1,24 @@
 package com.mgd.painmapp
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import com.mgd.painmapp.databinding.ActivityLocationBinding
 
 class LocationActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityLocationBinding
+    private lateinit var save: ImageView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_location)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        binding = ActivityLocationBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        save = binding.save
+        save.setOnClickListener {
+            val intent = Intent(this, SensorialSurveyActivity::class.java)
+            startActivity(intent)
         }
+
     }
 }
