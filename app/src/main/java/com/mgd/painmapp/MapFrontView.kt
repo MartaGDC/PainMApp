@@ -25,8 +25,8 @@ class MapFrontView(context: Context, attrs: AttributeSet) : View(context, attrs)
         style = Paint.Style.STROKE //Hace formas, pero no pinta dentro de ellas
         strokeJoin = Paint.Join.ROUND //Las uniones entre lineas son redondeadas
         strokeCap = Paint.Cap.ROUND //Los extremos de las líneas son redondeados
-        color = getColor(context, android.R.color.black) //Modificar colores!!!!!!!!!!!!!!!!!!!!!!!!!!!!!_
-        strokeWidth = 12f // PENSAR LO DEL SLIDE PARA EL TAMAÑO DEL PICEL
+        color = getColor(context, R.color.dark_blue) //Modificar colores!!!!!!!!!!!!!!!!!!!!!!!!!!!!!_
+        strokeWidth = 12f // PENSAR LO DEL SLIDE PARA EL TAMAÑO DEL PICEL. Si no hago zoom sobre el canvas, este tamaño esta bien, y no lo cambiaria
     }
     //Variables para crear el canva con forma humana
     private val cPath = Path()
