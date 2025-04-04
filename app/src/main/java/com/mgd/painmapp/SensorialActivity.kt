@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
 import com.mgd.painmapp.Database.Entities.toDatabase
@@ -22,7 +23,7 @@ class SensorialActivity : AppCompatActivity() {
     private lateinit var currentDate: String
     private lateinit var type: String
     private var idGenerado: Long = 0
-    private lateinit var CVAdd: CardView
+    private lateinit var CVAdd: ConstraintLayout
     private lateinit var adapter: SymptomsAdapter
 
     private lateinit var database: PatientDatabase

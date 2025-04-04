@@ -87,12 +87,13 @@
                 android:layout_weight="1">
                 <com.mgd.painmapp.MapFrontView
                     android:id="@+id/IVfrente"
-                    android:layout_width="match_parent"
-                    android:layout_height="560dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
                     app:layout_constraintBottom_toTopOf="@id/frente"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginTop="50dp"/>
+                    android:layout_marginTop="25dp"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -131,8 +132,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/IVfrente"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginTop="10dp"/>
+                    app:layout_constraintStart_toStartOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"

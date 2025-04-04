@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -13,6 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="50dp"
+        android:layout_marginBottom="25dp"
         android:backgroundTint="@color/blue"
         app:cardCornerRadius="50dp">
         <TextView
@@ -42,13 +44,13 @@
             <ImageView
                 android:id="@+id/IVfrente"
                 android:layout_width="wrap_content"
-                android:layout_height="560dp"
+                android:layout_height="0dp"
                 android:contentDescription="Cuerpo de frente"
                 android:src="@drawable/frente"
-                app:layout_constraintBottom_toTopOf="@id/frente"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/frente"
                 android:layout_marginTop="25dp"/>
             <TextView
                 android:id="@+id/frente"
@@ -68,17 +70,18 @@
             android:layout_height="match_parent"
             android:layout_marginStart="50dp"
             android:layout_weight="0.95">
+            <!-- Altura inicial era 560dp, por si acaso -->
             <ImageView
                 android:id="@+id/IVespalda"
                 android:layout_width="wrap_content"
-                android:layout_height="560dp"
+                android:layout_height="0dp"
                 android:contentDescription="Cuerpo de espaldas"
                 android:src="@drawable/espalda"
-                app:layout_constraintBottom_toTopOf="@id/espalda"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="25dp" />
+                app:layout_constraintBottom_toTopOf="@id/espalda"
+                android:layout_marginTop="25dp"/>
             <TextView
                 android:id="@+id/espalda"
                 style="@style/Small"
@@ -98,31 +101,39 @@
             android:layout_marginStart="50dp"
             android:layout_marginEnd="50dp"
             android:layout_weight="1"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:orientation="vertical">
             <TextView
                 style="@style/Small"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
                 android:gravity="center"
                 android:padding="20dp"
                 android:text="Añada un síntoma" />
-            <androidx.cardview.widget.CardView
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/CVAdd"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginBottom="50dp"
                 android:layout_gravity="center"
                 android:backgroundTint="@color/grey">
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     android:src="@drawable/add_box" />
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     android:src="@drawable/add" />
-            </androidx.cardview.widget.CardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
