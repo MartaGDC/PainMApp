@@ -15,7 +15,7 @@ import androidx.core.content.ContextCompat.*
 import androidx.core.graphics.PathParser
 import org.xmlpull.v1.XmlPullParser
 
-class MapBackView(context: Context, attrs: AttributeSet) : View(context, attrs) {
+class MapViews(context: Context, attrs: AttributeSet) : View(context, attrs) {
     //Variables para el pincel
     private var bPath : Path? = null
     private val bPaths = mutableListOf<Path>() //Guiado por las coordenadas del canva. Es el trazo
@@ -31,9 +31,25 @@ class MapBackView(context: Context, attrs: AttributeSet) : View(context, attrs) 
     //Variables para crear el canva con forma humana
     private val cPath = Path()
     private val scaleMatrix = Matrix()
+    private val cPaint: Paint = Paint().apply{ //Dar formato al trazo
+        isAntiAlias = true
+        style = Paint.Style.STROKE
+        strokeJoin = Paint.Join.ROUND
+        strokeCap = Paint.Cap.ROUND
+        color = getColor(context, R.color.black)
+        strokeWidth = 1f
+    }
     //Variables para respuesta tactil
     private var bX = 0f
     private var mY = 0f
+
+    //Para que sea reutilizable en frente y espalda
+    private var imgFuente: Int = 0
+    init {
+        val array = context.obtainStyledAttributes(attrs, R.styleable.MapViews)
+        imgFuente = array.getResourceId(R.styleable.MapViews_map, 0)
+        array.recycle()
+    }
 
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -47,15 +63,20 @@ class MapBackView(context: Context, attrs: AttributeSet) : View(context, attrs) 
         val bounds = RectF()
         cPath.computeBounds(bounds, true)  // Dimensiones del path actual
         // Calcula la escala
+        Log.d("Limites marco", width.toString() + " " + height.toString())
         val scaleX = width / bounds.width()
         val scaleY = height / bounds.height()
-        var scaleFactor = scaleY*0.785f
+        var scaleFactor = scaleY
         if(scaleFactor*bounds.width() > width){
             scaleFactor = scaleX
         }
+
         scaleMatrix.reset()
-        scaleMatrix.setScale(scaleFactor, scaleFactor, bounds.centerX(), bounds.centerY())
+        scaleMatrix.setScale(1.5F, 1.5F, bounds.centerX(), bounds.centerY())
         cPath.transform(scaleMatrix)
+        cPath.computeBounds(bounds, true)  // Dimensiones del path actual
+
+        Log.d("Limites dibujo", bounds.width().toString() + " " + bounds.height().toString())
 
         // Desplazamiento necesario para centrar el path
         val dx = (width - bounds.width()) / 2 - bounds.left
@@ -64,21 +85,19 @@ class MapBackView(context: Context, attrs: AttributeSet) : View(context, attrs) 
         cPath.transform(scaleMatrix)
     }
     private fun loadHumanCanvas() {
-        val pathData = getHumanCanvas(context, R.drawable.espalda) ?: return
+        val pathData = getHumanCanvas(context, imgFuente) ?: return
         val humanPath = PathParser.createPathFromPathData(pathData)
         cPath.set(humanPath)
     }
-    private fun getHumanCanvas(context: Context, drawableId: Int): String? {
+    private fun getHumanCanvas(context: Context, imgFuente: Int): String? {
         val resources = context.resources
-        val parser = resources.getXml(drawableId)
+        val parser = resources.getXml(imgFuente)
         try {
             var eventType = parser.eventType
             var pathData : String? = null
             while (eventType != XmlPullParser.END_DOCUMENT) {
                 if (eventType == XmlPullParser.START_TAG && parser.name == "path") {
-                    Log.d("Primer path", "Encontrado")
                     pathData = parser.getAttributeValue("http://schemas.android.com/apk/res/android", "pathData")
-                    Log.d("Primer pathData", pathData.toString())
                     break
                 }
                 eventType = parser.next()
@@ -87,7 +106,6 @@ class MapBackView(context: Context, attrs: AttributeSet) : View(context, attrs) 
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
         return null
     }
 
@@ -95,17 +113,17 @@ class MapBackView(context: Context, attrs: AttributeSet) : View(context, attrs) 
 
     //RESPUESTA TACTIL
     override fun onDraw(canvas: Canvas) {
-        val cDrawable = context.getDrawable(R.drawable.espalda)
+        val cDrawable = context.getDrawable(imgFuente)
         canvas.save()
         canvas.clipPath(cPath)
         val bounds = RectF()
         cPath.computeBounds(bounds, true)
-        cDrawable?.setBounds(bounds.left.toInt()-20, bounds.top.toInt(), bounds.right.toInt()+20, bounds.bottom.toInt())
+        cDrawable?.setBounds(bounds.left.toInt(), bounds.top.toInt(), bounds.right.toInt(), bounds.bottom.toInt())
         cDrawable?.draw(canvas)
 
         drawPathsOnCanvas(canvas)
         canvas.restore()
-        //canvas.drawPath(cPath, bPaint) //Borrar cuando tenga el dibujo del layout apañado
+        canvas.drawPath(cPath, cPaint)
     }
 
     private fun drawPathsOnCanvas(canvas: Canvas) {

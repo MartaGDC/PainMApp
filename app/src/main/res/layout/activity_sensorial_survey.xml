@@ -7,25 +7,38 @@
     android:layout_height="match_parent"
     tools:context=".SensorialSurveyActivity"
     android:background="@color/grey">
-    <ImageView
-        android:id="@+id/save"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:src="@drawable/box"
-        android:backgroundTint="@color/blue"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/CVsave"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:backgroundTint="@color/dark_blue"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="50dp"
-        android:layout_marginHorizontal="50dp"/>
-    <ImageView
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:src="@drawable/check"
-        android:backgroundTint="@color/blue"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginHorizontal="50dp"
+        app:cardCornerRadius="10dp">
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/check"
+            android:layout_gravity="center"/>
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/CVdelete"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:backgroundTint="@color/red"
+        app:layout_constraintStart_toEndOf="@id/CVsave"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="50dp"
-        android:layout_marginHorizontal="50dp"/>
+        android:layout_marginHorizontal="50dp"
+        app:cardCornerRadius="10dp">
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/delete"
+            android:layout_gravity="center"/>
+    </androidx.cardview.widget.CardView>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -65,235 +78,361 @@
                     android:textColor="@color/yellow"
                     android:labelFor="@id/slider"/>
             </androidx.cardview.widget.CardView>
-            <com.google.android.material.slider.Slider
-                android:id="@+id/slider"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:value="0"
-                android:valueFrom="0"
-                android:valueTo="10"
-                android:stepSize="0.5"
-                app:trackColor="@color/yellow"
-                app:thumbColor="@color/dark_blue"
-                app:tickColor="@color/dark_blue"
-                app:tickVisible="true"/>
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Small"
+                    android:text="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Small"
+                    android:text="5.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Small"
+                    android:text="10.0"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/slider"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_gravity="center"
+                    android:valueFrom="0"
+                    android:valueTo="10"
+                    android:stepSize="0.5"
+                    app:trackColor="@color/yellow"
+                    app:thumbColor="@color/dark_blue"
+                    app:thumbHeight="25dp"
+                    app:thumbWidth="10dp"
+                    app:thumbElevation="5dp"
+                    app:tickColor="@color/dark_blue"
+                    app:tickVisible="true"
+                    app:labelBehavior="visible" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:orientation="horizontal">
+                android:orientation="vertical">
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="0.75"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginRight="40dp">
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@color/dark_blue"
-                        app:cardCornerRadius="50dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginBottom="20dp">
-                        <TextView
+                        android:orientation="vertical"
+                        android:layout_marginEnd="40dp">
+                        <androidx.cardview.widget.CardView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="SÍNTOMA"
-                            style="@style/Small"
-                            android:textColor="@color/yellow"
-                            android:layout_marginHorizontal="20dp"/>
-                    </androidx.cardview.widget.CardView>
-                    <GridLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:columnCount="2">
-                        <RadioGroup
-                            android:id="@+id/rgSimptom1"
-                            android:layout_width="wrap_content"
+                            android:backgroundTint="@color/dark_blue"
+                            app:cardCornerRadius="50dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="20dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="SÍNTOMA"
+                                style="@style/Small"
+                                android:textColor="@color/yellow"
+                                android:layout_marginHorizontal="20dp"/>
+                        </androidx.cardview.widget.CardView>
+                        <GridLayout
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
-                            <RadioButton
-                                android:id="@+id/btnDolor"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Dolor"
-                                style="@style/Small"
-                                android:buttonTint="@color/dark_blue"
-                                android:checked="true"/>
-                            <RadioButton
-                                android:id="@+id/btnPicor"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Picor"
-                                style="@style/Small"
-                                android:buttonTint="@color/dark_blue"/>
-                            <RadioButton
-                                android:id="@+id/btnQuemazon"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Quemazón"
-                                style="@style/Small"
-                                android:buttonTint="@color/dark_blue"/>
-                            <RadioButton
-                                android:id="@+id/btnPunzante"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Punzante"
-                                style="@style/Small"
-                                android:buttonTint="@color/dark_blue"/>
-                            <RadioButton
-                                android:id="@+id/btnOtroSintoma"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Otro"
-                                style="@style/Small"
-                                android:buttonTint="@color/dark_blue"/>
-                        </RadioGroup>
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="20dp">
+                            android:columnCount="2">
                             <RadioGroup
-                                android:id="@+id/rgSimptom2"
+                                android:id="@+id/rgSimptom1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintBottom_toTopOf="@+id/ETOtroSintoma" >
+                                app:layout_constraintTop_toTopOf="parent">
                                 <RadioButton
-                                    android:id="@+id/btnCalambres"
+                                    android:id="@+id/btnDolor"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Calambres"
+                                    android:text="Dolor"
+                                    style="@style/Small"
+                                    android:buttonTint="@color/dark_blue"
+                                    android:checked="true"/>
+                                <RadioButton
+                                    android:id="@+id/btnPicor"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Picor"
                                     style="@style/Small"
                                     android:buttonTint="@color/dark_blue"/>
                                 <RadioButton
-                                    android:id="@+id/btnEscozor"
+                                    android:id="@+id/btnQuemazon"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Escozor"
+                                    android:text="Quemazón"
                                     style="@style/Small"
                                     android:buttonTint="@color/dark_blue"/>
                                 <RadioButton
-                                    android:id="@+id/btnHormigueo"
+                                    android:id="@+id/btnPunzante"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Hormigueo"
+                                    android:text="Punzante"
                                     style="@style/Small"
                                     android:buttonTint="@color/dark_blue"/>
                                 <RadioButton
-                                    android:id="@+id/btnEntumecimiento"
+                                    android:id="@+id/btnOtroSintoma"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Entumecimiento"
+                                    android:text="Otro:"
                                     style="@style/Small"
+                                    android:labelFor="@id/ETOtroSintoma"
                                     android:buttonTint="@color/dark_blue"/>
                             </RadioGroup>
-                            <EditText
-                                android:id="@+id/ETOtroSintoma"
+                            <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                style="@style/Small"
-                                android:text="                                            "
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/rgSimptom2"
-                                app:layout_constraintBottom_toBottomOf="parent"/>
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                    </GridLayout>
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="20dp">
+                                <RadioGroup
+                                    android:id="@+id/rgSimptom2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintBottom_toTopOf="@+id/ETOtroSintoma" >
+                                    <RadioButton
+                                        android:id="@+id/btnCalambres"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Calambres"
+                                        style="@style/Small"
+                                        android:buttonTint="@color/dark_blue"/>
+                                    <RadioButton
+                                        android:id="@+id/btnEscozor"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Escozor"
+                                        style="@style/Small"
+                                        android:buttonTint="@color/dark_blue"/>
+                                    <RadioButton
+                                        android:id="@+id/btnHormigueo"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Hormigueo"
+                                        style="@style/Small"
+                                        android:buttonTint="@color/dark_blue"/>
+                                    <RadioButton
+                                        android:id="@+id/btnEntumecimiento"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Entumecimiento"
+                                        style="@style/Small"
+                                        android:buttonTint="@color/dark_blue"/>
+                                </RadioGroup>
+                                <EditText
+                                    android:id="@+id/ETOtroSintoma"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    style="@style/Small"
+                                    android:text="                                                    "
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/rgSimptom2"
+                                    app:layout_constraintBottom_toBottomOf="parent"/>
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </GridLayout>
 
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@color/dark_blue"
-                        app:cardCornerRadius="50dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginBottom="20dp">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="INTERPRETACIÓN"
-                            style="@style/Small"
-                            android:textColor="@color/yellow"
-                            android:layout_marginHorizontal="20dp"/>
-                    </androidx.cardview.widget.CardView>
+                    </LinearLayout>
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_marginStart="40dp"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
-                        <LinearLayout
-                            android:layout_width="match_parent"
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            android:orientation="horizontal">
-                            <CheckBox
-                                android:id="@+id/cbAgitador"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
+                            android:backgroundTint="@color/dark_blue"
+                            app:cardCornerRadius="50dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="20dp">
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:text="INTERPRETACIÓN"
                                 style="@style/Small"
-                                tools:text="Agitador" />
-                        </LinearLayout>
-                        <LinearLayout
+                                android:textColor="@color/yellow"
+                                android:layout_marginHorizontal="20dp"/>
+                        </androidx.cardview.widget.CardView>
+                        <GridLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            android:orientation="horizontal">
-                            <CheckBox
-                                android:id="@+id/cbMiserable"
+                            android:layout_height="match_parent"
+                            android:columnCount="2">
+                            <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
-                            <TextView
+                                android:layout_height="match_parent">
+                                <LinearLayout
+                                    android:id="@+id/LLAgitador"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    android:orientation="horizontal">
+                                    <CheckBox
+                                        android:id="@+id/cbAgitador"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content" />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        style="@style/Small"
+                                        android:text="Agitador" />
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:id="@+id/LLMiserable"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/LLAgitador"
+                                    android:orientation="horizontal">
+                                    <CheckBox
+                                        android:id="@+id/cbMiserable"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content" />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        style="@style/Small"
+                                        android:text="Miserable" />
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:id="@+id/LLFastidioso"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/LLMiserable"
+                                    android:orientation="horizontal">
+                                    <CheckBox
+                                        android:id="@+id/cbFastidioso"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content" />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        style="@style/Small"
+                                        android:text="Fastidioso" />
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:id="@+id/LLOtro"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/LLFastidioso"
+                                    android:orientation="horizontal">
+                                    <CheckBox
+                                        android:id="@+id/cbOtro"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content" />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        style="@style/Small"
+                                        android:text="Otro:"
+                                        android:labelFor="@id/ETOtraInterpretacion"/>
+                                </LinearLayout>
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                            <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                style="@style/Small"
-                                tools:text="Miserable" />
-                        </LinearLayout>
-                        <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:orientation="horizontal">
-                        <CheckBox
-                            android:id="@+id/cbFastidioso"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/Small"
-                            tools:text="Fastidioso" />
-                        </LinearLayout>
-                        <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:orientation="horizontal">
-                        <CheckBox
-                            android:id="@+id/cbOtro"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/Small"
-                            tools:text="Otro: " />
-                        </LinearLayout>
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="20dp">
+                                <LinearLayout
+                                    android:id="@+id/LLPenetrante"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    android:orientation="horizontal">
+                                    <CheckBox
+                                        android:id="@+id/cbPenetrante"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content" />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        style="@style/Small"
+                                        android:text="Penetrante" />
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:id="@+id/LLInsoportable"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/LLPenetrante"
+                                    android:orientation="horizontal">
+                                    <CheckBox
+                                        android:id="@+id/cbInsoportable"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content" />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        style="@style/Small"
+                                        android:text="Miserable" />
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:id="@+id/LLFatigador"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/LLInsoportable"
+                                    android:orientation="horizontal">
+                                    <CheckBox
+                                        android:id="@+id/cbFatigador"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content" />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        style="@style/Small"
+                                        android:text="Fastidioso" />
+                                </LinearLayout>
+                                <EditText
+                                    android:id="@+id/ETOtraInterpretacion"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    style="@style/Small"
+                                    android:text="                                                    "
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/LLFatigador"
+                                    app:layout_constraintBottom_toBottomOf="parent"/>
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </GridLayout>
                     </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    android:layout_marginTop="20dp">
                     <androidx.cardview.widget.CardView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -310,17 +449,20 @@
                             android:layout_marginHorizontal="20dp"/>
                     </androidx.cardview.widget.CardView>
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
                         <RadioGroup
                             android:id="@+id/rgTime"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:orientation="horizontal"
+                            android:gravity="center">
                             <RadioButton
                                 android:id="@+id/btnContinuo"
-                                android:layout_width="match_parent"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
                                 android:text="Continuo"
                                 style="@style/Small"
@@ -328,22 +470,46 @@
                                 android:checked="true"/>
                             <RadioButton
                                 android:id="@+id/btnIntermitente"
-                                android:layout_width="match_parent"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
                                 android:text="Intermitente"
                                 style="@style/Small"
                                 android:buttonTint="@color/dark_blue" />
                             <RadioButton
                                 android:id="@+id/btnMomentáneo"
-                                android:layout_width="match_parent"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
                                 android:text="Momentáneo"
                                 style="@style/Small"
                                 android:buttonTint="@color/dark_blue"/>
                         </RadioGroup>
+                        <TextView
+                            android:id="@+id/tvCuando"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/rgTime"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            style="@style/Small"
+                            android:labelFor="@id/ETCuando"
+                            android:text="¿Cuándo?"/>
+                        <EditText
+                            android:id="@+id/ETCuando"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Small"
+                            android:text="                                                    "
+                            app:layout_constraintStart_toEndOf="@id/tvCuando"
+                            app:layout_constraintTop_toBottomOf="@id/rgTime"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
+
             </LinearLayout>
+
         </LinearLayout>
     </LinearLayout>
 
