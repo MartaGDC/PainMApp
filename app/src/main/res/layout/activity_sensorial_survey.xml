@@ -161,7 +161,7 @@
                             android:layout_height="match_parent"
                             android:columnCount="2">
                             <RadioGroup
-                                android:id="@+id/rgSimptom1"
+                                android:id="@+id/rgSymptom1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -207,12 +207,11 @@
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:layout_marginLeft="20dp">
+                                android:layout_marginLeft="50dp">
                                 <RadioGroup
-                                    android:id="@+id/rgSimptom2"
+                                    android:id="@+id/rgSymptom2"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
-                                    app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintTop_toTopOf="parent"
                                     app:layout_constraintBottom_toTopOf="@+id/ETOtroSintoma" >
@@ -247,12 +246,11 @@
                                 </RadioGroup>
                                 <EditText
                                     android:id="@+id/ETOtroSintoma"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="250dp"
                                     android:layout_height="wrap_content"
                                     style="@style/Small"
-                                    android:text="                                                    "
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintTop_toBottomOf="@id/rgSimptom2"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/rgSymptom2"
                                     app:layout_constraintBottom_toBottomOf="parent"/>
                             </androidx.constraintlayout.widget.ConstraintLayout>
                         </GridLayout>
@@ -359,12 +357,11 @@
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:layout_marginLeft="20dp">
+                                android:layout_marginLeft="50dp">
                                 <LinearLayout
                                     android:id="@+id/LLPenetrante"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintTop_toTopOf="parent"
                                     android:orientation="horizontal">
@@ -382,8 +379,7 @@
                                     android:id="@+id/LLInsoportable"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="@id/LLPenetrante"
                                     app:layout_constraintTop_toBottomOf="@id/LLPenetrante"
                                     android:orientation="horizontal">
                                     <CheckBox
@@ -400,8 +396,7 @@
                                     android:id="@+id/LLFatigador"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="@id/LLPenetrante"
                                     app:layout_constraintTop_toBottomOf="@id/LLInsoportable"
                                     android:orientation="horizontal">
                                     <CheckBox
@@ -416,11 +411,10 @@
                                 </LinearLayout>
                                 <EditText
                                     android:id="@+id/ETOtraInterpretacion"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="250dp"
                                     android:layout_height="wrap_content"
                                     style="@style/Small"
-                                    android:text="                                                    "
-                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toBottomOf="@id/LLFatigador"
                                     app:layout_constraintBottom_toBottomOf="parent"/>
                             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -460,7 +454,7 @@
                             android:orientation="horizontal"
                             android:gravity="center">
                             <RadioButton
-                                android:id="@+id/btnContinuo"
+                                android:id="@+id/rbContinuo"
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
                                 android:layout_height="wrap_content"
@@ -469,7 +463,7 @@
                                 android:buttonTint="@color/dark_blue"
                                 android:checked="true"/>
                             <RadioButton
-                                android:id="@+id/btnIntermitente"
+                                android:id="@+id/rbIntermitente"
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
                                 android:layout_height="wrap_content"
@@ -477,7 +471,7 @@
                                 style="@style/Small"
                                 android:buttonTint="@color/dark_blue" />
                             <RadioButton
-                                android:id="@+id/btnMomentáneo"
+                                android:id="@+id/rbMomentaneo"
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
                                 android:layout_height="wrap_content"
@@ -494,17 +488,17 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             style="@style/Small"
                             android:labelFor="@id/ETCuando"
-                            android:text="¿Cuándo?"/>
+                            android:text="¿Cuándo?"
+                            android:visibility="invisible"/>
                         <EditText
                             android:id="@+id/ETCuando"
-                            android:layout_width="wrap_content"
+                            android:layout_width="250dp"
                             android:layout_height="wrap_content"
                             style="@style/Small"
-                            android:text="                                                    "
                             app:layout_constraintStart_toEndOf="@id/tvCuando"
                             app:layout_constraintTop_toBottomOf="@id/rgTime"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            />
+                            android:visibility="invisible"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
 

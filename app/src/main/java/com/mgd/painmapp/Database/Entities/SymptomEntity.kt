@@ -13,15 +13,7 @@ data class SymptomEntity (
 
     @ColumnInfo(name="intensity") val intensity : Float,
 
-    @ColumnInfo(name="symptomPain") val symptomPain : Boolean,
-    @ColumnInfo(name="symptomItch") val symptomItch : Boolean,
-    @ColumnInfo(name="symptomBurn") val symptomBurn : Boolean,
-    @ColumnInfo(name="symptomSharp") val symptomSharp : Boolean,
-    @ColumnInfo(name="symptomNumb") val symptomNumb : Boolean,
-    @ColumnInfo(name="symptomCramps") val symptomCramps : Boolean,
-    @ColumnInfo(name="symptomSore") val symptomSore : Boolean,
-    @ColumnInfo(name="symptomTingling") val symptomTingling : Boolean,
-    @ColumnInfo(name="symptomOther") val symptomOther : Boolean,
+    @ColumnInfo(name="symptomPain") val symptom : Int,
     @ColumnInfo(name="symptomOtherText") val symptomOtherText : String,
 
     @ColumnInfo(name="charactAgitating") val charactAgitating : Boolean,
@@ -33,9 +25,7 @@ data class SymptomEntity (
     @ColumnInfo(name="charactOther") val charactOther : Boolean,
     @ColumnInfo(name="charactOtherText") val charactOtherText : String,
 
-    @ColumnInfo(name="timeContinuous") val timeContinuous : Boolean,
-    @ColumnInfo(name="timeIntermittent") val timeIntermittent : Boolean,
-    @ColumnInfo(name="timeMomentary") val timeMomentary : Boolean,
+    @ColumnInfo(name="timeContinuous") val time : Int,
     @ColumnInfo(name="timeWhen") val timeWhen : String
 
 
@@ -44,15 +34,7 @@ data class SymptomEntity (
 fun Symptom.toDatabase() = SymptomEntity(
     idEvaluation = idEvaluation,
     intensity = intensity,
-    symptomPain = symptomPain,
-    symptomItch = symptomItch,
-    symptomBurn = symptomBurn,
-    symptomSharp = symptomSharp,
-    symptomNumb = symptomNumb,
-    symptomCramps = symptomCramps,
-    symptomSore = symptomSore,
-    symptomTingling = symptomTingling,
-    symptomOther = symptomOther,
+    symptom = symptom,
     symptomOtherText = symptomOtherText,
     charactAgitating = charactAgitating,
     charactMiserable = charactMiserable,
@@ -62,23 +44,13 @@ fun Symptom.toDatabase() = SymptomEntity(
     charactPiercing = charactPiercing,
     charactOther = charactOther,
     charactOtherText = charactOtherText,
-    timeContinuous = timeContinuous,
-    timeIntermittent = timeIntermittent,
-    timeMomentary = timeMomentary,
+    time = time,
     timeWhen = timeWhen
 )
 fun SymptomEntity.toSymptom() = Symptom(
     idEvaluation = idEvaluation,
     intensity = intensity,
-    symptomPain = symptomPain,
-    symptomItch = symptomItch,
-    symptomBurn = symptomBurn,
-    symptomSharp = symptomSharp,
-    symptomNumb = symptomNumb,
-    symptomCramps = symptomNumb,
-    symptomSore = symptomSore,
-    symptomTingling = symptomTingling,
-    symptomOther = symptomOther,
+    symptom = symptom,
     symptomOtherText = symptomOtherText,
     charactAgitating = charactAgitating,
     charactMiserable = charactMiserable,
@@ -88,7 +60,6 @@ fun SymptomEntity.toSymptom() = Symptom(
     charactPiercing = charactPiercing,
     charactOther = charactOther,
     charactOtherText = charactOtherText,
-    timeContinuous = timeContinuous,
-    timeIntermittent = timeIntermittent,
-    timeMomentary = timeMomentary,
-    timeWhen = timeWhen)
+    time = time,
+    timeWhen = timeWhen
+)

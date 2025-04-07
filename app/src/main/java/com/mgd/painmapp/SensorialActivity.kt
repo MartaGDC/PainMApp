@@ -31,7 +31,6 @@ class SensorialActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySensorialBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        CVAdd = binding.CVAdd
 
         patientName = intent.getStringExtra("PATIENT_NAME").toString()
         researcherName = intent.getStringExtra("RESEARCHER_NAME").toString()
@@ -48,23 +47,15 @@ class SensorialActivity : AppCompatActivity() {
             "patient_database"
         ).build()
 
-        CVAdd.setOnClickListener {
-            Log.d("Click", "selecciona añadir sintoma")
-            fillDatabase()
-            val intent = Intent(this, LocationActivity::class.java).apply {
-                putExtra("ID", idGenerado)
-            }
-            startActivity(intent)
-        }
 
         initUI()
     }
 
     private fun fillDatabase() {
-        val EvaluationEntity =
+        val evaluationEntity =
             Evaluation(patientName, researcherName, currentDate, type).toDatabase()
         CoroutineScope(Dispatchers.IO).launch {
-            idGenerado = database.getEvaluationDao().insertEvaluation(EvaluationEntity)
+            idGenerado = database.getEvaluationDao().insertEvaluation(evaluationEntity)
         }
     }
 
@@ -82,6 +73,16 @@ class SensorialActivity : AppCompatActivity() {
         binding.RVsymptoms.setHasFixedSize(true)
         binding.RVsymptoms.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.RVsymptoms.adapter = adapter
+
+        CVAdd = binding.CVAdd
+        CVAdd.setOnClickListener {
+            Log.d("Click", "selecciona añadir sintoma")
+            fillDatabase()
+            val intent = Intent(this, LocationActivity::class.java).apply {
+                putExtra("ID", idGenerado)
+            }
+            startActivity(intent)
+        }
     }
 
 

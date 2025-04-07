@@ -14,7 +14,7 @@ class SymptomsViewHolder (view: View, private val context: Context):RecyclerView
     fun render(symptom: Symptom, index: Int) {
         binding.numSymptom.text = (index + 1).toString()
         binding.score.text = symptom.intensity.toString()
-        binding.symptom.text = symptom.symptomType
+       // binding.symptom.text = symptom.symptom
         binding.CVSymptom.setOnClickListener{
             context.startActivity(Intent(context, LocationActivity::class.java))
         }
