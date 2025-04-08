@@ -61,34 +61,31 @@ class MapViews(context: Context, attrs: AttributeSet) : View(context, attrs) {
     //CANVAS HUMANO (svg importado al proyecto como vector --> primer path de su xml es el relevante
     private fun scaleAndCenterHumanCanvas() {
         val bounds = RectF()
-        cPath.computeBounds(bounds, true)  // Dimensiones del path actual
+        cPath.computeBounds(bounds, true) // Dimensiones del path actual
         // Calcula la escala
-        Log.d("Limites marco", width.toString() + " " + height.toString())
-        val scaleX = width / bounds.width()
-        val scaleY = height / bounds.height()
+        val scaleX = width / bounds.width() *0.6f
+        val scaleY = height / bounds.height()*0.6f
         var scaleFactor = scaleY
         if(scaleFactor*bounds.width() > width){
             scaleFactor = scaleX
         }
-
         scaleMatrix.reset()
-        scaleMatrix.setScale(1.5F, 1.5F, bounds.centerX(), bounds.centerY())
+        scaleMatrix.setScale(scaleFactor, scaleFactor, bounds.centerX(), bounds.centerY())
         cPath.transform(scaleMatrix)
-        cPath.computeBounds(bounds, true)  // Dimensiones del path actual
-
-        Log.d("Limites dibujo", bounds.width().toString() + " " + bounds.height().toString())
-
+        cPath.computeBounds(bounds, true)
         // Desplazamiento necesario para centrar el path
         val dx = (width - bounds.width()) / 2 - bounds.left
         val dy = (height - bounds.height()) / 2 - bounds.top
         scaleMatrix.postTranslate(dx, dy)
         cPath.transform(scaleMatrix)
     }
+
     private fun loadHumanCanvas() {
         val pathData = getHumanCanvas(context, imgFuente) ?: return
         val humanPath = PathParser.createPathFromPathData(pathData)
         cPath.set(humanPath)
     }
+
     private fun getHumanCanvas(context: Context, imgFuente: Int): String? {
         val resources = context.resources
         val parser = resources.getXml(imgFuente)
@@ -167,5 +164,10 @@ class MapViews(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private fun touchUp(x: Float, y: Float) {
         bPath?.quadTo(bX, mY, (x + bX) / 2, (y + mY) / 2) //Finaliza de forma suave el trazo
         bPath = null
+    }
+
+    fun deleteDrawing(){
+        bPaths.clear()
+        invalidate()
     }
 }

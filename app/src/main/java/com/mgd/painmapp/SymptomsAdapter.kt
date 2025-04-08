@@ -6,6 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
 class SymptomsAdapter (var symptoms: List<Symptom>, private var context: Context):RecyclerView.Adapter<SymptomsViewHolder>(){
+    fun updateList(list: List<Symptom>){
+        symptoms = list
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SymptomsViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_symptom, parent, false)
@@ -18,8 +22,5 @@ class SymptomsAdapter (var symptoms: List<Symptom>, private var context: Context
         holder.render(symptoms[position], position)
     }
 
-    fun updateList(list: List<Symptom>){
-        symptoms = list
-        notifyDataSetChanged()
-    }
+
 }

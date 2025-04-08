@@ -13,7 +13,7 @@ data class SymptomEntity (
 
     @ColumnInfo(name="intensity") val intensity : Float,
 
-    @ColumnInfo(name="symptomPain") val symptom : Int,
+    @ColumnInfo(name="symptom") val symptom : String,
     @ColumnInfo(name="symptomOtherText") val symptomOtherText : String,
 
     @ColumnInfo(name="charactAgitating") val charactAgitating : Boolean,
@@ -25,7 +25,7 @@ data class SymptomEntity (
     @ColumnInfo(name="charactOther") val charactOther : Boolean,
     @ColumnInfo(name="charactOtherText") val charactOtherText : String,
 
-    @ColumnInfo(name="timeContinuous") val time : Int,
+    @ColumnInfo(name="timeContinuous") val time : String,
     @ColumnInfo(name="timeWhen") val timeWhen : String
 
 

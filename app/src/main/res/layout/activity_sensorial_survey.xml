@@ -60,7 +60,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingHorizontal="80dp"
+            android:paddingHorizontal="70dp"
             android:orientation="vertical">
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
@@ -134,20 +134,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
                     <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginEnd="40dp">
+                        android:orientation="vertical">
                         <androidx.cardview.widget.CardView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/dark_blue"
                             app:cardCornerRadius="50dp"
                             android:layout_marginTop="20dp"
-                            android:layout_marginBottom="20dp">
+                            android:layout_marginBottom="10dp">
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -159,107 +157,109 @@
                         <GridLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:columnCount="2">
+                            android:rowCount="2"
+                            android:orientation="vertical">
                             <RadioGroup
                                 android:id="@+id/rgSymptom1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent">
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
                                 <RadioButton
                                     android:id="@+id/btnDolor"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="match_parent"
                                     android:text="Dolor"
                                     style="@style/Small"
                                     android:buttonTint="@color/dark_blue"
                                     android:checked="true"/>
                                 <RadioButton
                                     android:id="@+id/btnPicor"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="match_parent"
                                     android:text="Picor"
                                     style="@style/Small"
                                     android:buttonTint="@color/dark_blue"/>
                                 <RadioButton
                                     android:id="@+id/btnQuemazon"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="match_parent"
                                     android:text="Quemazón"
                                     style="@style/Small"
                                     android:buttonTint="@color/dark_blue"/>
                                 <RadioButton
                                     android:id="@+id/btnPunzante"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="match_parent"
                                     android:text="Punzante"
                                     style="@style/Small"
                                     android:buttonTint="@color/dark_blue"/>
                                 <RadioButton
-                                    android:id="@+id/btnOtroSintoma"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="Otro:"
+                                    android:id="@+id/btnCalambres"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="match_parent"
+                                    android:text="Calambres"
                                     style="@style/Small"
-                                    android:labelFor="@id/ETOtroSintoma"
                                     android:buttonTint="@color/dark_blue"/>
-                            </RadioGroup>
-                            <androidx.constraintlayout.widget.ConstraintLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_marginLeft="50dp">
-                                <RadioGroup
-                                    android:id="@+id/rgSymptom2"
+                                <RadioButton
+                                    android:id="@+id/btnEntumecimiento"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintBottom_toTopOf="@+id/ETOtroSintoma" >
-                                    <RadioButton
-                                        android:id="@+id/btnCalambres"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="Calambres"
-                                        style="@style/Small"
-                                        android:buttonTint="@color/dark_blue"/>
-                                    <RadioButton
-                                        android:id="@+id/btnEscozor"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="Escozor"
-                                        style="@style/Small"
-                                        android:buttonTint="@color/dark_blue"/>
+                                    android:text="Entumecimiento"
+                                    style="@style/Small"
+                                    android:buttonTint="@color/dark_blue"/>
+                            </RadioGroup>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <RadioGroup
+                                    android:id="@+id/rgSymptom2"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="3"
+                                    android:layout_height="match_parent"
+                                    android:orientation="horizontal">
                                     <RadioButton
                                         android:id="@+id/btnHormigueo"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="match_parent"
                                         android:text="Hormigueo"
                                         style="@style/Small"
                                         android:buttonTint="@color/dark_blue"/>
                                     <RadioButton
-                                        android:id="@+id/btnEntumecimiento"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="Entumecimiento"
+                                        android:id="@+id/btnEscozor"
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="match_parent"
+                                        android:text="Escozor"
                                         style="@style/Small"
+                                        android:buttonTint="@color/dark_blue"/>
+                                    <RadioButton
+                                        android:id="@+id/btnOtroSintoma"
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="match_parent"
+                                        android:text="Otro:"
+                                        style="@style/Small"
+                                        android:labelFor="@id/ETOtroSintoma"
                                         android:buttonTint="@color/dark_blue"/>
                                 </RadioGroup>
                                 <EditText
                                     android:id="@+id/ETOtroSintoma"
-                                    android:layout_width="250dp"
-                                    android:layout_height="wrap_content"
-                                    style="@style/Small"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toBottomOf="@id/rgSymptom2"
-                                    app:layout_constraintBottom_toBottomOf="parent"/>
-                            </androidx.constraintlayout.widget.ConstraintLayout>
+                                    android:layout_width="0dp"
+                                    android:layout_weight="3"
+                                    android:layout_height="match_parent"
+                                    style="@style/Small"/>
+                            </LinearLayout>
                         </GridLayout>
-
                     </LinearLayout>
                     <LinearLayout
-                        android:layout_marginStart="40dp"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
                         <androidx.cardview.widget.CardView
@@ -268,7 +268,7 @@
                             android:backgroundTint="@color/dark_blue"
                             app:cardCornerRadius="50dp"
                             android:layout_marginTop="20dp"
-                            android:layout_marginBottom="20dp">
+                            android:layout_marginBottom="10dp">
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -280,16 +280,15 @@
                         <GridLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:columnCount="2">
-                            <androidx.constraintlayout.widget.ConstraintLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent">
+                            android:rowCount="2"
+                            android:orientation="vertical">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
                                 <LinearLayout
-                                    android:id="@+id/LLAgitador"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
                                     android:layout_height="wrap_content"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
                                     android:orientation="horizontal">
                                     <CheckBox
                                         android:id="@+id/cbAgitador"
@@ -302,11 +301,9 @@
                                         android:text="Agitador" />
                                 </LinearLayout>
                                 <LinearLayout
-                                    android:id="@+id/LLMiserable"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
                                     android:layout_height="wrap_content"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toBottomOf="@id/LLAgitador"
                                     android:orientation="horizontal">
                                     <CheckBox
                                         android:id="@+id/cbMiserable"
@@ -319,11 +316,9 @@
                                         android:text="Miserable" />
                                 </LinearLayout>
                                 <LinearLayout
-                                    android:id="@+id/LLFastidioso"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
                                     android:layout_height="wrap_content"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toBottomOf="@id/LLMiserable"
                                     android:orientation="horizontal">
                                     <CheckBox
                                         android:id="@+id/cbFastidioso"
@@ -335,35 +330,11 @@
                                         style="@style/Small"
                                         android:text="Fastidioso" />
                                 </LinearLayout>
+
                                 <LinearLayout
-                                    android:id="@+id/LLOtro"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
                                     android:layout_height="wrap_content"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toBottomOf="@id/LLFastidioso"
-                                    android:orientation="horizontal">
-                                    <CheckBox
-                                        android:id="@+id/cbOtro"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content" />
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        style="@style/Small"
-                                        android:text="Otro:"
-                                        android:labelFor="@id/ETOtraInterpretacion"/>
-                                </LinearLayout>
-                            </androidx.constraintlayout.widget.ConstraintLayout>
-                            <androidx.constraintlayout.widget.ConstraintLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_marginLeft="50dp">
-                                <LinearLayout
-                                    android:id="@+id/LLPenetrante"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
                                     android:orientation="horizontal">
                                     <CheckBox
                                         android:id="@+id/cbPenetrante"
@@ -376,11 +347,9 @@
                                         android:text="Penetrante" />
                                 </LinearLayout>
                                 <LinearLayout
-                                    android:id="@+id/LLInsoportable"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
                                     android:layout_height="wrap_content"
-                                    app:layout_constraintStart_toStartOf="@id/LLPenetrante"
-                                    app:layout_constraintTop_toBottomOf="@id/LLPenetrante"
                                     android:orientation="horizontal">
                                     <CheckBox
                                         android:id="@+id/cbInsoportable"
@@ -392,12 +361,14 @@
                                         style="@style/Small"
                                         android:text="Miserable" />
                                 </LinearLayout>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
                                 <LinearLayout
-                                    android:id="@+id/LLFatigador"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
                                     android:layout_height="wrap_content"
-                                    app:layout_constraintStart_toStartOf="@id/LLPenetrante"
-                                    app:layout_constraintTop_toBottomOf="@id/LLInsoportable"
                                     android:orientation="horizontal">
                                     <CheckBox
                                         android:id="@+id/cbFatigador"
@@ -409,15 +380,29 @@
                                         style="@style/Small"
                                         android:text="Fastidioso" />
                                 </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+                                    <CheckBox
+                                        android:id="@+id/cbOtro"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content" />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        style="@style/Small"
+                                        android:text="Otro:"
+                                        android:labelFor="@id/ETOtraInterpretacion"/>
+                                </LinearLayout>
                                 <EditText
                                     android:id="@+id/ETOtraInterpretacion"
-                                    android:layout_width="250dp"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="3"
                                     android:layout_height="wrap_content"
-                                    style="@style/Small"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toBottomOf="@id/LLFatigador"
-                                    app:layout_constraintBottom_toBottomOf="parent"/>
-                            </androidx.constraintlayout.widget.ConstraintLayout>
+                                    style="@style/Small" />
+                            </LinearLayout>
                         </GridLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -425,15 +410,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:orientation="vertical"
-                    android:layout_marginTop="20dp">
+                    android:orientation="vertical">
                     <androidx.cardview.widget.CardView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/dark_blue"
                         app:cardCornerRadius="50dp"
                         android:layout_marginTop="20dp"
-                        android:layout_marginBottom="20dp">
+                        android:layout_marginBottom="10dp">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -442,12 +426,14 @@
                             android:textColor="@color/yellow"
                             android:layout_marginHorizontal="20dp"/>
                     </androidx.cardview.widget.CardView>
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
                         <RadioGroup
                             android:id="@+id/rgTime"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
+                            android:layout_weight="3"
                             android:layout_height="wrap_content"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
@@ -483,23 +469,24 @@
                             android:id="@+id/tvCuando"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/rgTime"
-                            app:layout_constraintBottom_toBottomOf="parent"
                             style="@style/Small"
                             android:labelFor="@id/ETCuando"
-                            android:text="¿Cuándo?"
+                            android:text="¿Cuándo?  "
                             android:visibility="invisible"/>
                         <EditText
                             android:id="@+id/ETCuando"
-                            android:layout_width="250dp"
+                            android:layout_width="0dp"
+                            android:layout_weight="2"
                             android:layout_height="wrap_content"
                             style="@style/Small"
-                            app:layout_constraintStart_toEndOf="@id/tvCuando"
-                            app:layout_constraintTop_toBottomOf="@id/rgTime"
-                            app:layout_constraintBottom_toBottomOf="parent"
                             android:visibility="invisible"/>
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                    </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>

@@ -3,7 +3,7 @@ package com.mgd.painmapp
 data class Symptom (
     var idEvaluation : Long,
     var intensity : Float,
-    var symptom : Int,
+    var symptom : String,
     var symptomOtherText : String,
     var charactAgitating : Boolean,
     var charactMiserable : Boolean,
@@ -13,6 +13,6 @@ data class Symptom (
     var charactPiercing : Boolean,
     var charactOther : Boolean,
     var charactOtherText : String,
-    var time : Int,
+    var time : String,
     var timeWhen : String
 )

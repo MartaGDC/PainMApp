@@ -21,7 +21,7 @@ class SensorialActivity : AppCompatActivity() {
     private lateinit var researcherName: String
     private lateinit var currentDate: String
     private lateinit var type: String
-    private var idGenerado: Long = 0
+    private var idGeneradoEvaluation: Long = -1
     private lateinit var CVAdd: CardView
     private lateinit var adapter: SymptomsAdapter
 
@@ -36,7 +36,8 @@ class SensorialActivity : AppCompatActivity() {
         researcherName = intent.getStringExtra("RESEARCHER_NAME").toString()
         currentDate = intent.getStringExtra("DATE").toString()
         type = intent.getStringExtra("TYPE").toString()
-
+        idGeneradoEvaluation = intent.getLongExtra("ID", -1) //Intent desde Survey
+        Log.d("ID", idGeneradoEvaluation.toString() + " en SensorialActivity desde survey")
         /*database = Room.databaseBuilder(
             this, PatientDatabase::class.java,
             "patient_database"
@@ -47,43 +48,58 @@ class SensorialActivity : AppCompatActivity() {
             "patient_database"
         ).build()
 
-
-        initUI()
+        initComponents()
+        initListeners()
     }
 
-    private fun fillDatabase() {
-        val evaluationEntity =
-            Evaluation(patientName, researcherName, currentDate, type).toDatabase()
-        CoroutineScope(Dispatchers.IO).launch {
-            idGenerado = database.getEvaluationDao().insertEvaluation(evaluationEntity)
-        }
-    }
-
-    private fun initUI(){
+    private fun initComponents(){
         adapter = SymptomsAdapter(emptyList(), this)
-        if(idGenerado != null ){
+        if(idGeneradoEvaluation != (-1).toLong()){
             CoroutineScope(Dispatchers.IO).launch {
-                val symptomsList = database.getSymptomDao().getSymptomsByEvaluation(idGenerado)
+                val symptomsList = database.getSymptomDao().getSymptomsByEvaluation(idGeneradoEvaluation)
                 val symptoms = symptomsList.map { it.toSymptom() }
                 runOnUiThread {
                     adapter.updateList(symptoms)
+                    Log.d("Symptoms", symptoms.toString())
                 }
             }
+        }
+        else{
+            adapter.updateList(emptyList())
         }
         binding.RVsymptoms.setHasFixedSize(true)
         binding.RVsymptoms.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.RVsymptoms.adapter = adapter
 
         CVAdd = binding.CVAdd
+    }
+
+    private fun initListeners(){
         CVAdd.setOnClickListener {
-            Log.d("Click", "selecciona añadir sintoma")
-            fillDatabase()
-            val intent = Intent(this, LocationActivity::class.java).apply {
-                putExtra("ID", idGenerado)
+            CoroutineScope(Dispatchers.IO).launch { //Creamos aqui la coroutine, llamando a una funcion suspend
+                fillDatabase()
+                val intent = Intent(this@SensorialActivity, LocationActivity::class.java).apply {
+                    putExtra("ID", idGeneradoEvaluation)
+                }
+                startActivity(intent)
             }
-            startActivity(intent)
+
         }
     }
+
+    private suspend fun fillDatabase() { //Para que el hilo principal espere
+        if (idGeneradoEvaluation == (-1).toLong()) { //Si no hay registro de evaluación
+            val evaluationEntity =
+                Evaluation(patientName, researcherName, currentDate, type).toDatabase()
+                idGeneradoEvaluation = database.getEvaluationDao().insertEvaluation(evaluationEntity) //Se elimina la coroutine, porque se lanza desde el listener
+        }
+        else { //Si ya se ha registrado
+            return
+        }
+
+    }
+
+
 
 
 }
