@@ -6,4 +6,6 @@
     <string name="sensorySymptoms">Síntomas sensitivos</string>
     <string name="psicosocial">Evaluación psicosocial</string>
     <string name="motorSymptoms">Síntomas motores</string>
+    <string name="openDrawerContentDescRes">openDrawer</string>
+    <string name="closeDrawerContentDescRes">closeDrawer</string>
 </resources>

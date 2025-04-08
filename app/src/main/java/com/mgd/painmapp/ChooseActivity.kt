@@ -1,15 +1,24 @@
 package com.mgd.painmapp
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
+import android.view.Gravity
+import android.view.MenuItem
+import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.material.navigation.NavigationView
 import com.mgd.painmapp.databinding.ActivityChooseBinding
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class ChooseActivity : AppCompatActivity() {
+class ChooseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var binding: ActivityChooseBinding
     private lateinit var patientName: String
     private lateinit var researcherName: String
@@ -17,6 +26,9 @@ class ChooseActivity : AppCompatActivity() {
     private lateinit var motor: CardView
     private lateinit var psicosocial: CardView
     private lateinit var currentDate: String
+
+    private lateinit var drawer: DrawerLayout
+    private lateinit var toogle: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +49,41 @@ class ChooseActivity : AppCompatActivity() {
         psicosocial.setOnClickListener {
             navigateToPsicosocial()
         }
+
+        //Menu
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        drawer = binding.main
+        toogle = ActionBarDrawerToggle(this, drawer, toolbar, R.string.openDrawerContentDescRes, R.string.closeDrawerContentDescRes)
+        drawer.addDrawerListener(toogle)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeButtonEnabled(true)
+        val navigationView : NavigationView = findViewById(R.id.nav_view)
+        navigationView.setNavigationItemSelectedListener(this)
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.nav_item_one -> Toast.makeText(this, "Item 1", Toast.LENGTH_SHORT).show()
+            R.id.nav_item_two -> Toast.makeText(this, "Item 2", Toast.LENGTH_SHORT).show()
+        }
+        drawer.closeDrawer(GravityCompat.START)
+        return true
+    }
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        toogle.syncState()
+    }
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        toogle.onConfigurationChanged(newConfig)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (toogle.onOptionsItemSelected(item)) {
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun navigateToSensorial() {
@@ -54,5 +101,8 @@ class ChooseActivity : AppCompatActivity() {
     private fun navigateToPsicosocial() {
         TODO()
     }
+
+
+
 
 }
