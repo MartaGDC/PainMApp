@@ -57,4 +57,6 @@ dependencies {
     //Menu
     implementation(libs.androidx.drawerlayout)
     implementation(libs.androidx.coordinatorlayout)
+    //PDF
+    implementation (libs.androidx.pdf.viewer.fragment)
 }

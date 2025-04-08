@@ -28,18 +28,31 @@ class ChooseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     private lateinit var currentDate: String
 
     private lateinit var drawer: DrawerLayout
-    private lateinit var toogle: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChooseBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        sensorial = binding.sensorial
-        motor = binding.motor
-        psicosocial = binding.psicosocial
         patientName = intent.getStringExtra("PATIENT_NAME").toString()
         researcherName = intent.getStringExtra("RESEARCHER_NAME").toString()
         currentDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
+
+        initComponents()
+        initListener()
+    }
+
+    private fun initComponents(){
+        sensorial = binding.sensorial
+        motor = binding.motor
+        psicosocial = binding.psicosocial
+        //Menu
+        drawer = binding.main
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeButtonEnabled(true)
+        val navigationView : NavigationView = findViewById(R.id.nav_view)
+        navigationView.setNavigationItemSelectedListener(this)
+    }
+    private fun initListener(){
         sensorial.setOnClickListener {
             navigateToSensorial()
         }
@@ -49,41 +62,6 @@ class ChooseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         psicosocial.setOnClickListener {
             navigateToPsicosocial()
         }
-
-        //Menu
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        drawer = binding.main
-        toogle = ActionBarDrawerToggle(this, drawer, toolbar, R.string.openDrawerContentDescRes, R.string.closeDrawerContentDescRes)
-        drawer.addDrawerListener(toogle)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeButtonEnabled(true)
-        val navigationView : NavigationView = findViewById(R.id.nav_view)
-        navigationView.setNavigationItemSelectedListener(this)
-    }
-
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
-            R.id.nav_item_one -> Toast.makeText(this, "Item 1", Toast.LENGTH_SHORT).show()
-            R.id.nav_item_two -> Toast.makeText(this, "Item 2", Toast.LENGTH_SHORT).show()
-        }
-        drawer.closeDrawer(GravityCompat.START)
-        return true
-    }
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
-        toogle.syncState()
-    }
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        toogle.onConfigurationChanged(newConfig)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (toogle.onOptionsItemSelected(item)) {
-            return true
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun navigateToSensorial() {
@@ -102,7 +80,12 @@ class ChooseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         TODO()
     }
 
-
-
-
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        val intent_sensorial = Intent(this, SensorialActivity::class.java) //Habra que inlcuir  informaicón aqui, derivada de consultas a la base de datos
+        when(item.itemId) {
+            R.id.item_sensorial -> startActivity(intent_sensorial)
+        }
+        drawer.closeDrawer(GravityCompat.START)
+        return true
+    }
 }

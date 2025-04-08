@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group>
-        <item android:id="@+id/nav_item_one"
-            android:title="Item 1"/>
-        <item android:id="@+id/nav_item_two"
-            android:title="Item 2"/>
-        <item android:id="@+id/nav_item_three"
-            android:title="Item 3"/>
+        <item android:id="@+id/item_sensorial"
+            android:title="Síntomas sensitivos"/>
+        <item android:id="@+id/item_motor"
+            android:title="Síntomas motores"/>
+        <item android:id="@+id/item_psicosocial"
+            android:title="Evaluación psicosocial"/>
+        <item android:id="@+id/item_resumen"
+            android:title="Resumen del paciente"/>
     </group>
+    <!-->
     <item android:title="Title 1">
         <menu>
             <item android:id="@+id/nav_item_four"
@@ -18,4 +21,5 @@
                 android:title="Item 3"/>
         </menu>
     </item>
+    <!-->
 </menu>

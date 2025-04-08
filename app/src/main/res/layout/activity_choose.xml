@@ -9,17 +9,18 @@
     tools:context=".ChooseActivity"
     android:background="@color/grey"
     tools:openDrawer="start">
-    <include
-        layout="@layout/app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header"
-        app:menu="@menu/activity_choose_drawer"/>
+        app:menu="@menu/activity_choose_drawer"
+        app:itemTextAppearance="@style/Menu"
+        app:subheaderTextAppearance="@style/Menu"
+        android:background="@color/dark_blue"
+        app:itemTextColor="@color/yellow"
+        app:itemVerticalPadding="30dp"/>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
