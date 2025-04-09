@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-open class ChooseActivity : AppCompatActivity() {
+class ChooseActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChooseBinding
     private lateinit var patientName: String
     private lateinit var researcherName: String
@@ -55,7 +55,7 @@ open class ChooseActivity : AppCompatActivity() {
 
     private fun initListener(){
         sensorial.setOnClickListener {
-            navigateToSensorial()
+            navigateToSensorial(patientName, researcherName, currentDate)
         }
         motor.setOnClickListener {
             navigateToMotor()
@@ -65,7 +65,7 @@ open class ChooseActivity : AppCompatActivity() {
         }
     }
 
-    private fun navigateToSensorial() {
+    open fun navigateToSensorial(patientName: String, researcherName: String, currentDate: String) {
         val intent = Intent(this, SensorialActivity::class.java).apply {
             putExtra("PATIENT_NAME", patientName)
             putExtra("RESEARCHER_NAME", researcherName)
@@ -74,16 +74,16 @@ open class ChooseActivity : AppCompatActivity() {
         }
         startActivity(intent)
     }
-    private fun navigateToMotor() {
+    open fun navigateToMotor() {
         TODO()
     }
-    private fun navigateToPsicosocial() {
+    open fun navigateToPsicosocial() {
         TODO()
     }
 
 
     //Menu
-    open fun setupDrawerContent() {
+    private fun setupDrawerContent() {
         navigaionView.setNavigationItemSelectedListener { menuItem ->
             handleMenuItemClick(menuItem)
             true
@@ -94,7 +94,7 @@ open class ChooseActivity : AppCompatActivity() {
         Log.d("Menu", "Item clicked: ${item.title}")
         when (item.itemId) {
             R.id.item_sensorial -> {
-                navigateToSensorial()
+                navigateToSensorial(patientName, researcherName, currentDate)
             }
             R.id.item_motor -> {
                 navigateToMotor()
