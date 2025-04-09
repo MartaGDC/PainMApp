@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/item_sensorial"
+        android:title="Síntomas sensitivos"/>
+    <item android:id="@+id/item_motor"
+        android:title="Síntomas motores" />
+    <item android:id="@+id/item_psicosocial"
+        android:title="Evaluación psicosocial"/>
+    <item android:id="@+id/item_esumen"
+        android:title="Resumen del paciente"/>
+    <item android:id="@+id/item_nuevo"
+        android:title="Nuevo paciente"/>
+</menu>

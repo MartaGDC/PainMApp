@@ -3,6 +3,8 @@ package com.mgd.painmapp
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -14,7 +16,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class ChooseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+open class ChooseActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChooseBinding
     private lateinit var patientName: String
     private lateinit var researcherName: String
@@ -23,7 +25,10 @@ class ChooseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     private lateinit var psicosocial: CardView
     private lateinit var currentDate: String
 
-    private lateinit var drawer: DrawerLayout
+    //Menu:
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var navigaionView: NavigationView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,14 +46,13 @@ class ChooseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         sensorial = binding.sensorial
         motor = binding.motor
         psicosocial = binding.psicosocial
-        //Menu
-        drawer = binding.main
-        val navView = binding.navView
-        val menu = navView.menu
-        for (i in 0 until menu.size()) {
-            Log.d("Navigation", "Menu item: ${menu.getItem(i).title}")
-        }
+
+        //Menu:
+        drawerLayout = binding.main
+        navigaionView = binding.navView
+        setupDrawerContent()
     }
+
     private fun initListener(){
         sensorial.setOnClickListener {
             navigateToSensorial()
@@ -77,12 +81,28 @@ class ChooseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         TODO()
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        Log.d("Navigation", "Item selected: ${item.title}")
-        when(item.itemId) {
-            R.id.item_sensorial -> navigateToSensorial()
+
+    //Menu
+    open fun setupDrawerContent() {
+        navigaionView.setNavigationItemSelectedListener { menuItem ->
+            handleMenuItemClick(menuItem)
+            true
         }
-        drawer.closeDrawer(GravityCompat.START)
-        return true
     }
+
+    private fun handleMenuItemClick(item: MenuItem) {
+        Log.d("Menu", "Item clicked: ${item.title}")
+        when (item.itemId) {
+            R.id.item_sensorial -> {
+                navigateToSensorial()
+            }
+            R.id.item_motor -> {
+                navigateToMotor()
+            }
+            else -> {
+            }
+        }
+        drawerLayout.closeDrawer(GravityCompat.START)
+    }
+
 }

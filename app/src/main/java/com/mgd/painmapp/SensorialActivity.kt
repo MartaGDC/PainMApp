@@ -15,7 +15,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class SensorialActivity : AppCompatActivity() {
+class SensorialActivity : ChooseActivity() {
     private lateinit var binding: ActivitySensorialBinding
     private lateinit var patientName: String
     private lateinit var researcherName: String

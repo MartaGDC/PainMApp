@@ -152,7 +152,7 @@ class SensorialSurveyActivity : AppCompatActivity() {
                 actualizando = false
             }
             //Borrar texto en Otro sintoma, si se selecciona alguno
-            if (rgSymptom2.checkedRadioButtonId != rbOtroSintoma.id || rgSymptom1.checkedRadioButtonId != -1) {
+            if (rgSymptom1.checkedRadioButtonId != rbOtroSintoma.id || rgSymptom2.checkedRadioButtonId != -1) {
                 etOtroSintoma.text.clear()
             }
         }
@@ -163,10 +163,10 @@ class SensorialSurveyActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 if (!s.isNullOrEmpty()) {
-                    rgSymptom1.clearCheck()
+                    rgSymptom2.clearCheck()
                     rbOtroSintoma.isChecked = true
-                    rgSymptom2.check(rbOtroSintoma.id)
-                    rgSymptom = rgSymptom2
+                    rgSymptom1.check(rbOtroSintoma.id)
+                    rgSymptom = rgSymptom1
                 }
             }
         })
