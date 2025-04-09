@@ -24,10 +24,17 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">22sp</item>
     </style>
+    <style name="Slider">
+        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:textColor">@color/dark_blue</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">20sp</item>
+
+    </style>
     <style name="Menu">
         <item name="android:fontFamily">sans-serif-black</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textAllCaps">true</item>
-        <item name="android:textSize">25sp</item>
+        <item name="android:textSize">22sp</item>
     </style>
 </resources>

@@ -63,8 +63,8 @@ class MapViews(context: Context, attrs: AttributeSet) : View(context, attrs) {
         val bounds = RectF()
         cPath.computeBounds(bounds, true) // Dimensiones del path actual
         // Calcula la escala
-        val scaleX = width / bounds.width() *0.6f
-        val scaleY = height / bounds.height()*0.6f
+        val scaleX = width / bounds.width() *0.75f
+        val scaleY = height / bounds.height()*0.75f
         var scaleFactor = scaleY
         if(scaleFactor*bounds.width() > width){
             scaleFactor = scaleX

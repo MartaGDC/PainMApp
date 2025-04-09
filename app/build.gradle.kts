@@ -57,6 +57,7 @@ dependencies {
     //Menu
     implementation(libs.androidx.drawerlayout)
     implementation(libs.androidx.coordinatorlayout)
-    //PDF
-    implementation (libs.androidx.pdf.viewer.fragment)
+    //Layouts responsive
+    implementation ("com.google.android.flexbox:flexbox:3.0.0")
+
 }

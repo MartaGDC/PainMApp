@@ -1,14 +1,10 @@
 package com.mgd.painmapp
 
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
-import android.view.Gravity
+import android.util.Log
 import android.view.MenuItem
-import android.widget.Toast
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -47,10 +43,11 @@ class ChooseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         psicosocial = binding.psicosocial
         //Menu
         drawer = binding.main
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeButtonEnabled(true)
-        val navigationView : NavigationView = findViewById(R.id.nav_view)
-        navigationView.setNavigationItemSelectedListener(this)
+        val navView = binding.navView
+        val menu = navView.menu
+        for (i in 0 until menu.size()) {
+            Log.d("Navigation", "Menu item: ${menu.getItem(i).title}")
+        }
     }
     private fun initListener(){
         sensorial.setOnClickListener {
@@ -81,9 +78,9 @@ class ChooseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        val intent_sensorial = Intent(this, SensorialActivity::class.java) //Habra que inlcuir  informaicón aqui, derivada de consultas a la base de datos
+        Log.d("Navigation", "Item selected: ${item.title}")
         when(item.itemId) {
-            R.id.item_sensorial -> startActivity(intent_sensorial)
+            R.id.item_sensorial -> navigateToSensorial()
         }
         drawer.closeDrawer(GravityCompat.START)
         return true

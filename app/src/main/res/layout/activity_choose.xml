@@ -10,8 +10,8 @@
     android:background="@color/grey"
     tools:openDrawer="start">
     <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
+        android:id="@+id/navView"
+        android:layout_width="400dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header"
@@ -20,7 +20,8 @@
         app:subheaderTextAppearance="@style/Menu"
         android:background="@color/dark_blue"
         app:itemTextColor="@color/yellow"
-        app:itemVerticalPadding="30dp"/>
+        app:itemVerticalPadding="20dp"
+        android:fitsSystemWindows="true"/>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

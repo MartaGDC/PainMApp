@@ -2,7 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/nav_header"
-    android:layout_width="400dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@color/dark_blue"
     android:clickable="true"
@@ -16,7 +16,7 @@
         android:src="@drawable/logo"
         android:layout_gravity="start"/>
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:paddingTop="16dp"
         android:text="PainMApp"
