@@ -14,5 +14,6 @@ data class Symptom (
     var charactOther : Boolean,
     var charactOtherText : String,
     var time : String,
-    var timeWhen : String
+    var timeWhen : String,
+    var idMap : Long
 )

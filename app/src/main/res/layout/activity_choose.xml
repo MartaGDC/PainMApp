@@ -20,7 +20,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:orientation="vertical">
             <androidx.cardview.widget.CardView
-                android:id="@+id/sensorial"
+                android:id="@+id/cvSensorial"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/blue"
@@ -35,7 +35,7 @@
                     android:layout_marginHorizontal="20dp"/>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
-                android:id="@+id/motor"
+                android:id="@+id/cvMotor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/blue"
@@ -50,7 +50,7 @@
                     android:layout_marginHorizontal="20dp"/>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
-                android:id="@+id/psicosocial"
+                android:id="@+id/cvPsychosocial"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/blue"
@@ -59,7 +59,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/psicosocial"
+                    android:text="@string/psychosocial"
                     android:textAllCaps="true"
                     style="@style/Median"
                     android:layout_marginHorizontal="20dp"/>

@@ -73,9 +73,9 @@ class SensorialActivity : AppCompatActivity() {
         else{
             adapter.updateList(emptyList())
         }
-        binding.RVsymptoms.setHasFixedSize(true)
-        binding.RVsymptoms.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        binding.RVsymptoms.adapter = adapter
+        binding.rvSymptoms.setHasFixedSize(true)
+        binding.rvSymptoms.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.rvSymptoms.adapter = adapter
 
         CVAdd = binding.CVAdd
         //Menu:

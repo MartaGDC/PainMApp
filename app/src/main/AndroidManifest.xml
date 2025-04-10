@@ -17,7 +17,7 @@
             android:exported="false" />
         <activity
             android:name=".LocationActivity"
-            android:exported="false" />
+            android:exported="false"/>
         <activity
             android:name=".SensorialActivity"
             android:exported="false" />

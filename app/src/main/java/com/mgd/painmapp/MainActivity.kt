@@ -21,9 +21,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initUI() {
-        patientName = binding.PatientName
-        researcherName = binding.ResearcherName
-        CVSiguiente = binding.CVSiguiente
+        patientName = binding.edPatientName
+        researcherName = binding.etResearcherName
+        CVSiguiente = binding.cvNext
         CVSiguiente.setOnClickListener {
             if (patientName.text.isNotEmpty() && researcherName.text.isNotEmpty()) {
                 val intent = Intent(this, ChooseActivity::class.java).apply {

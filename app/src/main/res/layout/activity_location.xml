@@ -10,7 +10,7 @@
     android:orientation="vertical"
     tools:context=".SensorialActivity">
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/top"
+        android:id="@+id/clTop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,7 +19,7 @@
         android:paddingHorizontal="30dp"
         android:paddingTop="30dp">
         <androidx.cardview.widget.CardView
-            android:id="@+id/CVsave"
+            android:id="@+id/cvSave"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:backgroundTint="@color/dark_blue"
@@ -30,10 +30,11 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:src="@drawable/check"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:contentDescription="@string/save"/>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
-            android:id="@+id/CVdelete"
+            android:id="@+id/cvDelete"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:backgroundTint="@color/red"
@@ -44,7 +45,8 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:src="@drawable/delete"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:contentDescription="@string/cancel"/>
         </androidx.cardview.widget.CardView>
         <TextView
             style="@style/Large"
@@ -54,163 +56,158 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:text="Localización"/>
+            android:text="@string/localization"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/top"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/clTop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:paddingHorizontal="80dp">
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="0.25"
             android:layout_height="match_parent"
-            android:layout_marginBottom="20dp"
-            android:gravity="center"
-            android:paddingHorizontal="80dp">
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="0.25"
+            android:paddingTop="50dp"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="76dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:layout_margin="20dp"
+                android:contentDescription="@string/brush_width"
+                android:labelFor="@id/brushWidth"
+                android:src="@drawable/brush" />
+            <com.google.android.material.slider.Slider
+                android:id="@+id/brushWidth"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:paddingTop="50dp"
-                android:orientation="vertical">
-                <ImageView
-                    android:layout_width="76dp"
-                    android:layout_height="80dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="20dp"
-                    android:contentDescription="Anchura del pincel"
-                    android:labelFor="@id/brushWidth"
-                    android:src="@drawable/brush" />
-                <com.google.android.material.slider.Slider
-                    android:id="@+id/brushWidth"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="80dp"
-                    android:layout_gravity="center"
-                    android:rotation="270"
-                    android:value="1"
-                    android:valueFrom="0.1"
-                    android:valueTo="10"
-                    app:trackColorActive="@color/dark_blue"
-                    app:trackColorInactive="@color/blue"
-                    app:thumbColor="@color/dark_blue" />
-            </LinearLayout>
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="50dp"
-                android:layout_weight="1">
-                <com.mgd.painmapp.MapViews
-                    android:id="@+id/IVfrente"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    app:layout_constraintBottom_toTopOf="@id/frente"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginTop="25dp"
-                    app:map="@drawable/frente"/>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="@id/IVfrente"
-                    app:layout_constraintEnd_toEndOf="@id/IVfrente"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginTop="90dp">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="Derecha"
-                        android:gravity="center"
-                        style="@style/Small"
-                        app:layout_constraintStart_toStartOf="@id/IVfrente"
-                        app:layout_constraintTop_toTopOf="@id/IVfrente"
-                         />
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="Izquierda"
-                        android:gravity="center"
-                        style="@style/Small"
-                        app:layout_constraintEnd_toEndOf="@id/IVfrente"
-                        app:layout_constraintTop_toTopOf="@id/IVfrente"
-                        />
-                </LinearLayout>
-                <TextView
-                    android:id="@+id/frente"
-                    style="@style/Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="FRENTE"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/IVfrente"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="50dp"
-                android:layout_weight="1">
-
-                <com.mgd.painmapp.MapViews
-                    android:id="@+id/IVespalda"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="25dp"
-                    app:map="@drawable/espalda"
-                    app:layout_constraintBottom_toTopOf="@id/espalda"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="@id/IVespalda"
-                    app:layout_constraintEnd_toEndOf="@id/IVespalda"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginTop="90dp">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="Izquierda"
-                        android:gravity="center"
-                        style="@style/Small"
-                        app:layout_constraintStart_toStartOf="@id/IVespalda"
-                        app:layout_constraintTop_toTopOf="@id/IVespalda"
-                        />
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="Derecha"
-                        android:gravity="center"
-                        style="@style/Small"
-                        app:layout_constraintEnd_toEndOf="@id/IVespalda"
-                        app:layout_constraintTop_toTopOf="@id/IVespalda"
-                        />
-                </LinearLayout>
-                <TextView
-                    android:id="@+id/espalda"
-                    style="@style/Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="ESPALDA"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/IVespalda"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
+                android:layout_marginTop="80dp"
+                android:layout_gravity="center"
+                android:rotation="270"
+                android:value="1"
+                android:valueFrom="0.1"
+                android:valueTo="10"
+                app:trackColorActive="@color/dark_blue"
+                app:trackColorInactive="@color/blue"
+                app:thumbColor="@color/dark_blue" />
         </LinearLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="50dp"
+            android:layout_weight="1">
+            <com.mgd.painmapp.MapViews
+                android:id="@+id/mvFront"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@id/tvFront"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="25dp"
+                app:map="@drawable/front"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/mvFront"
+                app:layout_constraintEnd_toEndOf="@id/mvFront"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="90dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/right"
+                    android:gravity="center"
+                    style="@style/Small"
+                    app:layout_constraintStart_toStartOf="@id/mvFront"
+                    app:layout_constraintTop_toTopOf="@id/mvFront"
+                     />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/left"
+                    android:gravity="center"
+                    style="@style/Small"
+                    app:layout_constraintEnd_toEndOf="@id/mvFront"
+                    app:layout_constraintTop_toTopOf="@id/mvFront"
+                    />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tvFront"
+                style="@style/Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/front"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/mvFront"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="50dp"
+            android:layout_weight="1">
+            <com.mgd.painmapp.MapViews
+                android:id="@+id/mvBack"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="25dp"
+                app:map="@drawable/back"
+                app:layout_constraintBottom_toTopOf="@id/tvBack"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/ivBack"
+                app:layout_constraintEnd_toEndOf="@id/ivBack"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="90dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/left"
+                    android:gravity="center"
+                    style="@style/Small"
+                    app:layout_constraintStart_toStartOf="@id/ivBack"
+                    app:layout_constraintTop_toTopOf="@id/ivBack"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/right"
+                    android:gravity="center"
+                    style="@style/Small"
+                    app:layout_constraintEnd_toEndOf="@id/ivBack"
+                    app:layout_constraintTop_toTopOf="@id/ivBack"
+                    />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tvBack"
+                style="@style/Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/back"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivBack"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

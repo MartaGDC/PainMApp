@@ -29,31 +29,28 @@ class SensorialSurveyActivity : AppCompatActivity() {
     private lateinit var cvDelete: CardView
     private lateinit var cvSlider: Slider
     private lateinit var rgSymptom1: RadioGroup
-    private lateinit var rbDolor: RadioButton
-    private lateinit var rbPicor: RadioButton
-    private lateinit var rbQuemazon: RadioButton
-    private lateinit var rbPunzante: RadioButton
-    private lateinit var rbOtroSintoma: RadioButton
-    private lateinit var rbCalambres: RadioButton
-    private lateinit var rbEscozor: RadioButton
-    private lateinit var rbHormigueo: RadioButton
+    private lateinit var rbPain: RadioButton
+    private lateinit var rbItch: RadioButton
+    private lateinit var rbBurn: RadioButton
+    private lateinit var rbSharp: RadioButton
+    private lateinit var rbOtherSymptom: RadioButton
     private lateinit var rgSymptom2: RadioGroup
     private lateinit var rgSymptom : RadioGroup
-    private lateinit var etOtroSintoma: EditText
-    private lateinit var cbAgitador : CheckBox
+    private lateinit var etOtherSymptom: EditText
+    private lateinit var cbAgitating : CheckBox
     private lateinit var cbMiserable : CheckBox
-    private lateinit var cbFastidioso : CheckBox
-    private lateinit var cbPenetrante : CheckBox
-    private lateinit var cbInsoportable : CheckBox
-    private lateinit var cbFatigador : CheckBox
-    private lateinit var cbOtraInterpretacion : CheckBox
-    private lateinit var etOtraInterpretacion : EditText
+    private lateinit var cbAnnoying : CheckBox
+    private lateinit var cbPiercing : CheckBox
+    private lateinit var cbUnbearable : CheckBox
+    private lateinit var cbFatiguing : CheckBox
+    private lateinit var cbOtherCharact : CheckBox
+    private lateinit var etOtherCharact : EditText
     private lateinit var rgTime : RadioGroup
-    private lateinit var rbContinuo : RadioButton
-    private lateinit var rbMomentaneo : RadioButton
-    private lateinit var rbIntermitente : RadioButton
-    private lateinit var tvCuando : TextView
-    private lateinit var etTime : EditText
+    private lateinit var rbContinuous : RadioButton
+    private lateinit var rbMomentary : RadioButton
+    private lateinit var rbIntermittent : RadioButton
+    private lateinit var tvWhen : TextView
+    private lateinit var etWhen : EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,32 +68,32 @@ class SensorialSurveyActivity : AppCompatActivity() {
         initListeners()
     }
     private fun initComponents(){
-        cvSave = binding.CVsave
-        cvDelete = binding.CVdelete
-        cvSlider = binding.slider
+        cvSave = binding.cvSave
+        cvDelete = binding.cvDelete
+        cvSlider = binding.slScore
         rgSymptom1 = binding.rgSymptom1
         rgSymptom2 = binding.rgSymptom2
         rgSymptom = rgSymptom1 //por defecto esta marcado como sintoma Dolor
-        rbDolor = binding.btnDolor
-        rbPicor = binding.btnPicor
-        rbQuemazon = binding.btnQuemazon
-        rbPunzante = binding.btnPunzante
-        rbOtroSintoma = binding.btnOtroSintoma
-        etOtroSintoma = binding.ETOtroSintoma
-        cbAgitador = binding.cbAgitador
+        rbPain = binding.rbPain
+        rbItch = binding.rbItch
+        rbBurn = binding.rbBurn
+        rbSharp = binding.rbSharp
+        rbOtherSymptom = binding.rbOtherSymptom
+        etOtherSymptom = binding.etOtherSymptom
+        cbAgitating = binding.cbAgitating
         cbMiserable = binding.cbMiserable
-        cbFatigador = binding.cbFatigador
-        cbPenetrante = binding.cbPenetrante
-        cbInsoportable = binding.cbInsoportable
-        cbFastidioso = binding.cbFastidioso
-        cbOtraInterpretacion = binding.cbOtro
-        etOtraInterpretacion = binding.ETOtraInterpretacion
+        cbFatiguing = binding.cbFatiguing
+        cbPiercing = binding.cbPiercing
+        cbUnbearable = binding.cbUnbearable
+        cbAnnoying = binding.cbAnnoying
+        cbOtherCharact = binding.cbOtherCharact
+        etOtherCharact = binding.etOtherCharact
         rgTime = binding.rgTime
-        rbContinuo = binding.rbContinuo
-        rbMomentaneo = binding.rbMomentaneo
-        rbIntermitente = binding.rbIntermitente
-        tvCuando = binding.tvCuando
-        etTime = binding.ETCuando
+        rbContinuous = binding.rbContinuous
+        rbMomentary = binding.rbMomentary
+        rbIntermittent = binding.rbIntermittent
+        tvWhen = binding.tvWhen
+        etWhen = binding.etWhen
     }
 
     private fun initListeners() {
@@ -115,20 +112,20 @@ class SensorialSurveyActivity : AppCompatActivity() {
         cvDelete.setOnClickListener {
             cvSlider.value = 0.0f
             rgSymptom2.clearCheck()
-            rgSymptom1.check(rbDolor.id)
-            rgTime.check(rbContinuo.id)
-            cbAgitador.isChecked = false
+            rgSymptom1.check(rbPain.id)
+            rgTime.check(rbContinuous.id)
+            cbAgitating.isChecked = false
             cbMiserable.isChecked = false
-            cbFatigador.isChecked = false
-            cbPenetrante.isChecked = false
-            cbInsoportable.isChecked = false
-            cbFastidioso.isChecked = false
-            cbOtraInterpretacion.isChecked = false
-            etOtroSintoma.text.clear()
-            etOtraInterpretacion.text.clear()
-            tvCuando.visibility = TextView.INVISIBLE
-            etTime.text.clear()
-            etTime.visibility = EditText.INVISIBLE
+            cbFatiguing.isChecked = false
+            cbPiercing.isChecked = false
+            cbUnbearable.isChecked = false
+            cbAnnoying.isChecked = false
+            cbOtherCharact.isChecked = false
+            etOtherSymptom.text.clear()
+            etOtherCharact.text.clear()
+            tvWhen.visibility = TextView.INVISIBLE
+            etWhen.text.clear()
+            etWhen.visibility = EditText.INVISIBLE
         }
         //Slider
         cvSlider.addOnChangeListener { _, value, _ ->
@@ -152,49 +149,49 @@ class SensorialSurveyActivity : AppCompatActivity() {
                 actualizando = false
             }
             //Borrar texto en Otro sintoma, si se selecciona alguno
-            if (rgSymptom1.checkedRadioButtonId != rbOtroSintoma.id || rgSymptom2.checkedRadioButtonId != -1) {
-                etOtroSintoma.text.clear()
+            if (rgSymptom1.checkedRadioButtonId != rbOtherSymptom.id || rgSymptom2.checkedRadioButtonId != -1) {
+                etOtherSymptom.text.clear()
             }
         }
 
         //Seleccionar rb Otro si se va a escribir sobre el editText
-        etOtroSintoma.addTextChangedListener(object : TextWatcher {
+        etOtherSymptom.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 if (!s.isNullOrEmpty()) {
                     rgSymptom2.clearCheck()
-                    rbOtroSintoma.isChecked = true
-                    rgSymptom1.check(rbOtroSintoma.id)
+                    rbOtherSymptom.isChecked = true
+                    rgSymptom1.check(rbOtherSymptom.id)
                     rgSymptom = rgSymptom1
                 }
             }
         })
 
-        etOtraInterpretacion.addTextChangedListener (object : TextWatcher {
+        etOtherCharact.addTextChangedListener (object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 if (!s.isNullOrEmpty()) {
-                    cbOtraInterpretacion.isChecked = true
+                    cbOtherCharact.isChecked = true
                 }
             }
         })
 
         //Si se deselecciona el checkboxOtro, se borra el texto
-        cbOtraInterpretacion.setOnCheckedChangeListener { _, _ ->
-            if (!cbOtraInterpretacion.isChecked) {
-                etOtraInterpretacion.text.clear()
+        cbOtherCharact.setOnCheckedChangeListener { _, _ ->
+            if (!cbOtherCharact.isChecked) {
+                etOtherCharact.text.clear()
             }
         }
         //Radiobuttons que hacen visible otro componente
         rgTime.setOnCheckedChangeListener { _, _ ->
-            if (rgTime.checkedRadioButtonId != rbContinuo.id) {
-                tvCuando.visibility = TextView.VISIBLE
-                etTime.visibility = EditText.VISIBLE
+            if (rgTime.checkedRadioButtonId != rbContinuous.id) {
+                tvWhen.visibility = TextView.VISIBLE
+                etWhen.visibility = EditText.VISIBLE
             } else {
-                tvCuando.visibility = TextView.INVISIBLE
-                etTime.visibility = EditText.INVISIBLE
+                tvWhen.visibility = TextView.INVISIBLE
+                etWhen.visibility = EditText.INVISIBLE
             }
         }
     }
@@ -207,17 +204,17 @@ class SensorialSurveyActivity : AppCompatActivity() {
             idGeneradoLocation,
             cvSlider.value,
             selectedSymptomRB.text.toString(),
-            etOtroSintoma.text.toString(),
-            cbAgitador.isActivated,
+            etOtherSymptom.text.toString(),
+            cbAgitating.isActivated,
             cbMiserable.isActivated,
-            cbFastidioso.isActivated,
-            cbInsoportable.isActivated,
-            cbFatigador.isActivated,
-            cbPenetrante.isActivated,
-            cbOtraInterpretacion.isActivated,
-            etOtraInterpretacion.text.toString(),
+            cbAnnoying.isActivated,
+            cbUnbearable.isActivated,
+            cbFatiguing.isActivated,
+            cbPiercing.isActivated,
+            cbOtherCharact.isActivated,
+            etOtherCharact.text.toString(),
             selectedTimeRB.text.toString(),
-            etTime.text.toString()).toDatabase()
+            etWhen.text.toString()).toDatabase()
         CoroutineScope(Dispatchers.IO).launch {
             database.getSymptomDao().insertSymptom(symptomEntity)
         }

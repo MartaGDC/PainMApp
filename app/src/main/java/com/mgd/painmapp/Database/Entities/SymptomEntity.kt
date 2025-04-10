@@ -26,9 +26,8 @@ data class SymptomEntity (
     @ColumnInfo(name="charactOtherText") val charactOtherText : String,
 
     @ColumnInfo(name="timeContinuous") val time : String,
-    @ColumnInfo(name="timeWhen") val timeWhen : String
-
-
+    @ColumnInfo(name="timeWhen") val timeWhen : String,
+    @ColumnInfo(name="idMap") val idMap : Long
     )
 
 fun Symptom.toDatabase() = SymptomEntity(
@@ -45,7 +44,8 @@ fun Symptom.toDatabase() = SymptomEntity(
     charactOther = charactOther,
     charactOtherText = charactOtherText,
     time = time,
-    timeWhen = timeWhen
+    timeWhen = timeWhen,
+    idMap = idMap
 )
 fun SymptomEntity.toSymptom() = Symptom(
     idEvaluation = idEvaluation,
@@ -61,5 +61,6 @@ fun SymptomEntity.toSymptom() = Symptom(
     charactOther = charactOther,
     charactOtherText = charactOtherText,
     time = time,
-    timeWhen = timeWhen
+    timeWhen = timeWhen,
+    idMap = idMap
 )

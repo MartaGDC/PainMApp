@@ -8,7 +8,6 @@
     android:background="@color/grey"
     tools:context=".MainActivity">
     <LinearLayout
-        android:id="@+id/LLdatos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -29,13 +28,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/Median"
-                    android:text="Paciente"
+                    android:text="@string/patient"
                     android:padding="40dp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/Median"
-                    android:text="Investigador/a"
+                    android:text="@string/researcher"
                     android:padding="40dp"/>
             </LinearLayout>
             <LinearLayout
@@ -43,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <EditText
-                    android:id="@+id/PatientName"
+                    android:id="@+id/edPatientName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/patientName"
@@ -53,7 +52,7 @@
                     android:layout_margin="30dp"
                     android:imeOptions="actionNext"/>
                 <EditText
-                    android:id="@+id/ResearcherName"
+                    android:id="@+id/etResearcherName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/researcherName"
@@ -65,7 +64,7 @@
             </LinearLayout>
         </LinearLayout>
         <androidx.cardview.widget.CardView
-            android:id="@+id/CVSiguiente"
+            android:id="@+id/cvNext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
@@ -78,7 +77,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                android:text="Siguente" />
+                android:text="@string/next" />
         </androidx.cardview.widget.CardView>
     </LinearLayout>
 

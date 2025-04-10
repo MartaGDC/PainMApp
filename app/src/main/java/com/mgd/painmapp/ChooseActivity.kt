@@ -3,8 +3,6 @@ package com.mgd.painmapp
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -22,12 +20,12 @@ class ChooseActivity : AppCompatActivity() {
     private lateinit var researcherName: String
     private lateinit var sensorial: CardView
     private lateinit var motor: CardView
-    private lateinit var psicosocial: CardView
+    private lateinit var psychosocial: CardView
     private lateinit var currentDate: String
 
     //Menu:
     private lateinit var drawerLayout: DrawerLayout
-    private lateinit var navigaionView: NavigationView
+    private lateinit var navView: NavigationView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,13 +41,13 @@ class ChooseActivity : AppCompatActivity() {
     }
 
     private fun initComponents(){
-        sensorial = binding.sensorial
-        motor = binding.motor
-        psicosocial = binding.psicosocial
+        sensorial = binding.cvSensorial
+        motor = binding.cvMotor
+        psychosocial = binding.cvPsychosocial
 
         //Menu:
         drawerLayout = binding.main
-        navigaionView = binding.navView
+        navView = binding.navView
         setupDrawerContent()
     }
 
@@ -60,12 +58,12 @@ class ChooseActivity : AppCompatActivity() {
         motor.setOnClickListener {
             navigateToMotor()
         }
-        psicosocial.setOnClickListener {
+        psychosocial.setOnClickListener {
             navigateToPsicosocial()
         }
     }
 
-    open fun navigateToSensorial(patientName: String, researcherName: String, currentDate: String) {
+    fun navigateToSensorial(patientName: String, researcherName: String, currentDate: String) {
         val intent = Intent(this, SensorialActivity::class.java).apply {
             putExtra("PATIENT_NAME", patientName)
             putExtra("RESEARCHER_NAME", researcherName)
@@ -74,17 +72,17 @@ class ChooseActivity : AppCompatActivity() {
         }
         startActivity(intent)
     }
-    open fun navigateToMotor() {
+    fun navigateToMotor() {
         TODO()
     }
-    open fun navigateToPsicosocial() {
+    fun navigateToPsicosocial() {
         TODO()
     }
 
 
     //Menu
     private fun setupDrawerContent() {
-        navigaionView.setNavigationItemSelectedListener { menuItem ->
+        navView.setNavigationItemSelectedListener { menuItem ->
             handleMenuItemClick(menuItem)
             true
         }

@@ -14,12 +14,13 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:src="@drawable/logo"
-        android:layout_gravity="start"/>
+        android:layout_gravity="start"
+        android:contentDescription="@string/app_logo"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:paddingTop="16dp"
-        android:text="PainMApp"
+        android:text="@string/painmapp"
         style="@style/Median"
         android:textColor="@color/blue"
         android:gravity="start" />

@@ -8,12 +8,16 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.RectF
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.ContextCompat.*
 import androidx.core.graphics.PathParser
 import org.xmlpull.v1.XmlPullParser
+import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.Region
+import android.util.Log
+
 
 class MapViews(context: Context, attrs: AttributeSet) : View(context, attrs) {
     //Variables para el pincel
@@ -29,6 +33,7 @@ class MapViews(context: Context, attrs: AttributeSet) : View(context, attrs) {
         strokeWidth = 12f // PENSAR LO DEL SLIDE PARA EL TAMAÑO DEL PICEL. Si no hago zoom sobre el canvas, este tamaño esta bien, y no lo cambiaria
     }
     //Variables para crear el canva con forma humana
+    private val bounds = RectF()
     private val cPath = Path()
     private val scaleMatrix = Matrix()
     private val cPaint: Paint = Paint().apply{ //Dar formato al trazo
@@ -60,7 +65,6 @@ class MapViews(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     //CANVAS HUMANO (svg importado al proyecto como vector --> primer path de su xml es el relevante
     private fun scaleAndCenterHumanCanvas() {
-        val bounds = RectF()
         cPath.computeBounds(bounds, true) // Dimensiones del path actual
         // Calcula la escala
         val scaleX = width / bounds.width() *0.75f
@@ -110,10 +114,9 @@ class MapViews(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     //RESPUESTA TACTIL
     override fun onDraw(canvas: Canvas) {
-        val cDrawable = context.getDrawable(imgFuente)
+        val cDrawable = getDrawable(context, imgFuente)
         canvas.save()
         canvas.clipPath(cPath)
-        val bounds = RectF()
         cPath.computeBounds(bounds, true)
         cDrawable?.setBounds(bounds.left.toInt(), bounds.top.toInt(), bounds.right.toInt(), bounds.bottom.toInt())
         cDrawable?.draw(canvas)
@@ -170,4 +173,79 @@ class MapViews(context: Context, attrs: AttributeSet) : View(context, attrs) {
         bPaths.clear()
         invalidate()
     }
+
+    fun calcularPorcentaje(optimization: Int = 10, calculo:String): Float {
+        //Optimizacion porque si se revisan todos los pixels la aplicacion se bloque y tarda demasiado
+        //Sigue detectando el trazo de un punto del pincel, si se perdiera precisión, elegiría hacerlo en un hilo o coroutine
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val canvasCalculos = Canvas(bitmap) //Lo que se haga en canvasCalculos se estará haciendo también en el bitmap
+        canvasCalculos.clipPath(cPath) //mascara para darle forma humana, pero aun así será necesario usar isPixelInHuman
+        for (path in bPaths) { //trazos dibujados con las caracteristicas del pincel
+            canvasCalculos.drawPath(path, bPaint)
+        }
+        var pixelsPintados = 0
+        var pixelsCanvas = 0
+        for (x in 0 until bitmap.width step optimization) {
+            for (y in 0 until bitmap.height step optimization) {
+                when(calculo) {
+                    "total" ->
+                        if (isPixelInHuman(cPath, x, y)) {
+                            pixelsCanvas++
+                            val pixel = bitmap.getPixel(x, y)
+                            if (Color.alpha(pixel) != 0) { //pixels con color (trazos del usuario)
+                                pixelsPintados++
+                            }
+                        }
+
+                    "derecha" ->
+                        if (isPixelInRightHumanFront(cPath, x, y)) {
+                            pixelsCanvas++
+                            val pixel = bitmap.getPixel(x, y)
+                            if (Color.alpha(pixel) != 0) {
+                                pixelsPintados++
+                            }
+                        }
+
+                    "izquierda" ->
+                        if (isPixelInLeftHumanFront(cPath, x, y)) {
+                            pixelsCanvas++
+                            val pixel = bitmap.getPixel(x, y)
+                            if (Color.alpha(pixel) != 0) {
+                                pixelsPintados++
+                            }
+                        }
+
+                }
+            }
+        }
+        return pixelsPintados.toFloat() / pixelsCanvas.toFloat() * 100f
+    }
+
+
+    private fun isPixelInHuman(path: Path, x: Int, y: Int): Boolean {
+        val bounds = RectF()
+        path.computeBounds(bounds, true)
+        val region = Region().apply { //contruye region con los paths de cPaths
+            setPath(path, Region(bounds.left.toInt(), bounds.top.toInt(), bounds.right.toInt(), bounds.bottom.toInt()))
+        }
+        return region.contains(x, y) //devuelve si el pixel xy está dentro de la region
+    }
+
+    private fun isPixelInRightHumanFront(path: Path, x: Int, y: Int): Boolean {
+        val bounds = RectF()
+        path.computeBounds(bounds, true)
+        val region = Region().apply {
+            setPath(path, Region(bounds.left.toInt(), bounds.top.toInt(), (bounds.right.toInt()+bounds.left.toInt())/2, bounds.bottom.toInt()))
+        }
+        return region.contains(x, y)
+    }
+    private fun isPixelInLeftHumanFront(path: Path, x: Int, y: Int): Boolean {
+        val bounds = RectF()
+        path.computeBounds(bounds, true)
+        val region = Region().apply {
+            setPath(path, Region((bounds.right.toInt()+bounds.left.toInt())/2, bounds.top.toInt(), bounds.right.toInt(), bounds.bottom.toInt()))
+        }
+        return region.contains(x, y)
+    }
+
 }
