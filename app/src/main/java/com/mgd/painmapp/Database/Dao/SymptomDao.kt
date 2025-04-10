@@ -11,7 +11,7 @@ interface SymptomDao {
     @Query("SELECT * FROM symptoms_table")
     fun getSymptoms(): List<SymptomEntity>
 
-    @Query("SELECT * FROM symptoms_table WHERE idEvaluation = :idEvaluation")
+    @Query("SELECT * FROM symptoms_table INNER JOIN map_table ON symptoms_table.idMap = map_table.idMap WHERE map_table.idEvaluation = :idEvaluation")
     fun getSymptomsByEvaluation(idEvaluation: Long): List<SymptomEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

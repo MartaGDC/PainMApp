@@ -3,10 +3,26 @@ package com.mgd.painmapp.Database.Entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.mgd.painmapp.MapInterpretation
 
 @Entity(tableName="map_table")
-data class MapEntity {
+data class MapEntity (
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name="idMap") val idMap: Long = 0,
-    @ColumnInfo(name="totalPercentage") val name : Float,
+    @ColumnInfo(name="idEvaluation") val idEvaluation:Long,
+    @ColumnInfo(name="totalPercentage") val totalPercentage:Float,
+    @ColumnInfo(name="rightPercentage") val rightPercentage:Float,
+    @ColumnInfo(name="leftPercentage") val leftPercentage:Float
+)
 
-}
+fun MapInterpretation.toDatabase() = MapEntity(
+    idEvaluation = idEvaluation,
+    totalPercentage = totalPercentage,
+    rightPercentage = rightPercentage,
+    leftPercentage = leftPercentage
+)
+fun MapEntity.toMapInterpretation() = MapInterpretation(
+    idEvaluation = idEvaluation,
+    totalPercentage = totalPercentage,
+    rightPercentage = rightPercentage,
+    leftPercentage = leftPercentage
+)

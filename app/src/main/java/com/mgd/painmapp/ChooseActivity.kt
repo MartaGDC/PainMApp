@@ -79,7 +79,6 @@ class ChooseActivity : AppCompatActivity() {
         TODO()
     }
 
-
     //Menu
     private fun setupDrawerContent() {
         navView.setNavigationItemSelectedListener { menuItem ->

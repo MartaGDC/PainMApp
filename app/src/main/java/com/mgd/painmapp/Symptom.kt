@@ -1,7 +1,7 @@
 package com.mgd.painmapp
 
 data class Symptom (
-    var idEvaluation : Long,
+    var idMap : Long,
     var intensity : Float,
     var symptom : String,
     var symptomOtherText : String,
@@ -14,6 +14,5 @@ data class Symptom (
     var charactOther : Boolean,
     var charactOtherText : String,
     var time : String,
-    var timeWhen : String,
-    var idMap : Long
+    var timeWhen : String
 )

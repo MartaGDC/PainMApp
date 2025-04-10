@@ -24,7 +24,8 @@ import kotlinx.coroutines.launch
 class SensorialSurveyActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySensorialSurveyBinding
     private lateinit var database: PatientDatabase
-    private var idGeneradoLocation: Long = 0
+    private var idGeneradoMap: Long = -1
+    private var idGeneradoEvaluation: Long = -1
     private lateinit var cvSave: CardView
     private lateinit var cvDelete: CardView
     private lateinit var cvSlider: Slider
@@ -57,7 +58,8 @@ class SensorialSurveyActivity : AppCompatActivity() {
         binding = ActivitySensorialSurveyBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        idGeneradoLocation = intent.getLongExtra("ID", 0)
+        idGeneradoEvaluation = intent.getLongExtra("idGeneradoEvaluation", -1)
+        idGeneradoMap = intent.getLongExtra("idGeneradoMap", -1)
 
         database = Room.databaseBuilder(
             this, PatientDatabase::class.java,
@@ -101,10 +103,8 @@ class SensorialSurveyActivity : AppCompatActivity() {
         cvSave.setOnClickListener {
             fillDatabase()
             val intent = Intent(this, SensorialActivity::class.java).apply {
-                putExtra(
-                    "ID",
-                    idGeneradoLocation
-                ) //Habra que inlcuir más informaicón aqui, derivada de consultas a la base de datos
+                putExtra("idGeneradoEvaluation", idGeneradoEvaluation)
+            //Habra que inlcuir más informaicón aqui, derivada de consultas a la base de datos
             }
             startActivity(intent)
         }
@@ -201,7 +201,7 @@ class SensorialSurveyActivity : AppCompatActivity() {
         val selectedTime = rgTime.checkedRadioButtonId
         val selectedTimeRB : RadioButton = findViewById(selectedTime)
         val symptomEntity = Symptom(
-            idGeneradoLocation,
+            idGeneradoMap,
             cvSlider.value,
             selectedSymptomRB.text.toString(),
             etOtherSymptom.text.toString(),

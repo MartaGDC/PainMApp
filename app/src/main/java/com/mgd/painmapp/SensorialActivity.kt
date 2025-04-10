@@ -42,8 +42,7 @@ class SensorialActivity : AppCompatActivity() {
         researcherName = intent.getStringExtra("RESEARCHER_NAME").toString()
         currentDate = intent.getStringExtra("DATE").toString()
         type = intent.getStringExtra("TYPE").toString()
-        idGeneradoEvaluation = intent.getLongExtra("ID", -1) //Intent desde Survey
-        Log.d("ID", idGeneradoEvaluation.toString() + " en SensorialActivity desde survey")
+        idGeneradoEvaluation = intent.getLongExtra("idGeneradoEvaluation", -1) //Intent desde Survey
         /*database = Room.databaseBuilder(
             this, PatientDatabase::class.java,
             "patient_database"
@@ -66,7 +65,6 @@ class SensorialActivity : AppCompatActivity() {
                 val symptoms = symptomsList.map { it.toSymptom() }
                 runOnUiThread {
                     adapter.updateList(symptoms)
-                    Log.d("Symptoms", symptoms.toString())
                 }
             }
         }
@@ -89,7 +87,7 @@ class SensorialActivity : AppCompatActivity() {
             CoroutineScope(Dispatchers.IO).launch { //Creamos aqui la coroutine, llamando a una funcion suspend
                 fillDatabase()
                 val intent = Intent(this@SensorialActivity, LocationActivity::class.java).apply {
-                    putExtra("ID", idGeneradoEvaluation)
+                    putExtra("idGeneradoEvaluation", idGeneradoEvaluation)
                 }
                 startActivity(intent)
             }
