@@ -56,8 +56,5 @@ dependencies {
     ksp (libs.androidx.room.compiler)
     //Menu
     implementation(libs.androidx.drawerlayout)
-    implementation(libs.androidx.coordinatorlayout)
-    //Layouts responsive
-    implementation ("com.google.android.flexbox:flexbox:3.0.0")
 
 }

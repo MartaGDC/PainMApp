@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">PainMApp</string>
-    <string name="title_activity_splash">SplashActivity</string>
     <string name="patientName">Nombre del paciente</string>
     <string name="researcherName">Nombre del investigador</string>
     <string name="sensorySymptoms">Síntomas sensitivos</string>
