@@ -2,7 +2,6 @@ package com.mgd.painmapp
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -19,15 +18,18 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+
 class SensorialActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySensorialBinding
+    private lateinit var CVAdd: CardView
+    private lateinit var adapter: SymptomsAdapter
+    private lateinit var mvFront: MapViews
+    private lateinit var mvBack: MapViews
     private lateinit var patientName: String
     private lateinit var researcherName: String
     private lateinit var currentDate: String
     private lateinit var type: String
     private var idGeneradoEvaluation: Long = -1
-    private lateinit var CVAdd: CardView
-    private lateinit var adapter: SymptomsAdapter
     private lateinit var database: PatientDatabase
     //Menu
     private lateinit var drawerLayout: DrawerLayout
@@ -74,16 +76,17 @@ class SensorialActivity : AppCompatActivity() {
         binding.rvSymptoms.setHasFixedSize(true)
         binding.rvSymptoms.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.rvSymptoms.adapter = adapter
-
         CVAdd = binding.CVAdd
+        mvFront = binding.mvFront
+        mvBack = binding.mvBack
         //Menu:
         drawerLayout = binding.main
         navigaionView = binding.navView
-        setupDrawerContent()
+        setupMenu()
     }
 
     private fun initListeners(){
-        CVAdd.setOnClickListener {
+        CVAdd.setOnClickListener { //Se guarda la información de la evaluation (sin contenido en la evaluacion, en este caso sintomas, no se guarda nada en la tabla de evaluaciones)
             CoroutineScope(Dispatchers.IO).launch { //Creamos aqui la coroutine, llamando a una funcion suspend
                 fillDatabase()
                 val intent = Intent(this@SensorialActivity, LocationActivity::class.java).apply {
@@ -95,7 +98,7 @@ class SensorialActivity : AppCompatActivity() {
         }
     }
 
-    private suspend fun fillDatabase() { //Para que el hilo principal espere
+    private suspend fun fillDatabase() { //Suspend para que el hilo principal espere
         if (idGeneradoEvaluation == (-1).toLong()) { //Si no hay registro de evaluación
             val evaluationEntity =
                 Evaluation(patientName, researcherName, currentDate, type).toDatabase()
@@ -108,15 +111,14 @@ class SensorialActivity : AppCompatActivity() {
     }
 
 
-    fun setupDrawerContent() {
+    fun setupMenu() {
         navigaionView.setNavigationItemSelectedListener { menuItem ->
             handleMenuItemClick(menuItem)
             true
         }
     }
-
     private fun handleMenuItemClick(item: MenuItem) {
-        var chooseActivity = ChooseActivity()
+        val chooseActivity = ChooseActivity()
         try{
             when (item.itemId) {
                 R.id.item_sensorial -> {

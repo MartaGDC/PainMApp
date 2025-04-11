@@ -101,6 +101,42 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
                 <TextView
+                    android:id="@+id/one"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Slider"
+                    android:text="1"
+                    app:layout_constraintStart_toEndOf="@id/tvZero"
+                    app:layout_constraintEnd_toStartOf="@id/two"
+                    app:layout_constraintTop_toTopOf="parent"/>
+                <TextView
+                    android:id="@+id/two"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Slider"
+                    android:text="2"
+                    app:layout_constraintStart_toEndOf="@id/one"
+                    app:layout_constraintEnd_toStartOf="@id/three"
+                    app:layout_constraintTop_toTopOf="parent"/>
+                <TextView
+                    android:id="@+id/three"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Slider"
+                    android:text="3"
+                    app:layout_constraintStart_toEndOf="@id/two"
+                    app:layout_constraintEnd_toStartOf="@id/four"
+                    app:layout_constraintTop_toTopOf="parent"/>
+                <TextView
+                    android:id="@+id/four"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Slider"
+                    android:text="4"
+                    app:layout_constraintStart_toEndOf="@id/three"
+                    app:layout_constraintEnd_toStartOf="@id/tvFive"
+                    app:layout_constraintTop_toTopOf="parent"/>
+                <TextView
                     android:id="@+id/tvFive"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -108,6 +144,42 @@
                     android:text="5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+                <TextView
+                    android:id="@+id/six"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Slider"
+                    android:text="6"
+                    app:layout_constraintStart_toEndOf="@id/tvFive"
+                    app:layout_constraintEnd_toStartOf="@id/seven"
+                    app:layout_constraintTop_toTopOf="parent"/>
+                <TextView
+                    android:id="@+id/seven"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Slider"
+                    android:text="7"
+                    app:layout_constraintStart_toEndOf="@id/six"
+                    app:layout_constraintEnd_toStartOf="@id/eight"
+                    app:layout_constraintTop_toTopOf="parent"/>
+                <TextView
+                    android:id="@+id/eight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Slider"
+                    android:text="8"
+                    app:layout_constraintStart_toEndOf="@id/seven"
+                    app:layout_constraintEnd_toStartOf="@id/nine"
+                    app:layout_constraintTop_toTopOf="parent"/>
+                <TextView
+                    android:id="@+id/nine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Slider"
+                    android:text="9"
+                    app:layout_constraintStart_toEndOf="@id/eight"
+                    app:layout_constraintEnd_toStartOf="@id/tvTen"
                     app:layout_constraintTop_toTopOf="parent"/>
                 <TextView
                     android:id="@+id/tvTen"
@@ -128,14 +200,13 @@
                     android:layout_gravity="center"
                     android:valueFrom="0"
                     android:valueTo="10"
-                    android:stepSize="0.5"
+                    android:stepSize="0.1"
                     app:trackColor="@color/yellow"
                     app:thumbColor="@color/dark_blue"
                     app:thumbHeight="25dp"
                     app:thumbWidth="10dp"
                     app:thumbElevation="5dp"
-                    app:tickColor="@color/dark_blue"
-                    app:tickVisible="true"
+                    app:tickVisible="false"
                     app:labelBehavior="withinBounds" />
             </androidx.constraintlayout.widget.ConstraintLayout>
             <LinearLayout

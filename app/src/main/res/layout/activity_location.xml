@@ -103,8 +103,8 @@
             android:layout_height="match_parent"
             android:layout_marginStart="50dp"
             android:layout_weight="1">
-            <com.mgd.painmapp.MapViews
-                android:id="@+id/mvFront"
+            <com.mgd.painmapp.MapResponsiveViews
+                android:id="@+id/mrvFront"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toTopOf="@id/tvFront"
@@ -116,8 +116,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/mvFront"
-                app:layout_constraintEnd_toEndOf="@id/mvFront"
+                app:layout_constraintStart_toStartOf="@id/mrvFront"
+                app:layout_constraintEnd_toEndOf="@id/mrvFront"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="90dp">
                 <TextView
@@ -127,8 +127,8 @@
                     android:text="@string/right"
                     android:gravity="center"
                     style="@style/Small"
-                    app:layout_constraintStart_toStartOf="@id/mvFront"
-                    app:layout_constraintTop_toTopOf="@id/mvFront"
+                    app:layout_constraintStart_toStartOf="@id/mrvFront"
+                    app:layout_constraintTop_toTopOf="@id/mrvFront"
                      />
                 <TextView
                     android:layout_width="0dp"
@@ -137,8 +137,8 @@
                     android:text="@string/left"
                     android:gravity="center"
                     style="@style/Small"
-                    app:layout_constraintEnd_toEndOf="@id/mvFront"
-                    app:layout_constraintTop_toTopOf="@id/mvFront"
+                    app:layout_constraintEnd_toEndOf="@id/mrvFront"
+                    app:layout_constraintTop_toTopOf="@id/mrvFront"
                     />
             </LinearLayout>
             <TextView
@@ -149,7 +149,7 @@
                 android:layout_gravity="center"
                 android:text="@string/front"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/mvFront"
+                app:layout_constraintTop_toBottomOf="@id/mrvFront"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -158,8 +158,8 @@
             android:layout_height="match_parent"
             android:layout_marginStart="50dp"
             android:layout_weight="1">
-            <com.mgd.painmapp.MapViews
-                android:id="@+id/mvBack"
+            <com.mgd.painmapp.MapResponsiveViews
+                android:id="@+id/mrvBack"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginTop="25dp"
@@ -171,8 +171,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/mvBack"
-                app:layout_constraintEnd_toEndOf="@id/mvBack"
+                app:layout_constraintStart_toStartOf="@id/mrvBack"
+                app:layout_constraintEnd_toEndOf="@id/mrvBack"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="90dp">
                 <TextView
@@ -182,8 +182,8 @@
                     android:text="@string/left"
                     android:gravity="center"
                     style="@style/Small"
-                    app:layout_constraintStart_toStartOf="@id/ivBack"
-                    app:layout_constraintTop_toTopOf="@id/ivBack"
+                    app:layout_constraintStart_toStartOf="@id/mvBack"
+                    app:layout_constraintTop_toTopOf="@id/mvBack"
                     />
                 <TextView
                     android:layout_width="0dp"
@@ -192,8 +192,8 @@
                     android:text="@string/right"
                     android:gravity="center"
                     style="@style/Small"
-                    app:layout_constraintEnd_toEndOf="@id/ivBack"
-                    app:layout_constraintTop_toTopOf="@id/ivBack"
+                    app:layout_constraintEnd_toEndOf="@id/mvBack"
+                    app:layout_constraintTop_toTopOf="@id/mvBack"
                     />
             </LinearLayout>
             <TextView
@@ -204,7 +204,7 @@
                 android:layout_gravity="center"
                 android:text="@string/back"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/mvBack"
+                app:layout_constraintTop_toBottomOf="@id/mrvBack"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>

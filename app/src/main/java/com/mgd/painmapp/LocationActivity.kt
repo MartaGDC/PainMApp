@@ -1,9 +1,9 @@
 package com.mgd.painmapp
 
 import android.content.Intent
+
 import android.os.Bundle
 import android.util.Log
-import android.widget.RadioButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.room.Room
@@ -18,8 +18,8 @@ class LocationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLocationBinding
     private lateinit var cvSave: CardView
     private lateinit var cvDelete: CardView
-    private lateinit var mvFront: MapViews
-    private lateinit var mvBack: MapViews
+    private lateinit var mrvFront: MapResponsiveViews
+    private lateinit var mrvBack: MapResponsiveViews
     private var idGeneradoEvaluation: Long = -1
     private var idGeneradoMap: Long = -1
     private lateinit var database: PatientDatabase
@@ -50,12 +50,14 @@ class LocationActivity : AppCompatActivity() {
     private fun initComponents() {
         cvSave = binding.cvSave
         cvDelete = binding.cvDelete
-        mvFront = binding.mvFront
-        mvBack = binding.mvBack
+        mrvFront = binding.mrvFront
+        mrvBack = binding.mrvBack
+
     }
 
     private fun initListeners() {
         cvSave.setOnClickListener {
+
             CoroutineScope(Dispatchers.IO).launch { //Creamos aqui la coroutine, llamando a una funcion suspend
                 fillDatabase()
                 val intent = Intent(this@LocationActivity, SensorialSurveyActivity::class.java).apply {
@@ -66,12 +68,12 @@ class LocationActivity : AppCompatActivity() {
             }
         }
         cvDelete.setOnClickListener {
-            mvFront.deleteDrawing()
-            mvBack.deleteDrawing()
+            mrvFront.deleteDrawing()
+            mrvBack.deleteDrawing()
         }
     }
 
-    suspend private fun fillDatabase() {
+    private suspend fun fillDatabase() {
         mapCalculate()
         val mapEntity = MapInterpretation(
             idGeneradoEvaluation,
@@ -82,15 +84,22 @@ class LocationActivity : AppCompatActivity() {
         idGeneradoMap = database.getMapDao().insertMap(mapEntity)
     }
 
-    private fun mapCalculate(){
-        porcentajeFrente = mvFront.calcularPorcentaje(calculo="total")
-        porcentajeEspalda = mvBack.calcularPorcentaje(calculo="total")
+    private fun mapCalculate() {
+        //Lo haria con map y zip. Pero estoy usando derechaFrente para calcular la derecha de frente y la izquierda de espaldas. Por lo que los indices y valores no coinciden
+        var resultFront = mrvFront.calcularPorcentaje()
+        var resultBack = mrvBack.calcularPorcentaje()
+        porcentajeFrente = resultFront["total"] ?: 0.0f
+        porcentajeEspalda = resultBack["total"] ?: 0.0f
         porcentajeTotal = (porcentajeFrente + porcentajeEspalda) / 2
-        porcentajedchaFrente = mvFront.calcularPorcentaje(calculo="derecha")
-        porcentajedchaEspalda = mvBack.calcularPorcentaje(calculo="izquierda")
+        Log.d("porcentajeTotal", porcentajeTotal.toString())
+        porcentajedchaFrente = resultFront["derechaFrente"] ?: 0.0f
+        porcentajedchaEspalda = resultBack["izquierdaFrente"] ?: 0.0f
         porcentajedchaTotal = (porcentajedchaFrente + porcentajedchaEspalda) / 2
-        porcentajeizdaFrente = mvFront.calcularPorcentaje(calculo="izquierda")
-        porcentajeizdaEspalda = mvBack.calcularPorcentaje(calculo="derecha")
+        Log.d("porcentajedchaTotal", porcentajedchaTotal.toString())
+        porcentajeizdaFrente = resultFront["izquierdaFrente"] ?: 0.0f
+        porcentajeizdaEspalda = resultBack["derechaFrente"] ?: 0.0f
         porcentajeizdaTotal = (porcentajeizdaFrente + porcentajeizdaEspalda) / 2
+        Log.d("porcentajeizdaTotal", porcentajeizdaTotal.toString())
     }
+
 }

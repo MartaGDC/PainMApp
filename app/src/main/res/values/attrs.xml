@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="MapViews">
+    <declare-styleable name="MapResponsiveViews">
         <attr name="map" format="reference"/>
     </declare-styleable>
 </resources>

@@ -44,17 +44,16 @@
             android:layout_height="match_parent"
             android:layout_marginStart="50dp"
             android:layout_weight="0.95">
-            <ImageView
-                android:id="@+id/ivFront"
+            <com.mgd.painmapp.MapViews
+                android:id="@+id/mvFront"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:contentDescription="@string/front_body"
-                android:src="@drawable/front"
+                app:layout_constraintBottom_toTopOf="@id/tvFront"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/tvFront"
-                android:layout_marginTop="25dp"/>
+                android:layout_marginTop="25dp"
+                app:map="@drawable/front"/>
             <TextView
                 android:id="@+id/tvFront"
                 style="@style/Small"
@@ -63,7 +62,7 @@
                 android:layout_gravity="center"
                 android:text="@string/front"
                 android:layout_marginTop="25dp"
-                app:layout_constraintTop_toBottomOf="@id/ivFront"
+                app:layout_constraintTop_toBottomOf="@id/mvFront"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -74,17 +73,16 @@
             android:layout_marginStart="50dp"
             android:layout_weight="0.95">
             <!-- Altura inicial era 560dp, por si acaso -->
-            <ImageView
-                android:id="@+id/ivBack"
+            <com.mgd.painmapp.MapViews
+                android:id="@+id/mvBack"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:contentDescription="@string/back_body"
-                android:src="@drawable/back"
+                android:layout_marginTop="25dp"
+                app:map="@drawable/back"
+                app:layout_constraintBottom_toTopOf="@id/tvBack"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/tvBack"
-                android:layout_marginTop="25dp"/>
+                app:layout_constraintTop_toTopOf="parent"/>
             <TextView
                 android:id="@+id/tvBack"
                 style="@style/Small"
@@ -92,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/back"
-                app:layout_constraintTop_toBottomOf="@id/ivBack"
+                app:layout_constraintTop_toBottomOf="@id/mvBack"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

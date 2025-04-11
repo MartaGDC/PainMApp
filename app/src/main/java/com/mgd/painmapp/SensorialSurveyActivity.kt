@@ -1,6 +1,7 @@
 package com.mgd.painmapp
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -23,9 +24,6 @@ import kotlinx.coroutines.launch
 
 class SensorialSurveyActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySensorialSurveyBinding
-    private lateinit var database: PatientDatabase
-    private var idGeneradoMap: Long = -1
-    private var idGeneradoEvaluation: Long = -1
     private lateinit var cvSave: CardView
     private lateinit var cvDelete: CardView
     private lateinit var cvSlider: Slider
@@ -52,6 +50,9 @@ class SensorialSurveyActivity : AppCompatActivity() {
     private lateinit var rbIntermittent : RadioButton
     private lateinit var tvWhen : TextView
     private lateinit var etWhen : EditText
+    private lateinit var database: PatientDatabase
+    private var idGeneradoMap: Long = -1
+    private var idGeneradoEvaluation: Long = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +61,6 @@ class SensorialSurveyActivity : AppCompatActivity() {
 
         idGeneradoEvaluation = intent.getLongExtra("idGeneradoEvaluation", -1)
         idGeneradoMap = intent.getLongExtra("idGeneradoMap", -1)
-
         database = Room.databaseBuilder(
             this, PatientDatabase::class.java,
             "patient_database"
