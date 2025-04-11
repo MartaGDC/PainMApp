@@ -49,11 +49,12 @@ class SensorialActivity : AppCompatActivity() {
             this, PatientDatabase::class.java,
             "patient_database"
         ).build()
-        this.deleteDatabase("patient_database") */
+        this.deleteDatabase("patient_database")*/
         database = Room.databaseBuilder(
             this, PatientDatabase::class.java,
             "patient_database"
         ).build()
+
 
         initComponents()
         initListeners()
@@ -79,6 +80,11 @@ class SensorialActivity : AppCompatActivity() {
         CVAdd = binding.CVAdd
         mvFront = binding.mvFront
         mvBack = binding.mvBack
+        CoroutineScope(Dispatchers.IO).launch{
+            val bPathFront = getFrontDrawings()
+            mvFront.setDrawings(bPathFront)
+        }
+
         //Menu:
         drawerLayout = binding.main
         navigaionView = binding.navView
@@ -98,6 +104,16 @@ class SensorialActivity : AppCompatActivity() {
         }
     }
 
+    private suspend fun getFrontDrawings(): String { //Suspend para que el hilo principal espere
+        val bPath: String
+        if (idGeneradoEvaluation != (-1).toLong()) { //Hay registro de evaluación
+            bPath = database.getMapDao().getFrontPathsDrawnById(idGeneradoEvaluation)
+            return bPath
+        }
+        return ""
+    }
+
+
     private suspend fun fillDatabase() { //Suspend para que el hilo principal espere
         if (idGeneradoEvaluation == (-1).toLong()) { //Si no hay registro de evaluación
             val evaluationEntity =
@@ -107,7 +123,6 @@ class SensorialActivity : AppCompatActivity() {
         else { //Si ya se ha registrado
             return
         }
-
     }
 
 

@@ -9,6 +9,8 @@ import com.mgd.painmapp.MapInterpretation
 data class MapEntity (
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name="idMap") val idMap: Long = 0,
     @ColumnInfo(name="idEvaluation") val idEvaluation:Long,
+    @ColumnInfo(name="pathsDrawnFront") val pathsDrawnFront: String,
+    @ColumnInfo(name="pathsDrawnBack") val pathsDrawnBack: String,
     @ColumnInfo(name="totalPercentage") val totalPercentage:Float,
     @ColumnInfo(name="rightPercentage") val rightPercentage:Float,
     @ColumnInfo(name="leftPercentage") val leftPercentage:Float
@@ -16,12 +18,16 @@ data class MapEntity (
 
 fun MapInterpretation.toDatabase() = MapEntity(
     idEvaluation = idEvaluation,
+    pathsDrawnFront = pathsDrawnFront,
+    pathsDrawnBack = pathsDrawnBack,
     totalPercentage = totalPercentage,
     rightPercentage = rightPercentage,
     leftPercentage = leftPercentage
 )
 fun MapEntity.toMapInterpretation() = MapInterpretation(
     idEvaluation = idEvaluation,
+    pathsDrawnFront = pathsDrawnFront,
+    pathsDrawnBack = pathsDrawnBack,
     totalPercentage = totalPercentage,
     rightPercentage = rightPercentage,
     leftPercentage = leftPercentage

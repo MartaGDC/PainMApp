@@ -36,7 +36,7 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
     //Variables para crear el canva con forma humana
     private val bounds = RectF()
     val cPath = Path() //El trazo de la forma humana (en el xml del drawable seleccionado, será el primer path)
-    private val scaleMatrix = Matrix()
+    val scaleMatrix = Matrix()
     val cPaint: Paint = Paint().apply{
         isAntiAlias = true
         style = Paint.Style.STROKE
@@ -240,6 +240,29 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
             mapResults[zona.first] = pintado.toFloat() / total.toFloat() * 100f
         }
         return mapResults
+    }
+
+
+    //SVG del dibujo
+    fun pathToSVGString(): String {
+        val sb = StringBuilder()
+        val pos = FloatArray(2)
+        val inverseMatrix = Matrix()
+        scaleMatrix.invert(inverseMatrix)
+        inverseMatrix.mapPoints(pos)
+        for (bPath in bPaths) {
+            val pm = PathMeasure(bPath, false)
+            val length = pm.length
+            val step = 5f
+            var distance = 0f
+            while (distance <= length) {
+                pm.getPosTan(distance, pos, null)
+                val cmd = if (distance == 0f) "M" else "L"
+                sb.append("$cmd${pos[0]},${pos[1]} ")
+                distance += step
+            }
+        }
+        return sb.toString().trim()
     }
 
 
