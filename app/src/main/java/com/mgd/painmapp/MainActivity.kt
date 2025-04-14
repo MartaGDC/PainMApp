@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
     private lateinit var patientName : EditText
     private lateinit var researcherName : EditText
-    private lateinit var CVSiguiente : CardView
+    private lateinit var cvNext : CardView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,10 +21,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initUI() {
-        patientName = binding.edPatientName
+        patientName = binding.etPatientName
         researcherName = binding.etResearcherName
-        CVSiguiente = binding.cvNext
-        CVSiguiente.setOnClickListener {
+        cvNext = binding.cvNext
+        cvNext.setOnClickListener {
             if (patientName.text.isNotEmpty() && researcherName.text.isNotEmpty()) {
                 val intent = Intent(this, ChooseActivity::class.java).apply {
                     putExtra("PATIENT_NAME", patientName.text.toString())

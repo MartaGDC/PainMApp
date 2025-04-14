@@ -17,7 +17,6 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.PathMeasure
 import android.graphics.Region
-import android.util.Log
 
 
 open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(context, attrs) {
@@ -58,8 +57,8 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
     }
 
 
-    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        super.onSizeChanged(w, h, oldw, oldh)
+    override fun onSizeChanged(widthC: Int, heightC: Int, oldWidth: Int, oldHeight: Int) {
+        super.onSizeChanged(widthC, heightC, oldWidth, oldHeight)
         loadHumanCanvas()
         scaleAndCenterHumanCanvas()
     }

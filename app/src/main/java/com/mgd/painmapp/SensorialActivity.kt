@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 
 class SensorialActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySensorialBinding
-    private lateinit var CVAdd: CardView
+    private lateinit var cvAdd: CardView
     private lateinit var adapter: SymptomsAdapter
     private lateinit var mvFront: MapViews
     private lateinit var mvBack: MapViews
@@ -33,7 +33,7 @@ class SensorialActivity : AppCompatActivity() {
     private lateinit var database: PatientDatabase
     //Menu
     private lateinit var drawerLayout: DrawerLayout
-    private lateinit var navigaionView: NavigationView
+    private lateinit var navView: NavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,7 +77,7 @@ class SensorialActivity : AppCompatActivity() {
         binding.rvSymptoms.setHasFixedSize(true)
         binding.rvSymptoms.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.rvSymptoms.adapter = adapter
-        CVAdd = binding.CVAdd
+        cvAdd = binding.cvAdd
         mvFront = binding.mvFront
         mvBack = binding.mvBack
         CoroutineScope(Dispatchers.IO).launch{
@@ -87,12 +87,12 @@ class SensorialActivity : AppCompatActivity() {
 
         //Menu:
         drawerLayout = binding.main
-        navigaionView = binding.navView
+        navView = binding.navView
         setupMenu()
     }
 
     private fun initListeners(){
-        CVAdd.setOnClickListener { //Se guarda la información de la evaluation (sin contenido en la evaluacion, en este caso sintomas, no se guarda nada en la tabla de evaluaciones)
+        cvAdd.setOnClickListener { //Se guarda la información de la evaluation (sin contenido en la evaluacion, en este caso sintomas, no se guarda nada en la tabla de evaluaciones)
             CoroutineScope(Dispatchers.IO).launch { //Creamos aqui la coroutine, llamando a una funcion suspend
                 fillDatabase()
                 val intent = Intent(this@SensorialActivity, LocationActivity::class.java).apply {
@@ -126,8 +126,8 @@ class SensorialActivity : AppCompatActivity() {
     }
 
 
-    fun setupMenu() {
-        navigaionView.setNavigationItemSelectedListener { menuItem ->
+    private fun setupMenu() {
+        navView.setNavigationItemSelectedListener { menuItem ->
             handleMenuItemClick(menuItem)
             true
         }

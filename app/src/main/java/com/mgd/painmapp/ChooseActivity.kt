@@ -37,7 +37,7 @@ class ChooseActivity : AppCompatActivity() {
         currentDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
 
         initComponents()
-        initListener()
+        initListeners()
     }
 
     private fun initComponents(){
@@ -48,10 +48,10 @@ class ChooseActivity : AppCompatActivity() {
         //Menu:
         drawerLayout = binding.main
         navView = binding.navView
-        setupDrawerContent()
+        setupMenu()
     }
 
-    private fun initListener(){
+    private fun initListeners(){
         sensorial.setOnClickListener {
             navigateToSensorial(patientName, researcherName, currentDate)
         }
@@ -59,7 +59,7 @@ class ChooseActivity : AppCompatActivity() {
             navigateToMotor()
         }
         psychosocial.setOnClickListener {
-            navigateToPsicosocial()
+            navigateToPsychosocial()
         }
     }
 
@@ -75,12 +75,12 @@ class ChooseActivity : AppCompatActivity() {
     fun navigateToMotor() {
         TODO()
     }
-    fun navigateToPsicosocial() {
+    fun navigateToPsychosocial() {
         TODO()
     }
 
     //Menu
-    private fun setupDrawerContent() {
+    private fun setupMenu() {
         navView.setNavigationItemSelectedListener { menuItem ->
             handleMenuItemClick(menuItem)
             true
