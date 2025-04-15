@@ -19,8 +19,8 @@ interface MapDao {
     suspend fun insertMap(map: MapEntity): Long //Para recuperar el id del registro insertado
 
     @Query("SELECT pathsDrawnFront FROM map_table INNER JOIN symptoms_table ON map_table.idMap = symptoms_table.idMap WHERE map_table.idEvaluation = :idEvaluation")
-    fun getFrontPathsDrawnById(idEvaluation: Long): String
+    fun getFrontPathsDrawnById(idEvaluation: Long): List<String>
 
     @Query("SELECT pathsDrawnBack FROM map_table INNER JOIN symptoms_table ON map_table.idMap = symptoms_table.idMap WHERE map_table.idEvaluation = :idEvaluation")
-    fun getBackPathsDrawnById(idEvaluation: Long): String
+    fun getBackPathsDrawnById(idEvaluation: Long): List<String>
 }

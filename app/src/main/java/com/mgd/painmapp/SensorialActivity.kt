@@ -82,7 +82,9 @@ class SensorialActivity : AppCompatActivity() {
         mvBack = binding.mvBack
         CoroutineScope(Dispatchers.IO).launch{
             val bPathFront = getFrontDrawings()
-            mvFront.setDrawings(bPathFront)
+            val bPathBack = getBackDrawings()
+            mvFront.paths = bPathFront
+            mvBack.paths = bPathBack
         }
 
         //Menu:
@@ -104,13 +106,21 @@ class SensorialActivity : AppCompatActivity() {
         }
     }
 
-    private suspend fun getFrontDrawings(): String { //Suspend para que el hilo principal espere
-        val bPath: String
+    private fun getFrontDrawings(): List<String> {
+        val bPath: List<String>
         if (idGeneradoEvaluation != (-1).toLong()) { //Hay registro de evaluación
             bPath = database.getMapDao().getFrontPathsDrawnById(idGeneradoEvaluation)
             return bPath
         }
-        return ""
+        return emptyList()
+    }
+    private fun getBackDrawings(): List<String> {
+        val bPath: List<String>
+        if (idGeneradoEvaluation != (-1).toLong()) { //Hay registro de evaluación
+            bPath = database.getMapDao().getBackPathsDrawnById(idGeneradoEvaluation)
+            return bPath
+        }
+        return emptyList()
     }
 
 

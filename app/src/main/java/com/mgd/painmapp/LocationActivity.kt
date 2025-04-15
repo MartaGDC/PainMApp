@@ -57,7 +57,6 @@ class LocationActivity : AppCompatActivity() {
 
     private fun initListeners() {
         cvSave.setOnClickListener {
-            Log.d("mrvFront", mrvFront.pathToSVGString())
             CoroutineScope(Dispatchers.IO).launch { //Creamos aqui la coroutine, llamando a una funcion suspend
                 fillDatabase()
                 val intent = Intent(this@LocationActivity, SensorialSurveyActivity::class.java).apply {
@@ -84,6 +83,7 @@ class LocationActivity : AppCompatActivity() {
             porcentajeizdaTotal
             ).toDatabase()
         idGeneradoMap = database.getMapDao().insertMap(mapEntity)
+        Log.d("idGeneradoMapLocation", idGeneradoMap.toString())
     }
 
     private fun mapCalculate() {

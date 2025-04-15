@@ -17,6 +17,7 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.PathMeasure
 import android.graphics.Region
+import android.util.Log
 
 
 open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(context, attrs) {
@@ -58,7 +59,7 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
 
 
     override fun onSizeChanged(widthC: Int, heightC: Int, oldWidth: Int, oldHeight: Int) {
-        super.onSizeChanged(widthC, heightC, oldWidth, oldHeight)
+       //super.onSizeChanged(widthC, heightC, oldWidth, oldHeight)
         loadHumanCanvas()
         scaleAndCenterHumanCanvas()
     }
@@ -109,8 +110,6 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
         }
         return null
     }
-
-
 
     //RESPUESTA TACTIL
     override fun onDraw(canvas: Canvas) {
@@ -240,15 +239,10 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
         }
         return mapResults
     }
-
-
     //SVG del dibujo
     fun pathToSVGString(): String {
         val sb = StringBuilder()
         val pos = FloatArray(2)
-        val inverseMatrix = Matrix()
-        scaleMatrix.invert(inverseMatrix)
-        inverseMatrix.mapPoints(pos)
         for (bPath in bPaths) {
             val pm = PathMeasure(bPath, false)
             val length = pm.length
@@ -261,7 +255,16 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
                 distance += step
             }
         }
+        //Añado el recuadro del canvas para que al reescarlarlo en SensorialActivity tenga en cuenta el recuadro en el que el dibujo del usuario se encuentra:
+        cPath.computeBounds(bounds, true)
+        val xMin = bounds.left
+        val yMin = bounds.top
+        val xMax = bounds.right
+        val yMax = bounds.bottom
+        val boundsPath = "M${xMin},${yMin} L${xMax},${yMin} L${xMax},${yMax} L${xMin},${yMax} Z"
+        sb.append(boundsPath)
         return sb.toString().trim()
+
     }
 
 
