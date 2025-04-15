@@ -1,4 +1,4 @@
-package com.mgd.painmapp
+package com.mgd.painmapp.model.database
 
 data class Symptom (
     var idMap : Long,

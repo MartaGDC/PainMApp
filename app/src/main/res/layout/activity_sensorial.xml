@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grey"
-    tools:context=".SensorialActivity">
+    tools:context=".controller.activities.SensorialActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -43,7 +43,7 @@
             android:layout_height="match_parent"
             android:layout_marginStart="50dp"
             android:layout_weight="0.95">
-            <com.mgd.painmapp.MapViews
+            <com.mgd.painmapp.view.MapViews
                 android:id="@+id/mvFront"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
@@ -72,7 +72,7 @@
             android:layout_marginStart="50dp"
             android:layout_weight="0.95">
             <!-- Altura inicial era 560dp, por si acaso -->
-            <com.mgd.painmapp.MapViews
+            <com.mgd.painmapp.view.MapViews
                 android:id="@+id/mvBack"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"

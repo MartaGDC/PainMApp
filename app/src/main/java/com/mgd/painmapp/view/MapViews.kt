@@ -1,19 +1,20 @@
-package com.mgd.painmapp
+package com.mgd.painmapp.view
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Matrix
-import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.util.Log
-import android.view.MotionEvent
-import android.view.View
 import androidx.core.content.ContextCompat.*
 import androidx.core.graphics.PathParser
-import org.xmlpull.v1.XmlPullParser
+import com.mgd.painmapp.R
+import com.mgd.painmapp.model.storage.getColorIndex
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import com.mgd.painmapp.model.storage.saveColorIndex
 
 class MapViews(context: Context, attrs: AttributeSet) : MapResponsiveViews(context, attrs) {
     lateinit var paths: List<String>
@@ -24,8 +25,7 @@ class MapViews(context: Context, attrs: AttributeSet) : MapResponsiveViews(conte
         cPath.computeBounds(bounds, true)
         cDrawable?.setBounds(bounds.left.toInt(), bounds.top.toInt(), bounds.right.toInt(), bounds.bottom.toInt())
         cDrawable?.draw(canvas)
-        canvas.drawPath(cPath, cPaint)
-
+        var count : Int = 0
         for (path in paths){
             var dibujos: Path
             var dibujoLimpio: Path
@@ -49,8 +49,25 @@ class MapViews(context: Context, attrs: AttributeSet) : MapResponsiveViews(conte
             matrix.reset()
             matrix.setTranslate(dx, dy)
             dibujoLimpio.transform(matrix)
+            bPaint.color = colorList[count]
+            count = (count + 1) % colorList.size
             canvas.drawPath(dibujoLimpio, bPaint)
         }
+        canvas.drawPath(cPath, cPaint)
+        CoroutineScope(Dispatchers.IO).launch {
+            actualizarColor()
+        }
+    }
 
+    private suspend fun actualizarColor() {
+        //Funcion llamada para cambiar el color del pincel para MapResponsiveViews, pero lo hago aquí, porque prefiero que el color quede definido de forma definitiva antes de iniciar
+        // LocationActivity (fundamentalmente para evitar gestión de hilos)
+        if(imgFuente == R.drawable.front){ //Para asegurar que solo se calcula el color una vez (dado que hay dos mapviews en la misma actividad)
+            colorIndex =  context.getColorIndex()
+            bPaint.color = colorList[colorIndex]
+            colorIndex = (colorIndex + 1) % colorList.size
+            context.saveColorIndex(colorIndex)
+            Log.d("colorIndex", colorIndex.toString())
+        }
     }
 }

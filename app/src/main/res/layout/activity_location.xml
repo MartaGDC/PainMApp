@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:background="@color/grey"
     android:orientation="vertical"
-    tools:context=".SensorialActivity">
+    tools:context=".controller.activities.SensorialActivity">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clTop"
         android:layout_width="match_parent"
@@ -103,7 +103,7 @@
             android:layout_height="match_parent"
             android:layout_marginStart="50dp"
             android:layout_weight="1">
-            <com.mgd.painmapp.MapResponsiveViews
+            <com.mgd.painmapp.view.MapResponsiveViews
                 android:id="@+id/mrvFront"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
@@ -158,7 +158,7 @@
             android:layout_height="match_parent"
             android:layout_marginStart="50dp"
             android:layout_weight="1">
-            <com.mgd.painmapp.MapResponsiveViews
+            <com.mgd.painmapp.view.MapResponsiveViews
                 android:id="@+id/mrvBack"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"

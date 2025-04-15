@@ -1,4 +1,4 @@
-package com.mgd.painmapp
+package com.mgd.painmapp.controller.activities
 
 import android.content.Intent
 
@@ -7,9 +7,11 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.room.Room
-import com.mgd.painmapp.Database.Entities.toDatabase
-import com.mgd.painmapp.Database.PatientDatabase
+import com.mgd.painmapp.model.database.entities.toDatabase
+import com.mgd.painmapp.model.database.PatientDatabase
+import com.mgd.painmapp.model.database.MapInterpretation
 import com.mgd.painmapp.databinding.ActivityLocationBinding
+import com.mgd.painmapp.view.MapResponsiveViews
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -52,7 +54,6 @@ class LocationActivity : AppCompatActivity() {
         cvDelete = binding.cvDelete
         mrvFront = binding.mrvFront
         mrvBack = binding.mrvBack
-
     }
 
     private fun initListeners() {

@@ -1,8 +1,10 @@
-package com.mgd.painmapp
+package com.mgd.painmapp.view
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.Path
@@ -13,30 +15,39 @@ import android.view.View
 import androidx.core.content.ContextCompat.*
 import androidx.core.graphics.PathParser
 import org.xmlpull.v1.XmlPullParser
-import android.graphics.Bitmap
-import android.graphics.Color
 import android.graphics.PathMeasure
 import android.graphics.Region
-import android.util.Log
+import com.mgd.painmapp.R
+import com.mgd.painmapp.model.storage.getColorIndex
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(context, attrs) {
     //Variables para el pincel (brush)
     private var bPath : Path? = null
-    private var bPaths = mutableListOf<Path>() //Son los trazos del pincel
+    private var bPaths = mutableListOf<Path>() //Son los trazos del pince
     val bPaint: Paint = Paint().apply{ //Formato al trazo
         isAntiAlias = true //Bordes suavizados (evita pixelado)
         isDither = true //Mejora la calidad de los colores
         style = Paint.Style.STROKE //Hace formas, pero no pinta dentro de ellas
         strokeJoin = Paint.Join.ROUND //Las uniones entre lineas son redondeadas
         strokeCap = Paint.Cap.ROUND //Los extremos de las líneas son redondeados
-        color = getColor(context, R.color.dark_blue) //Modificar colores!!!!!!!!!!!!!!!!!!!!!!!!!!!!!_
         strokeWidth = 12f // PENSAR LO DEL SLIDE PARA EL TAMAÑO DEL PICEL. Si no hago zoom sobre el canvas, este tamaño esta bien, y no lo cambiaria
     }
+    var colorIndex = 0
+    val colorList = mutableListOf(
+        getColor(context, R.color.dark_blue),
+        getColor(context, R.color.blue),
+        getColor(context, R.color.red),
+        getColor(context, R.color.pink),
+        getColor(context, R.color.yellow)
+    )
+
     //Variables para crear el canva con forma humana
     private val bounds = RectF()
     val cPath = Path() //El trazo de la forma humana (en el xml del drawable seleccionado, será el primer path)
-    val scaleMatrix = Matrix()
     val cPaint: Paint = Paint().apply{
         isAntiAlias = true
         style = Paint.Style.STROKE
@@ -55,11 +66,13 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
         val array = context.obtainStyledAttributes(attrs, R.styleable.MapResponsiveViews)
         imgFuente = array.getResourceId(R.styleable.MapResponsiveViews_map, 0)
         array.recycle()
+        CoroutineScope(Dispatchers.IO).launch {
+            colorIndex =  context.getColorIndex()
+            bPaint.color = colorList[colorIndex]
+        }
     }
 
-
     override fun onSizeChanged(widthC: Int, heightC: Int, oldWidth: Int, oldHeight: Int) {
-       //super.onSizeChanged(widthC, heightC, oldWidth, oldHeight)
         loadHumanCanvas()
         scaleAndCenterHumanCanvas()
     }
@@ -74,6 +87,7 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
         if(scaleFactor*bounds.width() > width){
             scaleFactor = scaleX
         }
+        val scaleMatrix = Matrix()
         scaleMatrix.reset()
         scaleMatrix.setScale(scaleFactor, scaleFactor, bounds.centerX(), bounds.centerY())
         cPath.transform(scaleMatrix)
@@ -130,7 +144,6 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
             canvas.drawPath(path, bPaint)
         }
     }
-
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         if (event == null) return false
@@ -264,8 +277,5 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
         val boundsPath = "M${xMin},${yMin} L${xMax},${yMin} L${xMax},${yMax} L${xMin},${yMax} Z"
         sb.append(boundsPath)
         return sb.toString().trim()
-
     }
-
-
 }

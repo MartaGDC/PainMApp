@@ -1,11 +1,9 @@
-package com.mgd.painmapp
+package com.mgd.painmapp.controller.activities
 
 import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.RadioButton
@@ -15,8 +13,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.room.Room
 import com.google.android.material.slider.Slider
-import com.mgd.painmapp.Database.Entities.toDatabase
-import com.mgd.painmapp.Database.PatientDatabase
+import com.mgd.painmapp.model.database.entities.toDatabase
+import com.mgd.painmapp.model.database.PatientDatabase
+import com.mgd.painmapp.model.database.Symptom
 import com.mgd.painmapp.databinding.ActivitySensorialSurveyBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -29,9 +28,6 @@ class SensorialSurveyActivity : AppCompatActivity() {
     private lateinit var cvSlider: Slider
     private lateinit var rgSymptom1: RadioGroup
     private lateinit var rbPain: RadioButton
-    private lateinit var rbItch: RadioButton
-    private lateinit var rbBurn: RadioButton
-    private lateinit var rbSharp: RadioButton
     private lateinit var rbOtherSymptom: RadioButton
     private lateinit var rgSymptom2: RadioGroup
     private lateinit var rgSymptom : RadioGroup
@@ -46,8 +42,6 @@ class SensorialSurveyActivity : AppCompatActivity() {
     private lateinit var etOtherCharact : EditText
     private lateinit var rgTime : RadioGroup
     private lateinit var rbContinuous : RadioButton
-    private lateinit var rbMomentary : RadioButton
-    private lateinit var rbIntermittent : RadioButton
     private lateinit var tvWhen : TextView
     private lateinit var etWhen : EditText
     private lateinit var database: PatientDatabase
@@ -77,9 +71,6 @@ class SensorialSurveyActivity : AppCompatActivity() {
         rgSymptom2 = binding.rgSymptom2
         rgSymptom = rgSymptom1 //por defecto esta marcado como sintoma Dolor
         rbPain = binding.rbPain
-        rbItch = binding.rbItch
-        rbBurn = binding.rbBurn
-        rbSharp = binding.rbSharp
         rbOtherSymptom = binding.rbOtherSymptom
         etOtherSymptom = binding.etOtherSymptom
         cbAgitating = binding.cbAgitating
@@ -92,8 +83,6 @@ class SensorialSurveyActivity : AppCompatActivity() {
         etOtherCharact = binding.etOtherCharact
         rgTime = binding.rgTime
         rbContinuous = binding.rbContinuous
-        rbMomentary = binding.rbMomentary
-        rbIntermittent = binding.rbIntermittent
         tvWhen = binding.tvWhen
         etWhen = binding.etWhen
     }

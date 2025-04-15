@@ -1,19 +1,21 @@
-package com.mgd.painmapp
+package com.mgd.painmapp.controller.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
-import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
 import com.google.android.material.navigation.NavigationView
-import com.mgd.painmapp.Database.Entities.toDatabase
-import com.mgd.painmapp.Database.Entities.toSymptom
-import com.mgd.painmapp.Database.PatientDatabase
+import com.mgd.painmapp.model.database.entities.toDatabase
+import com.mgd.painmapp.model.database.entities.toSymptom
+import com.mgd.painmapp.model.database.PatientDatabase
+import com.mgd.painmapp.model.database.Evaluation
+import com.mgd.painmapp.controller.NavigationHelper
+import com.mgd.painmapp.view.adapters.SymptomsAdapter
 import com.mgd.painmapp.databinding.ActivitySensorialBinding
+import com.mgd.painmapp.view.MapViews
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -55,7 +57,6 @@ class SensorialActivity : AppCompatActivity() {
             "patient_database"
         ).build()
 
-
         initComponents()
         initListeners()
     }
@@ -90,7 +91,14 @@ class SensorialActivity : AppCompatActivity() {
         //Menu:
         drawerLayout = binding.main
         navView = binding.navView
-        setupMenu()
+        NavigationHelper.setupMenu(
+            navView,
+            drawerLayout,
+            this,
+            patientName,
+            researcherName,
+            currentDate
+        )
     }
 
     private fun initListeners(){
@@ -134,37 +142,4 @@ class SensorialActivity : AppCompatActivity() {
             return
         }
     }
-
-
-    private fun setupMenu() {
-        navView.setNavigationItemSelectedListener { menuItem ->
-            handleMenuItemClick(menuItem)
-            true
-        }
-    }
-    private fun handleMenuItemClick(item: MenuItem) {
-        val chooseActivity = ChooseActivity()
-        try{
-            when (item.itemId) {
-                R.id.item_sensorial -> {
-                    chooseActivity.navigateToSensorial(patientName, researcherName, currentDate)
-                }
-                R.id.item_motor -> {
-                    chooseActivity.navigateToMotor()
-                }
-                else -> {
-                }
-            }
-        }
-        catch (e: Exception) {
-            e.printStackTrace()
-            //Quiero creer que el error procede de querer invocar la misma activity
-        }
-
-        drawerLayout.closeDrawer(GravityCompat.START)
-    }
-
-
-
-
 }

@@ -1,10 +1,9 @@
-package com.mgd.painmapp.Database.Entities
+package com.mgd.painmapp.model.database.entities
 
-import android.text.Selection
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.mgd.painmapp.Symptom
+import com.mgd.painmapp.model.database.Symptom
 
 @Entity(tableName="symptoms_table")
 data class SymptomEntity (

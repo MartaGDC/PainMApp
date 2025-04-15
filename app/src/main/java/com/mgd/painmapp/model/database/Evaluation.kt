@@ -1,6 +1,4 @@
-package com.mgd.painmapp
-
-import java.util.Date
+package com.mgd.painmapp.model.database
 
 data class Evaluation (
     var name : String,

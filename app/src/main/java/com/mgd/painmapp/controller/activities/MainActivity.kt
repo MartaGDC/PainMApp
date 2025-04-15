@@ -1,4 +1,4 @@
-package com.mgd.painmapp
+package com.mgd.painmapp.controller.activities
 
 import android.content.Intent
 import android.os.Bundle

@@ -1,10 +1,9 @@
-package com.mgd.painmapp.Database.Entities
+package com.mgd.painmapp.model.database.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.mgd.painmapp.Evaluation
-import java.util.Date
+import com.mgd.painmapp.model.database.Evaluation
 
 @Entity(tableName="evaluations_table")
 data class EvaluationEntity (

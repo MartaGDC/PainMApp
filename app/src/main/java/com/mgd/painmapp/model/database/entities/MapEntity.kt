@@ -1,9 +1,9 @@
-package com.mgd.painmapp.Database.Entities
+package com.mgd.painmapp.model.database.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.mgd.painmapp.MapInterpretation
+import com.mgd.painmapp.model.database.MapInterpretation
 
 @Entity(tableName="map_table")
 data class MapEntity (

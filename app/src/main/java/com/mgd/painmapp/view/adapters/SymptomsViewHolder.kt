@@ -1,9 +1,11 @@
-package com.mgd.painmapp
+package com.mgd.painmapp.view.adapters
 
 import android.content.Context
 import android.content.Intent
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.mgd.painmapp.controller.activities.LocationActivity
+import com.mgd.painmapp.model.database.Symptom
 import com.mgd.painmapp.databinding.ItemSymptomBinding
 import java.util.Locale
 

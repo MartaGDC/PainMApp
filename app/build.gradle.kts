@@ -56,5 +56,8 @@ dependencies {
     ksp (libs.androidx.room.compiler)
     //Menu
     implementation(libs.androidx.drawerlayout)
+    //Preferences
+    implementation (libs.androidx.datastore.preferences)
+
 
 }

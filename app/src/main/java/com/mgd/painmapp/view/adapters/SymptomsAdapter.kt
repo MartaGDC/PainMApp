@@ -1,9 +1,11 @@
-package com.mgd.painmapp
+package com.mgd.painmapp.view.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.mgd.painmapp.R
+import com.mgd.painmapp.model.database.Symptom
 
 class SymptomsAdapter (var symptoms: List<Symptom>, private var context: Context):RecyclerView.Adapter<SymptomsViewHolder>(){
     fun updateList(list: List<Symptom>){

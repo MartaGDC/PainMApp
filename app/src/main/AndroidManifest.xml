@@ -13,19 +13,19 @@
         android:theme="@style/Theme.PainMApp"
         tools:targetApi="31">
         <activity
-            android:name=".SensorialSurveyActivity"
+            android:name=".controller.activities.SensorialSurveyActivity"
             android:exported="false" />
         <activity
-            android:name=".LocationActivity"
+            android:name=".controller.activities.LocationActivity"
             android:exported="false"/>
         <activity
-            android:name=".SensorialActivity"
+            android:name=".controller.activities.SensorialActivity"
             android:exported="false" />
         <activity
-            android:name=".ChooseActivity"
+            android:name=".controller.activities.ChooseActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".controller.activities.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.PainMApp">
             <intent-filter>
