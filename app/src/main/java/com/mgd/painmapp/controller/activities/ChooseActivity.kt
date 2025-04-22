@@ -29,8 +29,8 @@ class ChooseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityChooseBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        patientName = intent.getStringExtra("PATIENT_NAME").toString()
-        researcherName = intent.getStringExtra("RESEARCHER_NAME").toString()
+        patientName = intent.getStringExtra("patient_name").toString()
+        researcherName = intent.getStringExtra("researcher_name").toString()
         currentDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
 
         initComponents()
@@ -51,7 +51,8 @@ class ChooseActivity : AppCompatActivity() {
             this,
             patientName,
             researcherName,
-            currentDate
+            currentDate,
+            idGeneradoEvaluation = -1
         )
     }
 
@@ -61,7 +62,8 @@ class ChooseActivity : AppCompatActivity() {
                 this,
                 patientName,
                 researcherName,
-                currentDate
+                currentDate,
+                idGeneradoEvaluation = -1
             )
         }
         motor.setOnClickListener { NavigationHelper.navigateToMotor() }

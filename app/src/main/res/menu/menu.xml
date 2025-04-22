@@ -6,7 +6,7 @@
         android:title="@string/motorSymptoms" />
     <item android:id="@+id/item_psicosocial"
         android:title="@string/psychosocial"/>
-    <item android:id="@+id/item_esumen"
+    <item android:id="@+id/item_resumen"
         android:title="@string/summary"/>
     <item android:id="@+id/item_nuevo"
         android:title="@string/newPatient"/>

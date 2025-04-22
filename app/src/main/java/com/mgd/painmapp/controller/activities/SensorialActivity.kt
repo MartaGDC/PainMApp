@@ -2,6 +2,7 @@ package com.mgd.painmapp.controller.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.drawerlayout.widget.DrawerLayout
@@ -42,11 +43,11 @@ class SensorialActivity : AppCompatActivity() {
         binding = ActivitySensorialBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        patientName = intent.getStringExtra("PATIENT_NAME").toString()
-        researcherName = intent.getStringExtra("RESEARCHER_NAME").toString()
-        currentDate = intent.getStringExtra("DATE").toString()
-        type = intent.getStringExtra("TYPE").toString()
-        idGeneradoEvaluation = intent.getLongExtra("idGeneradoEvaluation", -1) //Intent desde Survey
+        patientName = intent.getStringExtra("patient_name").toString()
+        researcherName = intent.getStringExtra("researcher_name").toString()
+        currentDate = intent.getStringExtra("date").toString()
+        type = intent.getStringExtra("type").toString()
+        idGeneradoEvaluation = intent.getLongExtra("idGeneradoEvaluation", -1)
         /*database = Room.databaseBuilder(
             this, PatientDatabase::class.java,
             "patient_database"
@@ -97,7 +98,8 @@ class SensorialActivity : AppCompatActivity() {
             this,
             patientName,
             researcherName,
-            currentDate
+            currentDate,
+            idGeneradoEvaluation
         )
     }
 
@@ -134,6 +136,8 @@ class SensorialActivity : AppCompatActivity() {
 
     private suspend fun fillDatabase() { //Suspend para que el hilo principal espere
         if (idGeneradoEvaluation == (-1).toLong()) { //Si no hay registro de evaluación
+            Log.d("currentDate", currentDate)
+
             val evaluationEntity =
                 Evaluation(patientName, researcherName, currentDate, type).toDatabase()
                 idGeneradoEvaluation = database.getEvaluationDao().insertEvaluation(evaluationEntity) //Se elimina la coroutine, porque se lanza desde el listener

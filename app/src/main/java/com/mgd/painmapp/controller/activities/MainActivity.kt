@@ -27,8 +27,8 @@ class MainActivity : AppCompatActivity() {
         cvNext.setOnClickListener {
             if (patientName.text.isNotEmpty() && researcherName.text.isNotEmpty()) {
                 val intent = Intent(this, ChooseActivity::class.java).apply {
-                    putExtra("PATIENT_NAME", patientName.text.toString())
-                    putExtra("RESEARCHER_NAME", researcherName.text.toString())
+                    putExtra("patient_name", patientName.text.toString())
+                    putExtra("researcher_name", researcherName.text.toString())
                 }
                 startActivity(intent)
             }

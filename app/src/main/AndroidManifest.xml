@@ -13,11 +13,14 @@
         android:theme="@style/Theme.PainMApp"
         tools:targetApi="31">
         <activity
+            android:name=".controller.activities.SummaryActivity"
+            android:exported="false" />
+        <activity
             android:name=".controller.activities.SensorialSurveyActivity"
             android:exported="false" />
         <activity
             android:name=".controller.activities.LocationActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".controller.activities.SensorialActivity"
             android:exported="false" />
@@ -30,6 +33,7 @@
             android:theme="@style/Theme.PainMApp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

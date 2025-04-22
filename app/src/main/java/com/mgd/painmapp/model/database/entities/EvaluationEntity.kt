@@ -12,7 +12,7 @@ data class EvaluationEntity (
     @ColumnInfo(name="researcher") val researcherName : String,
     @ColumnInfo(name="date") val date : String,
     @ColumnInfo(name="test") val test : String
-    )
+)
 
-fun Evaluation.toDatabase() = EvaluationEntity(patientName = name, researcherName = researcher, date = "", test = "")
-//fun EvaluationEntity.toEvaluation() = Evaluation(name = patientName, researcher = researcherName, date = TODO(), test = TODO() )
+fun Evaluation.toDatabase() = EvaluationEntity(patientName = name, researcherName = researcher, date = date, test = test)
+//fun EvaluationEntity.toEvaluation() = Evaluation(name = patientName, researcher = researcherName, date = date, test = test )

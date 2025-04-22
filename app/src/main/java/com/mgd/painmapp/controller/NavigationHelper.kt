@@ -2,20 +2,23 @@ package com.mgd.painmapp.controller
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.MenuItem
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.mgd.painmapp.R
 import com.mgd.painmapp.controller.activities.SensorialActivity
+import com.mgd.painmapp.controller.activities.SummaryActivity
 
 object NavigationHelper {
-    fun navigateToSensorial(context: Context, patientName: String, researcherName: String, currentDate: String) {
+    fun navigateToSensorial(context: Context, patientName: String, researcherName: String, currentDate: String, idGeneradoEvaluation: Long) {
         val intent = Intent(context, SensorialActivity::class.java).apply {
-            putExtra("PATIENT_NAME", patientName)
-            putExtra("RESEARCHER_NAME", researcherName)
-            putExtra("DATE", currentDate)
-            putExtra("TYPE", "sensorial")
+            putExtra("patient_name", patientName)
+            putExtra("researcher_name", researcherName)
+            putExtra("date", currentDate)
+            putExtra("type", "sensorial")
+            putExtra("idGeneradoEvaluation", idGeneradoEvaluation)
         }
         context.startActivity(intent)
     }
@@ -25,22 +28,35 @@ object NavigationHelper {
     fun navigateToPsychosocial() {
         TODO()
     }
+    fun navigateToSummary(context: Context, idGeneradoEvaluation: Long) {
+        val intent = Intent(context, SummaryActivity::class.java).apply {
+            putExtra("idGeneradoEvaluation", idGeneradoEvaluation)
+        }
+        context.startActivity(intent)
+    }
+
 
     //Menu
-    fun setupMenu(navView: NavigationView, drawerLayout: DrawerLayout, context: Context, patientName: String, researcherName: String, currentDate: String) {
+    fun setupMenu(navView: NavigationView, drawerLayout: DrawerLayout, context: Context, patientName: String, researcherName: String, currentDate: String, idGeneradoEvaluation: Long) {
         navView.setNavigationItemSelectedListener { menuItem ->
-            handleMenuItemClick(menuItem, drawerLayout, context, patientName, researcherName, currentDate)
+            handleMenuItemClick(menuItem, drawerLayout, context, patientName, researcherName, currentDate, idGeneradoEvaluation)
             true
         }
     }
 
-    private fun handleMenuItemClick(item: MenuItem, drawerLayout: DrawerLayout, context: Context, patientName: String, researcherName: String, currentDate: String) {
+    private fun handleMenuItemClick(item: MenuItem, drawerLayout: DrawerLayout, context: Context, patientName: String, researcherName: String, currentDate: String, idGeneradoEvaluation: Long) {
         when (item.itemId) {
             R.id.item_sensorial -> {
-                navigateToSensorial(context, patientName, researcherName, currentDate)
+                navigateToSensorial(context, patientName, researcherName, currentDate, idGeneradoEvaluation)
             }
             R.id.item_motor -> {
                 navigateToMotor()
+            }
+            R.id.item_psicosocial -> {
+                navigateToPsychosocial()
+            }
+            R.id.item_resumen -> {
+                navigateToSummary(context, idGeneradoEvaluation)
             }
             else -> {
             }

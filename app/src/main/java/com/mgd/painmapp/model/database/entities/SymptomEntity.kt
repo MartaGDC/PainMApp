@@ -22,7 +22,7 @@ data class SymptomEntity (
     @ColumnInfo(name="charactOtherText") val charactOtherText : String,
     @ColumnInfo(name="timeContinuous") val time : String,
     @ColumnInfo(name="timeWhen") val timeWhen : String
-    )
+)
 
 fun Symptom.toDatabase() = SymptomEntity(
     idMap = idMap,

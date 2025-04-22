@@ -5,7 +5,7 @@
     <string name="sensorySymptoms">Síntomas sensitivos</string>
     <string name="psychosocial">Evaluación psicosocial</string>
     <string name="motorSymptoms">Síntomas motores</string>
-    <string name="summary">Resumen del paciente</string>
+    <string name="summary">Resumen</string>
     <string name="newPatient">Nuevo paciente</string>
     <string name="openDrawerContentDescRes">openDrawer</string>
     <string name="closeDrawerContentDescRes">closeDrawer</string>
@@ -50,4 +50,6 @@
     <string name="intermittent">Intermitente</string>
     <string name="momentary">Momentáneo</string>
     <string name="when">¿Cuándo?</string>
+    <string name="download">Descargar</string>
+    <string name="percentage">Porcentaje de afectación</string>
 </resources>
