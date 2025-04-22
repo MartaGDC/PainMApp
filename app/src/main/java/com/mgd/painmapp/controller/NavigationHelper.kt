@@ -2,7 +2,6 @@ package com.mgd.painmapp.controller
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.MenuItem
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -44,8 +43,8 @@ object NavigationHelper {
         }
     }
 
-    private fun handleMenuItemClick(item: MenuItem, drawerLayout: DrawerLayout, context: Context, patientName: String, researcherName: String, currentDate: String, idGeneradoEvaluation: Long) {
-        when (item.itemId) {
+    private fun handleMenuItemClick(menuItem: MenuItem, drawerLayout: DrawerLayout, context: Context, patientName: String, researcherName: String, currentDate: String, idGeneradoEvaluation: Long) {
+        when (menuItem.itemId) {
             R.id.item_sensorial -> {
                 navigateToSensorial(context, patientName, researcherName, currentDate, idGeneradoEvaluation)
             }

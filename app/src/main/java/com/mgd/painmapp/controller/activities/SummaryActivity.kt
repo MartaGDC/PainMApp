@@ -88,10 +88,8 @@ class SummaryActivity : AppCompatActivity() {
         val header = listOf(
             "idEvaluation", "patient", "researcher", "date", "test",
             "idMap", "pathsDrawnFront", "pathsDrawnBack", "totalPercentage", "rightPercentage", "leftPercentage",
-            "idSymptom", "intensity", "symptom", "symptomOtherText",
-            "charactAgitating", "charactMiserable", "charactAnnoying", "charactUnbearable",
-            "charactFatiguing", "charactPiercing", "charactOther", "charactOtherText",
-            "timeContinuous", "timeWhen"
+            "idSymptom", "intensity", "symptom", "symptomOtherText", "charactAgitating", "charactMiserable", "charactAnnoying", "charactUnbearable", "charactFatiguing",
+            "charactPiercing", "charactOther", "charactOtherText", "timeContinuous", "timeWhen"
         )
         val downloads = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
         val file = File(downloads, fileName)
@@ -107,8 +105,8 @@ class SummaryActivity : AppCompatActivity() {
                     row.date,
                     row.test,
                     row.idMap,
-                    row.pathsDrawnFront,
-                    row.pathsDrawnBack,
+                    row.pathsDrawnFront.replace(Regex("M[\\d.,\\s]+L[\\d.,\\s]+L[\\d.,\\s]+L[\\d.,\\s]+Z"), ""),
+                    row.pathsDrawnBack.replace(Regex("M[\\d.,\\s]+L[\\d.,\\s]+L[\\d.,\\s]+L[\\d.,\\s]+Z"), ""),
                     row.totalPercentage.toString().replace('.', ','),
                     row.rightPercentage.toString().replace('.', ','),
                     row.leftPercentage.toString().replace('.', ','),
