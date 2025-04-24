@@ -11,16 +11,31 @@ import android.graphics.Path
 import android.graphics.RectF
 import android.graphics.Region
 import android.util.Log
-import androidx.core.content.res.TypedArrayUtils.getResourceId
 import androidx.core.graphics.PathParser
-import androidx.core.graphics.toColor
-import androidx.core.graphics.toColorLong
 import com.mgd.painmapp.R
 import org.xmlpull.v1.XmlPullParser
 
 object InterpretationHelper {
     @SuppressLint("ResourceType")
-    fun obtenerNerviosPerifericosFrente(context: Context, escala: Matrix):List<Pair<String,Path>>{
+    fun obtenerNerviosPerifericosFrente(context:Context) : List<String> {
+        val nerveNames = mutableListOf<String>()
+        val imgFuente:Int = R.drawable.nerviosanterior
+        val resources = context.resources
+        val parser = resources.getXml(imgFuente)
+        var eventType = parser.eventType
+        while (eventType != XmlPullParser.END_DOCUMENT) {
+            if (eventType == XmlPullParser.START_TAG && parser.name == "path") {
+                val nerve = parser.getAttributeValue(
+                    "http://schemas.android.com/apk/res/android",
+                    "name"
+                )
+            }
+            eventType = parser.next()
+        }
+        return nerveNames
+    }
+    @SuppressLint("ResourceType")
+    fun obtenerNerviosyRegionsFrente(context: Context, escala: Matrix):List<Pair<String,Path>>{
         val nervios = mutableListOf<Pair<String, Path>>()
         val imgFuente:Int = R.drawable.nerviosanterior
         val resources = context.resources
@@ -68,7 +83,7 @@ object InterpretationHelper {
             })
         )
         //Nervios perifericos
-        for (nervio in obtenerNerviosPerifericosFrente(context, escala)){
+        for (nervio in obtenerNerviosyRegionsFrente(context, escala)){
             nervio.second.computeBounds(bounds, true)
             zonas.add(Pair(
                 nervio.first, Region().apply {
@@ -135,12 +150,8 @@ object InterpretationHelper {
                 for (zona in zonas) {
                     if (zona.second.contains(x, y)) {
                         pixelsZona[zona.first] = pixelsZona[zona.first]!! + 1
-                        if(zona.first=="Nervio cutáneo femoral anterior derecho") {
-                            Log.d("pixel", "${x}, ${y}, ${Color.red(pixel)}, ${Color.green(pixel)}, ${Color.blue(pixel)}")
-                        }
                         if (Color.alpha(pixel) != 0) {
                             pintadosZona[zona.first] = pintadosZona[zona.first]!! + 1
-
                         }
                     }
                 }
@@ -154,7 +165,6 @@ object InterpretationHelper {
             val pintado = pintadosZona[zona.first] ?: 0
             mapResults[zona.first] = pintado.toFloat() / total.toFloat() * 100f
         }
-        Log.d("mapResults", mapResults.toString())
         return mapResults
     }
 }

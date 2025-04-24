@@ -135,7 +135,7 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
             strokeWidth = 1f
         })
 
-        for (nervioPath in InterpretationHelper.obtenerNerviosPerifericosFrente(context, scaleMatrix)) {
+        for (nervioPath in InterpretationHelper.obtenerNerviosyRegionsFrente(context, scaleMatrix)) {
             canvas.drawPath(nervioPath.second, Paint().apply {
                 color = Color.RED
                 style = Paint.Style.STROKE

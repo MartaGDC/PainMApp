@@ -1,4 +1,35 @@
 package com.mgd.painmapp.model.database
 
-class NervesTable {
-}
+data class NervesTable (
+    val symptom: String, //para mostrar la afectación nerviosa por síntoma
+    val nervioMedianoDerecho : Float,
+    val nervioRadialSuperficialDerecho : Float,
+    val nervioMusculoCutaneoDerecho : Float,
+    val nerviosSupraclavicularesDerechos : Float,
+    val nervioFemoralDerecho : Float,
+    val nervioGenitalDerecho : Float,
+    val nervioIlioinguinoDerecho : Float,
+    val nervioObturadoDerecho : Float,
+    val nervioFemoralAnteriorDerecho: Float,
+    val nervioPeroneoDerecho: Float,
+    val nervioSuralDerecho : Float,
+    val nervioBraquialDerecho : Float,
+    val nervioAntebrazoDerecho : Float,
+    val nervioRadialDerecho : Float,
+    val nervioAxilarDerecho: Float,
+    val nervioMedianoIzquierdo : Float,
+    val nervioRadialSuperficialIzquierdo : Float,
+    val nervioMusculoCutaneoIzquierdo : Float,
+    val nerviosSupraclavicularesIzquierdos : Float,
+    val nervioFemoralIzquierdo : Float,
+    val nervioGenitalIzquierdo : Float,
+    val nervioIlioinguinoIzquierdo : Float,
+    val nervioObturadoIzquierdo : Float,
+    val nervioFemoralAnteriorIzquierdo : Float,
+    val nervioPeroneoIzquierdo : Float,
+    val nervioSuralIzquierdo : Float,
+    val nervioBraquialIzquierdo : Float,
+    val nervioAntebrazoIzquierdo: Float,
+    val nervioRadialIzquierdo : Float,
+    val nervioAxilarIzquierdo : Float
+)

@@ -4,6 +4,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.mgd.painmapp.model.database.NervesTable
+import com.mgd.painmapp.model.database.SymptomTable
 import com.mgd.painmapp.model.database.entities.MapEntity
 
 @Dao
@@ -22,4 +24,15 @@ interface MapDao {
 
     @Query("SELECT pathsDrawnBack FROM map_table INNER JOIN symptoms_table ON map_table.idMap = symptoms_table.idMap WHERE map_table.idEvaluation = :idEvaluation")
     fun getBackPathsDrawnById(idEvaluation: Long): List<String>
+
+    @Query("SELECT symptoms_table.symptom, nervioMedianoDerecho, nervioRadialSuperficialDerecho, nervioMusculoCutaneoDerecho, nerviosSupraclavicularesDerechos, " +
+            "nervioFemoralDerecho, nervioGenitalDerecho, nervioIlioinguinoDerecho, nervioObturadoDerecho, nervioFemoralAnteriorDerecho, nervioPeroneoDerecho, " +
+            "nervioSuralDerecho, nervioBraquialDerecho, nervioAntebrazoDerecho, nervioRadialDerecho, nervioAxilarDerecho, nervioMedianoIzquierdo, " +
+            "nervioRadialSuperficialIzquierdo, nervioMusculoCutaneoIzquierdo,nerviosSupraclavicularesIzquierdos, nervioFemoralIzquierdo, nervioGenitalIzquierdo, " +
+            "nervioIlioinguinoIzquierdo, nervioObturadoIzquierdo, nervioFemoralAnteriorIzquierdo, nervioPeroneoIzquierdo, nervioSuralIzquierdo, nervioBraquialIzquierdo, " +
+            "nervioAntebrazoIzquierdo, nervioRadialIzquierdo, nervioAxilarIzquierdo FROM map_table " +
+            "INNER JOIN symptoms_table ON map_table.idMap = symptoms_table.idMap " +
+            "WHERE map_table.idEvaluation = :idEvaluation")
+    fun getNervesTableByEvaluation(idEvaluation: Long): List<NervesTable>
+
 }

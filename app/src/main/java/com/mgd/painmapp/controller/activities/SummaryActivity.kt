@@ -11,11 +11,14 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.room.Room
 import com.google.android.material.navigation.NavigationView
 import com.mgd.painmapp.R
+import com.mgd.painmapp.controller.InterpretationHelper
 import com.mgd.painmapp.controller.NavigationHelper
 import com.mgd.painmapp.databinding.ActivitySummaryBinding
 import com.mgd.painmapp.model.database.CSVTable
+import com.mgd.painmapp.model.database.NervesTable
 import com.mgd.painmapp.model.database.PatientDatabase
 import com.mgd.painmapp.model.database.SymptomTable
+import com.mgd.painmapp.view.MapResponsiveViews
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,6 +36,7 @@ class SummaryActivity : AppCompatActivity() {
     private var idGeneradoEvaluation: Long = -1
     private lateinit var database: PatientDatabase
     private lateinit var symptomsTable: List<SymptomTable>
+    private lateinit var nervesTable: List<NervesTable>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +52,7 @@ class SummaryActivity : AppCompatActivity() {
         ).build()
         CoroutineScope(Dispatchers.IO).launch {
             symptomsTable = database.getSymptomDao().getSymptomsTableByEvaluation(idGeneradoEvaluation)
+            nervesTable = database.getMapDao().getNervesTableByEvaluation(idGeneradoEvaluation)
             val list = database.getEvaluationDao().getEvaluationById(idGeneradoEvaluation)
             runOnUiThread{
                 NavigationHelper.setupMenu(
@@ -60,6 +65,7 @@ class SummaryActivity : AppCompatActivity() {
                     idGeneradoEvaluation
                 )
                 tableSymptoms(symptomsTable)
+                tableNerves(nervesTable)
             }
         }
     }
@@ -110,6 +116,36 @@ class SummaryActivity : AppCompatActivity() {
                     row.totalPercentage.toString().replace('.', ','),
                     row.rightPercentage.toString().replace('.', ','),
                     row.leftPercentage.toString().replace('.', ','),
+                    row.nervioMedianoDerecho.toString().replace('.', ','),
+                    row.nervioRadialSuperficialDerecho.toString().replace('.', ','),
+                    row.nervioMusculoCutaneoDerecho.toString().replace('.', ','),
+                    row.nerviosSupraclavicularesDerechos.toString().replace('.', ','),
+                    row.nervioFemoralDerecho.toString().replace('.', ','),
+                    row.nervioGenitalDerecho.toString().replace('.', ','),
+                    row.nervioIlioinguinoDerecho.toString().replace('.', ','),
+                    row.nervioObturadoDerecho.toString().replace('.', ','),
+                    row.nervioFemoralAnteriorDerecho.toString().replace('.', ','),
+                    row.nervioPeroneoDerecho.toString().replace('.', ','),
+                    row.nervioSuralDerecho.toString().replace('.', ','),
+                    row.nervioBraquialDerecho.toString().replace('.', ','),
+                    row.nervioAntebrazoDerecho.toString().replace('.', ','),
+                    row.nervioRadialDerecho.toString().replace('.', ','),
+                    row.nervioAxilarDerecho.toString().replace('.', ','),
+                    row.nervioMedianoIzquierdo.toString().replace('.', ','),
+                    row.nervioRadialSuperficialIzquierdo.toString().replace('.', ','),
+                    row.nervioMusculoCutaneoIzquierdo.toString().replace('.', ','),
+                    row.nerviosSupraclavicularesIzquierdos.toString().replace('.', ','),
+                    row.nervioFemoralIzquierdo.toString().replace('.', ','),
+                    row.nervioGenitalIzquierdo.toString().replace('.', ','),
+                    row.nervioIlioinguinoIzquierdo.toString().replace('.', ','),
+                    row.nervioObturadoIzquierdo.toString().replace('.', ','),
+                    row.nervioFemoralAnteriorIzquierdo.toString().replace('.', ','),
+                    row.nervioPeroneoIzquierdo.toString().replace('.', ','),
+                    row.nervioSuralIzquierdo.toString().replace('.', ','),
+                    row.nervioBraquialIzquierdo.toString().replace('.', ','),
+                    row.nervioAntebrazoIzquierdo.toString().replace('.', ','),
+                    row.nervioRadialIzquierdo.toString().replace('.', ','),
+                    row.nervioAxilarIzquierdo.toString().replace('.', ','),
                     row.idSymptom,
                     row.intensity.toString().replace('.', ','),
                     row.symptom,
@@ -179,6 +215,22 @@ class SummaryActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun tableNerves(nervesTable: List<NervesTable>) {
+        val nervios = InterpretationHelper.obtenerNerviosPerifericosFrente(this)
+        val table = binding.tlPercentages
+        table.removeAllViews()
+        var count = 0
+        for (nerve in nervesTable){
+            val row = TableRow(this).apply {
+                insertCell(nervios[count], true, 0)
+                insertCell(String.format("%.2f%%", nerve), false, 1)
+            }
+            table.addView(row)
+            count++
+        }
+    }
+
 
     private fun TableRow.insertCell(text: String, caps: Boolean, gravity: Int){
         val cell = TextView(context).apply{
