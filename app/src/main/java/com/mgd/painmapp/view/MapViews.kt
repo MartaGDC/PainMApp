@@ -18,6 +18,9 @@ import com.mgd.painmapp.model.storage.saveColorIndex
 
 class MapViews(context: Context, attrs: AttributeSet) : MapResponsiveViews(context, attrs) {
     lateinit var paths: List<String>
+    private fun crearDibujos(){
+
+    }
     override fun onDraw(canvas: Canvas) {
         val bounds = RectF()
         val cDrawable = getDrawable(context, imgFuente)

@@ -89,8 +89,8 @@ class LocationActivity : AppCompatActivity() {
 
     private fun mapCalculate() {
         //Lo haria con map y zip. Pero estoy usando derechaFrente para calcular la derecha de frente y la izquierda de espaldas. Por lo que los indices y valores no coinciden
-        var resultFront = mrvFront.calcularPorcentaje()
-        var resultBack = mrvBack.calcularPorcentaje()
+        var resultFront = mrvFront.calcularPorcentaje("frente")
+        var resultBack = mrvBack.calcularPorcentaje("")
         porcentajeFrente = resultFront["total"] ?: 0.0f
         porcentajeEspalda = resultBack["total"] ?: 0.0f
         porcentajeTotal = (porcentajeFrente + porcentajeEspalda) / 2

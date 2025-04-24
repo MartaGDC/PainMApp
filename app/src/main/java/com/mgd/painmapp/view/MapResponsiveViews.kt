@@ -3,6 +3,7 @@ package com.mgd.painmapp.view
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.Path
@@ -14,9 +15,8 @@ import androidx.core.content.ContextCompat.*
 import androidx.core.graphics.PathParser
 import org.xmlpull.v1.XmlPullParser
 import android.graphics.PathMeasure
-import android.graphics.Region
 import com.mgd.painmapp.R
-import com.mgd.painmapp.controller.activities.InterpretationHelper
+import com.mgd.painmapp.controller.InterpretationHelper
 import com.mgd.painmapp.model.storage.getColorIndex
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -55,6 +55,8 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
         color = getColor(context, R.color.black)
         strokeWidth = 1f
     }
+    val scaleMatrix = Matrix()
+
     //Variables para respuesta tactil
     private var bX = 0f
     private var bY = 0f
@@ -80,16 +82,14 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
     private fun scaleAndCenterHumanCanvas() {
         cPath.computeBounds(bounds, true) // Dimensiones del path actual
         // Calcula la escala
-        val scaleX = width / bounds.width() *0.75f
-        val scaleY = height / bounds.height()*0.75f
+        val scaleX = width / bounds.width()
+        val scaleY = height / bounds.height()
         var scaleFactor = scaleY
         if(scaleFactor*bounds.width() > width){
             scaleFactor = scaleX
         }
-        val scaleMatrix = Matrix()
         scaleMatrix.reset()
         scaleMatrix.setScale(scaleFactor, scaleFactor, bounds.centerX(), bounds.centerY())
-        cPath.transform(scaleMatrix)
         cPath.computeBounds(bounds, true)
         // Desplazamiento necesario para centrar el path
         val dx = (width - bounds.width()) / 2 - bounds.left
@@ -107,21 +107,16 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
     private fun getHumanCanvas(context: Context, imgFuente: Int): String? {
         val resources = context.resources
         val parser = resources.getXml(imgFuente)
-        try {
-            var eventType = parser.eventType
-            var pathData : String? = null
-            while (eventType != XmlPullParser.END_DOCUMENT) {
-                if (eventType == XmlPullParser.START_TAG && parser.name == "path") {
-                    pathData = parser.getAttributeValue("http://schemas.android.com/apk/res/android", "pathData")
-                    break
-                }
-                eventType = parser.next()
+        var eventType = parser.eventType
+        var pathData : String? = null
+        while (eventType != XmlPullParser.END_DOCUMENT) {
+            if (eventType == XmlPullParser.START_TAG && parser.name == "path") {
+                pathData = parser.getAttributeValue("http://schemas.android.com/apk/res/android", "pathData")
+                break
             }
-            return pathData
-        } catch (e: Exception) {
-            e.printStackTrace()
+            eventType = parser.next()
         }
-        return null
+        return pathData
     }
 
     //RESPUESTA TACTIL
@@ -132,11 +127,24 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
         cPath.computeBounds(bounds, true)
         cDrawable?.setBounds(bounds.left.toInt(), bounds.top.toInt(), bounds.right.toInt(), bounds.bottom.toInt())
         cDrawable?.draw(canvas)
-
         drawPathsOnCanvas(canvas)
         canvas.restore()
+        canvas.drawPath(cPath, Paint().apply {
+            color = Color.GREEN
+            style = Paint.Style.STROKE
+            strokeWidth = 1f
+        })
+
+        for (nervioPath in InterpretationHelper.obtenerNerviosPerifericosFrente(context, scaleMatrix)) {
+            canvas.drawPath(nervioPath.second, Paint().apply {
+                color = Color.RED
+                style = Paint.Style.STROKE
+                strokeWidth = 1f
+            })
+        }
         canvas.drawPath(cPath, cPaint)
     }
+
 
     private fun drawPathsOnCanvas(canvas: Canvas) {
         for(path in bPaths) {
@@ -186,9 +194,10 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
         invalidate()
     }
     //Interpretación al guardar.
-    fun calcularPorcentaje(optimization: Int = 10): Map<String, Float> {
-        return InterpretationHelper.calcularPorcentaje(width, height, bPaths, bPaint, cPath, optimization)
+    fun calcularPorcentaje(tipoMapa:String): Map<String, Float> {
+        return InterpretationHelper.calcularPorcentaje(context, width, height, bPaths, bPaint, cPath, tipoMapa=tipoMapa, escala=scaleMatrix)
     }
+
 
     //SVG del dibujo
     fun pathToSVGString(): String {
@@ -208,10 +217,10 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
         }
         //Añado el recuadro del canvas para que al reescarlarlo en SensorialActivity tenga en cuenta el recuadro en el que el dibujo del usuario se encuentra:
         cPath.computeBounds(bounds, true)
-        val xMin = bounds.left
-        val yMin = bounds.top
-        val xMax = bounds.right
-        val yMax = bounds.bottom
+        val xMin = bounds.left+1
+        val yMin = bounds.top+1
+        val xMax = bounds.right+1
+        val yMax = bounds.bottom+1
         val boundsPath = "M${xMin},${yMin} L${xMax},${yMin} L${xMax},${yMax} L${xMin},${yMax} Z"
         sb.append(boundsPath)
         return sb.toString().trim()
