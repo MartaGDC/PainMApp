@@ -185,7 +185,7 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
 
     private fun touchUp(x: Float, y: Float) {
         bPath?.quadTo(bX, bY, (x + bX) / 2, (y + bY) / 2) //Finaliza de forma suave el trazo
-        bPath = null
+        //bPath = null
     }
 
     //Boton de borrar. Llamado en LocationActivity

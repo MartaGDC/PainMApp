@@ -4,6 +4,7 @@ data class NervesTable (
     val symptom: String, //para mostrar la afectación nerviosa por síntoma
     val nervioMedianoDerecho : Float,
     val nervioRadialSuperficialDerecho : Float,
+    val nervioCubitalDerecho : Float,
     val nervioMusculoCutaneoDerecho : Float,
     val nerviosSupraclavicularesDerechos : Float,
     val nervioFemoralDerecho : Float,
@@ -19,6 +20,7 @@ data class NervesTable (
     val nervioAxilarDerecho: Float,
     val nervioMedianoIzquierdo : Float,
     val nervioRadialSuperficialIzquierdo : Float,
+    val nervioCubitalIzquierdo : Float,
     val nervioMusculoCutaneoIzquierdo : Float,
     val nerviosSupraclavicularesIzquierdos : Float,
     val nervioFemoralIzquierdo : Float,

@@ -29,6 +29,9 @@ object InterpretationHelper {
                     "http://schemas.android.com/apk/res/android",
                     "name"
                 )
+                if (!nerve.isNullOrEmpty()){
+                    nerveNames.add(nerve)
+                }
             }
             eventType = parser.next()
         }
@@ -160,7 +163,6 @@ object InterpretationHelper {
 
         val mapResults = mutableMapOf<String, Float>()
         for (zona in zonas) {
-            Log.d("zona", "${zona.first} ${pixelsZona[zona.first].toString()} ${pintadosZona[zona.first].toString()}")
             val total = pixelsZona[zona.first] ?: 1
             val pintado = pintadosZona[zona.first] ?: 0
             mapResults[zona.first] = pintado.toFloat() / total.toFloat() * 100f

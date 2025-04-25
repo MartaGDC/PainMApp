@@ -35,6 +35,7 @@ class SensorialActivity : AppCompatActivity() {
     private var idGeneradoEvaluation: Long = -1
     private lateinit var database: PatientDatabase
     //Menu
+    private lateinit var cvMenu: CardView
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navView: NavigationView
 
@@ -90,6 +91,7 @@ class SensorialActivity : AppCompatActivity() {
         }
 
         //Menu:
+        cvMenu = binding.cvMenu
         drawerLayout = binding.main
         navView = binding.navView
         NavigationHelper.setupMenu(
@@ -104,6 +106,9 @@ class SensorialActivity : AppCompatActivity() {
     }
 
     private fun initListeners(){
+        cvMenu.setOnClickListener {
+            drawerLayout.open()
+        }
         cvAdd.setOnClickListener { //Se guarda la información de la evaluation (sin contenido en la evaluacion, en este caso sintomas, no se guarda nada en la tabla de evaluaciones)
             CoroutineScope(Dispatchers.IO).launch { //Creamos aqui la coroutine, llamando a una funcion suspend
                 fillDatabase()
@@ -136,8 +141,6 @@ class SensorialActivity : AppCompatActivity() {
 
     private suspend fun fillDatabase() { //Suspend para que el hilo principal espere
         if (idGeneradoEvaluation == (-1).toLong()) { //Si no hay registro de evaluación
-            Log.d("currentDate", currentDate)
-
             val evaluationEntity =
                 Evaluation(patientName, researcherName, currentDate, type).toDatabase()
                 idGeneradoEvaluation = database.getEvaluationDao().insertEvaluation(evaluationEntity) //Se elimina la coroutine, porque se lanza desde el listener

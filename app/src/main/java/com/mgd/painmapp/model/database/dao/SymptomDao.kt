@@ -12,7 +12,10 @@ interface SymptomDao {
     @Query("SELECT * FROM symptoms_table")
     fun getSymptoms(): List<SymptomEntity>
 
-    @Query("SELECT * FROM symptoms_table " +
+    @Query("SELECT idSymptom, symptoms_table.idMap, intensity, symptom, symptomOtherText, charactAgitating, " +
+            "charactMiserable, charactAnnoying, charactUnbearable, charactFatiguing, " +
+            "charactPiercing, charactOther, charactOtherText, timeContinuous, timeWhen " +
+            "FROM symptoms_table " +
             "INNER JOIN map_table ON symptoms_table.idMap = map_table.idMap " +
             "WHERE map_table.idEvaluation = :idEvaluation")
     fun getSymptomsByEvaluation(idEvaluation: Long): List<SymptomEntity>

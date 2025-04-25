@@ -18,13 +18,13 @@ interface EvaluationDao {
 
     @Query("SELECT evaluations_table.idEvaluation, patient, researcher, date, test, " +
             "map_table.idMap, pathsDrawnFront, pathsDrawnBack, totalPercentage, rightPercentage, leftPercentage, nervioMedianoDerecho, " +
-            "nervioRadialSuperficialDerecho, nervioMusculoCutaneoDerecho, nerviosSupraclavicularesDerechos, nervioFemoralDerecho, " +
-            "nervioGenitalDerecho, nervioIlioinguinoDerecho, nervioObturadoDerecho, nervioFemoralAnteriorDerecho, nervioPeroneoDerecho, " +
-            "nervioSuralDerecho, nervioBraquialDerecho, nervioAntebrazoDerecho, nervioRadialDerecho, nervioAxilarDerecho, " +
-            "nervioMedianoIzquierdo, nervioRadialSuperficialIzquierdo, nervioMusculoCutaneoIzquierdo, nerviosSupraclavicularesIzquierdos, " +
-            "nervioFemoralIzquierdo, nervioGenitalIzquierdo, nervioIlioinguinoIzquierdo, nervioObturadoIzquierdo," +
-            "nervioFemoralAnteriorIzquierdo, nervioPeroneoIzquierdo, nervioSuralIzquierdo, nervioBraquialIzquierdo, nervioAntebrazoIzquierdo, " +
-            "nervioRadialIzquierdo, nervioAxilarIzquierdo, " +
+            "nervioRadialSuperficialDerecho, nervioCubitalDerecho, nervioMusculoCutaneoDerecho, nerviosSupraclavicularesDerechos, " +
+            "nervioFemoralDerecho, nervioGenitalDerecho, nervioIlioinguinoDerecho, nervioObturadoDerecho, nervioFemoralAnteriorDerecho, " +
+            "nervioPeroneoDerecho, nervioSuralDerecho, nervioBraquialDerecho, nervioAntebrazoDerecho, nervioRadialDerecho, nervioAxilarDerecho, " +
+            "nervioMedianoIzquierdo, nervioRadialSuperficialIzquierdo, nervioCubitalIzquierdo, nervioMusculoCutaneoIzquierdo, " +
+            "nerviosSupraclavicularesIzquierdos, nervioFemoralIzquierdo, nervioGenitalIzquierdo, nervioIlioinguinoIzquierdo, " +
+            "nervioObturadoIzquierdo, nervioFemoralAnteriorIzquierdo, nervioPeroneoIzquierdo, nervioSuralIzquierdo, nervioBraquialIzquierdo, " +
+            "nervioAntebrazoIzquierdo, nervioRadialIzquierdo, nervioAxilarIzquierdo, " +
             "idSymptom, intensity, symptom, symptomOtherText, charactAgitating, charactMiserable, charactAnnoying, charactUnbearable, charactFatiguing, " +
             "charactPiercing, charactOther, charactOtherText, timeContinuous, timeWhen " +
             "FROM evaluations_table " +

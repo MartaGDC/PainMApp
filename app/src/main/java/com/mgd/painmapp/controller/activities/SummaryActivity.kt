@@ -218,16 +218,246 @@ class SummaryActivity : AppCompatActivity() {
 
     private fun tableNerves(nervesTable: List<NervesTable>) {
         val nervios = InterpretationHelper.obtenerNerviosPerifericosFrente(this)
-        val table = binding.tlPercentages
+        val table = binding.tlNerves
         table.removeAllViews()
-        var count = 0
-        for (nerve in nervesTable){
-            val row = TableRow(this).apply {
-                insertCell(nervios[count], true, 0)
-                insertCell(String.format("%.2f%%", nerve), false, 1)
+        for (sintoma in nervesTable){
+            var row = TableRow(this).apply {
+                insertCell(sintoma.symptom, true, 1)
+                insertCell("", false, 0)
             }
+            var count = 0
             table.addView(row)
-            count++
+            row = TableRow(this).apply {
+                insertCell(nervios[count++], false, 0)
+                insertCell(String.format("%.2f%%", sintoma.nervioMedianoDerecho), false, 1)
+            }
+            if(sintoma.nervioMedianoDerecho!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nervios[count++], false, 0)
+                insertCell(String.format("%.2f%%", sintoma.nervioRadialSuperficialDerecho), false, 1)
+            }
+            if(sintoma.nervioRadialSuperficialDerecho!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nervios[count++], false, 0)
+                insertCell(String.format("%.2f%%", sintoma.nervioCubitalDerecho), false, 1)
+            }
+            if(sintoma.nervioCubitalDerecho!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nervios[count++], false, 0)
+                insertCell(String.format("%.2f%%", sintoma.nervioMusculoCutaneoDerecho), false, 1)
+            }
+            if(sintoma.nervioMusculoCutaneoDerecho!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nervios[count++], false, 0)
+                insertCell(String.format("%.2f%%", sintoma.nerviosSupraclavicularesDerechos), false, 1)
+            }
+            if(sintoma.nerviosSupraclavicularesDerechos!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nervios[count++], false, 0)
+                insertCell(String.format("%.2f%%", sintoma.nervioFemoralDerecho), false, 1)
+            }
+            if(sintoma.nervioFemoralDerecho!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nervios[count++], false, 0)
+                insertCell(String.format("%.2f%%", sintoma.nervioGenitalDerecho), false, 1)
+            }
+            if(sintoma.nervioGenitalDerecho!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nervios[count++], false, 0)
+                insertCell(String.format("%.2f%%", sintoma.nervioIlioinguinoDerecho), false, 1)
+            }
+            if(sintoma.nervioIlioinguinoDerecho!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nervios[count++], false, 0)
+                insertCell(String.format("%.2f%%", sintoma.nervioObturadoDerecho), false, 1)
+            }
+            if(sintoma.nervioObturadoDerecho!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nervios[count++], false, 0)
+                insertCell(String.format("%.2f%%", sintoma.nervioFemoralAnteriorDerecho), false, 1)
+            }
+            if(sintoma.nervioFemoralAnteriorDerecho!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nervios[count++], false, 0)
+                insertCell(String.format("%.2f%%", sintoma.nervioPeroneoDerecho), false, 1)
+            }
+            if(sintoma.nervioPeroneoDerecho!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nervios[count++], false, 0)
+                insertCell(String.format("%.2f%%", sintoma.nervioSuralDerecho), false, 1)
+            }
+            if(sintoma.nervioSuralDerecho!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nervios[count++], false, 0)
+                insertCell(String.format("%.2f%%", sintoma.nervioBraquialDerecho), false, 1)
+            }
+            if(sintoma.nervioBraquialDerecho!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nervios[count++], false, 0)
+                insertCell(String.format("%.2f%%", sintoma.nervioAntebrazoDerecho), false, 1)
+            }
+            if(sintoma.nervioAntebrazoDerecho!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nervios[count++], false, 0)
+                insertCell(String.format("%.2f%%", sintoma.nervioRadialDerecho), false, 1)
+            }
+            if(sintoma.nervioRadialDerecho!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nervios[count++], false, 0)
+                insertCell(String.format("%.2f%%", sintoma.nervioAxilarDerecho), false, 1)
+            }
+            if(sintoma.nervioAxilarDerecho!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nervios[count++], false, 0)
+                insertCell(String.format("%.2f%%", sintoma.nervioMedianoIzquierdo), false, 1)
+            }
+            if(sintoma.nervioMedianoIzquierdo!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nervios[count++], false, 0)
+                insertCell(String.format("%.2f%%", sintoma.nervioRadialSuperficialIzquierdo), false, 1)
+            }
+            if(sintoma.nervioRadialSuperficialIzquierdo!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nervios[count++], false, 0)
+                insertCell(String.format("%.2f%%", sintoma.nervioCubitalIzquierdo), false, 1)
+            }
+            if(sintoma.nervioCubitalIzquierdo!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nervios[count++], false, 0)
+                insertCell(String.format("%.2f%%", sintoma.nervioMusculoCutaneoIzquierdo), false, 1)
+            }
+            if(sintoma.nervioMusculoCutaneoIzquierdo!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nervios[count++], false, 0)
+                insertCell(String.format("%.2f%%", sintoma.nerviosSupraclavicularesIzquierdos), false, 1)
+            }
+            if(sintoma.nerviosSupraclavicularesIzquierdos!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nervios[count++], false, 0)
+                insertCell(String.format("%.2f%%", sintoma.nervioFemoralIzquierdo), false, 1)
+            }
+            if(sintoma.nervioFemoralIzquierdo!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nervios[count++], false, 0)
+                insertCell(String.format("%.2f%%", sintoma.nervioGenitalIzquierdo), false, 1)
+            }
+            if(sintoma.nervioGenitalIzquierdo!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nervios[count++], false, 0)
+                insertCell(String.format("%.2f%%", sintoma.nervioIlioinguinoIzquierdo), false, 1)
+            }
+            if(sintoma.nervioIlioinguinoIzquierdo!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nervios[count++], false, 0)
+                insertCell(String.format("%.2f%%", sintoma.nervioObturadoIzquierdo), false, 1)
+            }
+            if(sintoma.nervioObturadoIzquierdo!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nervios[count++], false, 0)
+                insertCell(String.format("%.2f%%", sintoma.nervioFemoralAnteriorIzquierdo), false, 1)
+            }
+            if(sintoma.nervioFemoralAnteriorIzquierdo!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nervios[count++], false, 0)
+                insertCell(String.format("%.2f%%", sintoma.nervioFemoralAnteriorIzquierdo), false, 1)
+            }
+            if(sintoma.nervioFemoralAnteriorIzquierdo!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nervios[count++], false, 0)
+                insertCell(String.format("%.2f%%", sintoma.nervioPeroneoIzquierdo), false, 1)
+            }
+            if(sintoma.nervioPeroneoIzquierdo!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nervios[count++], false, 0)
+                insertCell(String.format("%.2f%%", sintoma.nervioSuralIzquierdo), false, 1)
+            }
+            if(sintoma.nervioSuralIzquierdo!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nervios[count++], false, 0)
+                insertCell(String.format("%.2f%%", sintoma.nervioBraquialIzquierdo), false, 1)
+            }
+            if(sintoma.nervioBraquialIzquierdo!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nervios[count++], false, 0)
+                insertCell(String.format("%.2f%%", sintoma.nervioAntebrazoIzquierdo), false, 1)
+            }
+            if(sintoma.nervioAntebrazoIzquierdo!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nervios[count++], false, 0)
+                insertCell(String.format("%.2f%%", sintoma.nervioRadialIzquierdo), false, 1)
+            }
+            if(sintoma.nervioRadialIzquierdo!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nervios[count], false, 0)
+                insertCell(String.format("%.2f%%", sintoma.nervioAxilarIzquierdo), false, 1)
+            }
+            if(sintoma.nervioAxilarIzquierdo!=0f){
+                table.addView(row)
+            }
         }
     }
 
@@ -235,7 +465,7 @@ class SummaryActivity : AppCompatActivity() {
     private fun TableRow.insertCell(text: String, caps: Boolean, gravity: Int){
         val cell = TextView(context).apply{
             this.text = text
-            layoutParams = TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f)
+            layoutParams = TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1f)
             setTextAppearance(R.style.Small)
             isAllCaps = caps
             setGravity(gravity)

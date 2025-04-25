@@ -18,17 +18,19 @@ import com.mgd.painmapp.model.storage.saveColorIndex
 
 class MapViews(context: Context, attrs: AttributeSet) : MapResponsiveViews(context, attrs) {
     lateinit var paths: List<String>
-    private fun crearDibujos(){
 
-    }
     override fun onDraw(canvas: Canvas) {
+        if (isInEditMode) return //Añadido porque onDraw no sabía gestionar que los paths no estuvieran inicializados,
+                                 // antes de la ejecución de la app, dado que se inician desde SensorialActivity.
+                                 // Esto es porque las views realizan un renderizado-simulación antes de la ejecución, y
+                                 // y no puede dibujar (onDraw) trazos nulos o inexistentes.
         val bounds = RectF()
         val cDrawable = getDrawable(context, imgFuente)
         canvas.clipPath(cPath)
         cPath.computeBounds(bounds, true)
         cDrawable?.setBounds(bounds.left.toInt(), bounds.top.toInt(), bounds.right.toInt(), bounds.bottom.toInt())
         cDrawable?.draw(canvas)
-        var count : Int = 0
+        var count = 0
         for (path in paths){
             var dibujos: Path
             var dibujoLimpio: Path
