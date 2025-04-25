@@ -94,6 +94,14 @@ class SummaryActivity : AppCompatActivity() {
         val header = listOf(
             "idEvaluation", "patient", "researcher", "date", "test",
             "idMap", "pathsDrawnFront", "pathsDrawnBack", "totalPercentage", "rightPercentage", "leftPercentage",
+            "nervioMedianoDerecho", "nervioRadialSuperficialDerecho", "nervioCubitalDerecho", "nervioMusculoCutaneoDerecho",
+            "nerviosSupraclavicularesDerechos", "nervioFemoralDerecho", "nervioGenitalDerecho", "nervioIlioinguinoDerecho",
+            "nervioObturadoDerecho", "nervioFemoralAnteriorDerecho", "nervioPeroneoDerecho", "nervioSuralDerecho",
+            "nervioBraquialDerecho", "nervioAntebrazoDerecho", "nervioRadialDerecho", "nervioAxilarDerecho",
+            "nervioMedianoIzquierdo", "nervioRadialSuperficialIzquierdo", "nervioCubitalIzquierdo", "nervioMusculoCutaneoIzquierdo",
+            "nerviosSupraclavicularesIzquierdos", "nervioFemoralIzquierdo", "nervioGenitalIzquierdo", "nervioIlioinguinoIzquierdo",
+            "nervioObturadoIzquierdo", "nervioFemoralAnteriorIzquierdo", "nervioPeroneoIzquierdo", "nervioSuralIzquierdo",
+            "nervioBraquialIzquierdo", "nervioAntebrazoIzquierdo", "nervioRadialIzquierdo", "nervioAxilarIzquierdo",
             "idSymptom", "intensity", "symptom", "symptomOtherText", "charactAgitating", "charactMiserable", "charactAnnoying", "charactUnbearable", "charactFatiguing",
             "charactPiercing", "charactOther", "charactOtherText", "timeContinuous", "timeWhen"
         )
@@ -118,6 +126,7 @@ class SummaryActivity : AppCompatActivity() {
                     row.leftPercentage.toString().replace('.', ','),
                     row.nervioMedianoDerecho.toString().replace('.', ','),
                     row.nervioRadialSuperficialDerecho.toString().replace('.', ','),
+                    row.nervioCubitalDerecho.toString().replace('.', ','),
                     row.nervioMusculoCutaneoDerecho.toString().replace('.', ','),
                     row.nerviosSupraclavicularesDerechos.toString().replace('.', ','),
                     row.nervioFemoralDerecho.toString().replace('.', ','),
@@ -133,6 +142,7 @@ class SummaryActivity : AppCompatActivity() {
                     row.nervioAxilarDerecho.toString().replace('.', ','),
                     row.nervioMedianoIzquierdo.toString().replace('.', ','),
                     row.nervioRadialSuperficialIzquierdo.toString().replace('.', ','),
+                    row.nervioCubitalIzquierdo.toString().replace('.', ','),
                     row.nervioMusculoCutaneoIzquierdo.toString().replace('.', ','),
                     row.nerviosSupraclavicularesIzquierdos.toString().replace('.', ','),
                     row.nervioFemoralIzquierdo.toString().replace('.', ','),
