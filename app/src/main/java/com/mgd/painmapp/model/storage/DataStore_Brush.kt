@@ -1,11 +1,12 @@
 package com.mgd.painmapp.model.storage
 
 import android.content.Context
+import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.first
 
-val Context.dataStore by preferencesDataStore(name = "brush_prefs")
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "brush_prefs")
 
 object ColorPrefsKeys {
     val COLOR_INDEX = intPreferencesKey("color_index")

@@ -26,10 +26,10 @@ interface MapDao {
     fun getBackPathsDrawnById(idEvaluation: Long): List<String>
 
     @Query("SELECT symptoms_table.symptom, nervioMedianoDerecho, nervioRadialSuperficialDerecho, nervioCubitalDerecho, nervioMusculoCutaneoDerecho, nerviosSupraclavicularesDerechos, " +
-            "nervioFemoralDerecho, nervioGenitalDerecho, nervioIlioinguinoDerecho, nervioObturadoDerecho, nervioFemoralAnteriorDerecho, nervioPeroneoDerecho, " +
+            "nervioFemoralDerecho, nervioGenitalDerecho, nervioIlioinguinoDerecho, nervioObturadoDerecho, nervioFemoralAnteriorDerecho, nervioSafenoDerecho, nervioPeroneoDerecho, " +
             "nervioSuralDerecho, nervioBraquialDerecho, nervioAntebrazoDerecho, nervioRadialDerecho, nervioAxilarDerecho, nervioMedianoIzquierdo, " +
             "nervioRadialSuperficialIzquierdo, nervioCubitalIzquierdo, nervioMusculoCutaneoIzquierdo,nerviosSupraclavicularesIzquierdos, nervioFemoralIzquierdo, nervioGenitalIzquierdo, " +
-            "nervioIlioinguinoIzquierdo, nervioObturadoIzquierdo, nervioFemoralAnteriorIzquierdo, nervioPeroneoIzquierdo, nervioSuralIzquierdo, nervioBraquialIzquierdo, " +
+            "nervioIlioinguinoIzquierdo, nervioObturadoIzquierdo, nervioFemoralAnteriorIzquierdo, nervioSafenoIzquierdo, nervioPeroneoIzquierdo, nervioSuralIzquierdo, nervioBraquialIzquierdo, " +
             "nervioAntebrazoIzquierdo, nervioRadialIzquierdo, nervioAxilarIzquierdo FROM map_table " +
             "INNER JOIN symptoms_table ON map_table.idMap = symptoms_table.idMap " +
             "WHERE map_table.idEvaluation = :idEvaluation")

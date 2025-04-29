@@ -85,6 +85,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                 </TableLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <com.mgd.painmapp.view.MapViews
+                        android:id="@+id/mvFront"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="500dp"
+                        android:layout_marginTop="25dp"
+                        app:map="@drawable/front"/>
+                    <com.mgd.painmapp.view.MapViews
+                        android:id="@+id/mvBack"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="500dp"
+                        android:layout_marginTop="25dp"
+                        app:map="@drawable/back"/>
+                </LinearLayout>
                 <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

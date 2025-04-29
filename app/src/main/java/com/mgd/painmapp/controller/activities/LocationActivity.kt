@@ -12,6 +12,9 @@ import com.mgd.painmapp.model.database.entities.toDatabase
 import com.mgd.painmapp.model.database.PatientDatabase
 import com.mgd.painmapp.model.database.MapInterpretation
 import com.mgd.painmapp.databinding.ActivityLocationBinding
+import com.mgd.painmapp.model.storage.ColorBrush
+import com.mgd.painmapp.model.storage.getColorIndex
+import com.mgd.painmapp.model.storage.saveColorIndex
 import com.mgd.painmapp.view.MapResponsiveViews
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -45,6 +48,7 @@ class LocationActivity : AppCompatActivity() {
     private var nervioIlioinguinoDerecho : Float= 0.0f
     private var nervioObturadoDerecho : Float= 0.0f
     private var nervioFemoralAnteriorDerecho: Float= 0.0f
+    private var nervioSafenoDerecho : Float= 0.0f
     private var nervioPeroneoDerecho: Float= 0.0f
     private var nervioSuralDerecho : Float= 0.0f
     private var nervioBraquialDerecho : Float= 0.0f
@@ -61,6 +65,7 @@ class LocationActivity : AppCompatActivity() {
     private var nervioIlioinguinoIzquierdo : Float= 0.0f
     private var nervioObturadoIzquierdo : Float= 0.0f
     private var nervioFemoralAnteriorIzquierdo : Float= 0.0f
+    private var nervioSafenoIzquierdo : Float= 0.0f
     private var nervioPeroneoIzquierdo : Float= 0.0f
     private var nervioSuralIzquierdo : Float= 0.0f
     private var nervioBraquialIzquierdo : Float= 0.0f
@@ -73,6 +78,9 @@ class LocationActivity : AppCompatActivity() {
         binding = ActivityLocationBinding.inflate(layoutInflater)
         setContentView(binding.root)
         idGeneradoEvaluation = intent.getLongExtra("idGeneradoEvaluation", -1)
+        CoroutineScope(Dispatchers.IO).launch {
+            saveColorIndex((getColorIndex()+1) % ColorBrush.colorList.size)
+        }
         database = Room.databaseBuilder(
             this, PatientDatabase::class.java,
             "patient_database"
@@ -125,6 +133,7 @@ class LocationActivity : AppCompatActivity() {
             nervioIlioinguinoDerecho,
             nervioObturadoDerecho,
             nervioFemoralAnteriorDerecho,
+            nervioSafenoDerecho,
             nervioPeroneoDerecho,
             nervioSuralDerecho,
             nervioBraquialDerecho,
@@ -141,6 +150,7 @@ class LocationActivity : AppCompatActivity() {
             nervioIlioinguinoIzquierdo,
             nervioObturadoIzquierdo,
             nervioFemoralAnteriorIzquierdo,
+            nervioSafenoIzquierdo,
             nervioPeroneoIzquierdo,
             nervioSuralIzquierdo,
             nervioBraquialIzquierdo,
@@ -154,6 +164,7 @@ class LocationActivity : AppCompatActivity() {
     private fun mapCalculate() {
         //Lo haria con map y zip. Pero estoy usando derechaFrente para calcular la derecha de frente y la izquierda de espaldas. Por lo que los indices y valores no coinciden
         var resultFront = mrvFront.calcularPorcentaje("frente")
+        Log.d("resultFront",resultFront.toString())
         var resultBack = mrvBack.calcularPorcentaje("")
         porcentajeFrente = resultFront["total"] ?: 0.0f
         porcentajeEspalda = resultBack["total"] ?: 0.0f
@@ -178,27 +189,29 @@ class LocationActivity : AppCompatActivity() {
         nervioIlioinguinoDerecho = resultFront[nervios[count++]] ?: 0.0f
         nervioObturadoDerecho = resultFront[nervios[count++]] ?: 0.0f
         nervioFemoralAnteriorDerecho = resultFront[nervios[count++]] ?: 0.0f
+        nervioSafenoDerecho = resultFront[nervios[count++]] ?: 0.0f
         nervioPeroneoDerecho = resultFront[nervios[count++]] ?: 0.0f
         nervioSuralDerecho = resultFront[nervios[count++]] ?: 0.0f
         nervioBraquialDerecho = resultFront[nervios[count++]] ?: 0.0f
         nervioAntebrazoDerecho = resultFront[nervios[count++]] ?: 0.0f
         nervioRadialDerecho = resultFront[nervios[count++]] ?: 0.0f
         nervioAxilarDerecho = resultFront[nervios[count++]] ?: 0.0f
-        nervioMedianoIzquierdo = resultBack[nervios[count++]] ?: 0.0f
-        nervioRadialSuperficialIzquierdo = resultBack[nervios[count++]] ?: 0.0f
-        nervioCubitalIzquierdo = resultBack[nervios[count++]] ?: 0.0f
-        nervioMusculoCutaneoIzquierdo = resultBack[nervios[count++]] ?: 0.0f
-        nerviosSupraclavicularesIzquierdos = resultBack[nervios[count++]] ?: 0.0f
-        nervioFemoralIzquierdo = resultBack[nervios[count++]] ?: 0.0f
-        nervioGenitalIzquierdo = resultBack[nervios[count++]] ?: 0.0f
-        nervioIlioinguinoIzquierdo = resultBack[nervios[count++]] ?: 0.0f
-        nervioObturadoIzquierdo = resultBack[nervios[count++]] ?: 0.0f
-        nervioFemoralAnteriorIzquierdo = resultBack[nervios[count++]] ?: 0.0f
-        nervioPeroneoIzquierdo = resultBack[nervios[count++]] ?: 0.0f
-        nervioSuralIzquierdo = resultBack[nervios[count++]] ?: 0.0f
-        nervioBraquialIzquierdo = resultBack[nervios[count++]] ?: 0.0f
-        nervioAntebrazoIzquierdo = resultBack[nervios[count++]] ?: 0.0f
-        nervioRadialIzquierdo = resultBack[nervios[count++]] ?: 0.0f
-        nervioAxilarIzquierdo = resultBack[nervios[count]] ?: 0.0f
+        nervioMedianoIzquierdo = resultFront[nervios[count++]] ?: 0.0f
+        nervioRadialSuperficialIzquierdo = resultFront[nervios[count++]] ?: 0.0f
+        nervioCubitalIzquierdo = resultFront[nervios[count++]] ?: 0.0f
+        nervioMusculoCutaneoIzquierdo = resultFront[nervios[count++]] ?: 0.0f
+        nerviosSupraclavicularesIzquierdos = resultFront[nervios[count++]] ?: 0.0f
+        nervioFemoralIzquierdo = resultFront[nervios[count++]] ?: 0.0f
+        nervioGenitalIzquierdo = resultFront[nervios[count++]] ?: 0.0f
+        nervioIlioinguinoIzquierdo = resultFront[nervios[count++]] ?: 0.0f
+        nervioObturadoIzquierdo = resultFront[nervios[count++]] ?: 0.0f
+        nervioFemoralAnteriorIzquierdo = resultFront[nervios[count++]] ?: 0.0f
+        nervioSafenoIzquierdo = resultFront[nervios[count++]] ?: 0.0f
+        nervioPeroneoIzquierdo = resultFront[nervios[count++]] ?: 0.0f
+        nervioSuralIzquierdo = resultFront[nervios[count++]] ?: 0.0f
+        nervioBraquialIzquierdo = resultFront[nervios[count++]] ?: 0.0f
+        nervioAntebrazoIzquierdo = resultFront[nervios[count++]] ?: 0.0f
+        nervioRadialIzquierdo = resultFront[nervios[count++]] ?: 0.0f
+        nervioAxilarIzquierdo = resultFront[nervios[count]] ?: 0.0f
     }
 }

@@ -20,7 +20,7 @@ class SymptomsViewHolder (view: View, private val context: Context):RecyclerView
     private val colorList = ColorBrush.colorList
     fun render(symptom: Symptom, index: Int) {
         binding.tvNumSymptom.text = String.format(Locale.getDefault(), "%d", index + 1) //para solucionar el warning de manejo de números
-        binding.tvNumSymptom.setTextColor(colorList[index%colorList.size]) //Para reiniciar la lista cuando el numero de sintomas sea mayor que el numero
+        binding.cvSymptom.setStrokeColor(colorList[index%colorList.size])
         binding.tvScore.text = symptom.intensity.toString()
         binding.tvSymptom.text = symptom.symptom
         binding.cvSymptom.setOnClickListener{  //_______________________________________

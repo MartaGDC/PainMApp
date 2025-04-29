@@ -124,7 +124,7 @@ object InterpretationHelper {
     }
 
 
-    fun calcularPorcentaje(context:Context, width: Int, height: Int, paths: List<Path>, bPaint: Paint, path: Path, optimization: Int = 10, tipoMapa:String, escala: Matrix): Map<String, Float> { //Map es lo que sería un diccionario en python. En vez de acceder con indice se accede con clave
+    fun calcularPorcentaje(context:Context, width: Int, height: Int, paths: List<Path>, bPaint: Paint, path: Path, optimization: Int = 5, tipoMapa:String, escala: Matrix): Map<String, Float> { //Map es lo que sería un diccionario en python. En vez de acceder con indice se accede con clave
         /*Optimizacion porque si se revisan todos los pixels la aplicacion se bloque y tarda demasiado
         Sigue detectando el trazo de un punto del pincel, si se perdiera precisión, elegiría hacerlo en un hilo o coroutine
          */

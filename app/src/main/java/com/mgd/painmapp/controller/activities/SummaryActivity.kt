@@ -18,7 +18,7 @@ import com.mgd.painmapp.model.database.CSVTable
 import com.mgd.painmapp.model.database.NervesTable
 import com.mgd.painmapp.model.database.PatientDatabase
 import com.mgd.painmapp.model.database.SymptomTable
-import com.mgd.painmapp.view.MapResponsiveViews
+import com.mgd.painmapp.view.MapViews
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,6 +33,8 @@ class SummaryActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navView: NavigationView
     private lateinit var cvCSV: CardView
+    private lateinit var mvFront: MapViews
+    private lateinit var mvBack: MapViews
     private var idGeneradoEvaluation: Long = -1
     private lateinit var database: PatientDatabase
     private lateinit var symptomsTable: List<SymptomTable>
@@ -42,14 +44,16 @@ class SummaryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySummaryBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initComponents()
-        initListeners()
         idGeneradoEvaluation = intent.getLongExtra("idGeneradoEvaluation", -1)
 
         database = Room.databaseBuilder(
             this, PatientDatabase::class.java,
             "patient_database"
         ).build()
+
+        initComponents()
+        initListeners()
+
         CoroutineScope(Dispatchers.IO).launch {
             symptomsTable = database.getSymptomDao().getSymptomsTableByEvaluation(idGeneradoEvaluation)
             nervesTable = database.getMapDao().getNervesTableByEvaluation(idGeneradoEvaluation)
@@ -74,6 +78,14 @@ class SummaryActivity : AppCompatActivity() {
         drawerLayout = binding.main
         navView = binding.navView
         cvCSV = binding.cvCSV
+        mvFront = binding.mvFront
+        mvBack = binding.mvBack
+        CoroutineScope(Dispatchers.IO).launch{
+            val bPathFront = getFrontDrawings()
+            val bPathBack = getBackDrawings()
+            mvFront.paths = bPathFront
+            mvBack.paths = bPathBack
+        }
     }
 
     private fun initListeners(){
@@ -87,6 +99,23 @@ class SummaryActivity : AppCompatActivity() {
         }
     }
 
+    private fun getFrontDrawings(): List<String> {
+        val bPath: List<String>
+        if (idGeneradoEvaluation != (-1).toLong()) { //Hay registro de evaluación
+            bPath = database.getMapDao().getFrontPathsDrawnById(idGeneradoEvaluation)
+            return bPath
+        }
+        return emptyList()
+    }
+    private fun getBackDrawings(): List<String> {
+        val bPath: List<String>
+        if (idGeneradoEvaluation != (-1).toLong()) { //Hay registro de evaluación
+            bPath = database.getMapDao().getBackPathsDrawnById(idGeneradoEvaluation)
+            return bPath
+        }
+        return emptyList()
+    }
+
     private fun exportCSV(data: List<CSVTable>):File?{
         val dateFormat = SimpleDateFormat("yyyyMMdd_HH.mm.ss", Locale.getDefault())
         val formattedDate = dateFormat.format(Date())
@@ -96,11 +125,11 @@ class SummaryActivity : AppCompatActivity() {
             "idMap", "pathsDrawnFront", "pathsDrawnBack", "totalPercentage", "rightPercentage", "leftPercentage",
             "nervioMedianoDerecho", "nervioRadialSuperficialDerecho", "nervioCubitalDerecho", "nervioMusculoCutaneoDerecho",
             "nerviosSupraclavicularesDerechos", "nervioFemoralDerecho", "nervioGenitalDerecho", "nervioIlioinguinoDerecho",
-            "nervioObturadoDerecho", "nervioFemoralAnteriorDerecho", "nervioPeroneoDerecho", "nervioSuralDerecho",
+            "nervioObturadoDerecho", "nervioFemoralAnteriorDerecho", "nervioSafenoDerecho", "nervioPeroneoDerecho", "nervioSuralDerecho",
             "nervioBraquialDerecho", "nervioAntebrazoDerecho", "nervioRadialDerecho", "nervioAxilarDerecho",
             "nervioMedianoIzquierdo", "nervioRadialSuperficialIzquierdo", "nervioCubitalIzquierdo", "nervioMusculoCutaneoIzquierdo",
             "nerviosSupraclavicularesIzquierdos", "nervioFemoralIzquierdo", "nervioGenitalIzquierdo", "nervioIlioinguinoIzquierdo",
-            "nervioObturadoIzquierdo", "nervioFemoralAnteriorIzquierdo", "nervioPeroneoIzquierdo", "nervioSuralIzquierdo",
+            "nervioObturadoIzquierdo", "nervioFemoralAnteriorIzquierdo", "nervioSafenoIzquierdo", "nervioPeroneoIzquierdo", "nervioSuralIzquierdo",
             "nervioBraquialIzquierdo", "nervioAntebrazoIzquierdo", "nervioRadialIzquierdo", "nervioAxilarIzquierdo",
             "idSymptom", "intensity", "symptom", "symptomOtherText", "charactAgitating", "charactMiserable", "charactAnnoying", "charactUnbearable", "charactFatiguing",
             "charactPiercing", "charactOther", "charactOtherText", "timeContinuous", "timeWhen"
@@ -134,6 +163,7 @@ class SummaryActivity : AppCompatActivity() {
                     row.nervioIlioinguinoDerecho.toString().replace('.', ','),
                     row.nervioObturadoDerecho.toString().replace('.', ','),
                     row.nervioFemoralAnteriorDerecho.toString().replace('.', ','),
+                    row.nervioSafenoDerecho.toString().replace('.', ','),
                     row.nervioPeroneoDerecho.toString().replace('.', ','),
                     row.nervioSuralDerecho.toString().replace('.', ','),
                     row.nervioBraquialDerecho.toString().replace('.', ','),
@@ -150,6 +180,7 @@ class SummaryActivity : AppCompatActivity() {
                     row.nervioIlioinguinoIzquierdo.toString().replace('.', ','),
                     row.nervioObturadoIzquierdo.toString().replace('.', ','),
                     row.nervioFemoralAnteriorIzquierdo.toString().replace('.', ','),
+                    row.nervioSafenoIzquierdo.toString().replace('.', ','),
                     row.nervioPeroneoIzquierdo.toString().replace('.', ','),
                     row.nervioSuralIzquierdo.toString().replace('.', ','),
                     row.nervioBraquialIzquierdo.toString().replace('.', ','),
@@ -309,6 +340,13 @@ class SummaryActivity : AppCompatActivity() {
             }
             row = TableRow(this).apply {
                 insertCell(nervios[count++], false, 0)
+                insertCell(String.format("%.2f%%", sintoma.nervioSafenoDerecho), false, 1)
+            }
+            if(sintoma.nervioSafenoDerecho!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nervios[count++], false, 0)
                 insertCell(String.format("%.2f%%", sintoma.nervioPeroneoDerecho), false, 1)
             }
             if(sintoma.nervioPeroneoDerecho!=0f){
@@ -420,10 +458,12 @@ class SummaryActivity : AppCompatActivity() {
                 table.addView(row)
             }
             row = TableRow(this).apply {
+                Log.d("TAG", nervios[count])
                 insertCell(nervios[count++], false, 0)
-                insertCell(String.format("%.2f%%", sintoma.nervioFemoralAnteriorIzquierdo), false, 1)
+                insertCell(String.format("%.2f%%", sintoma.nervioSafenoIzquierdo), false, 1)
+                Log.d("TAG", sintoma.nervioSafenoIzquierdo.toString())
             }
-            if(sintoma.nervioFemoralAnteriorIzquierdo!=0f){
+            if(sintoma.nervioSafenoIzquierdo!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {

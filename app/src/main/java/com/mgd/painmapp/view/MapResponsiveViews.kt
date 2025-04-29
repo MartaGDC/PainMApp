@@ -38,7 +38,6 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
     }
     var colorIndex = 0
     private val colorList = ColorBrush.colorList
-
     //Variables para crear el canva con forma humana
     private val bounds = RectF()
     val cPath = Path() //El trazo de la forma humana (en el xml del drawable seleccionado, será el primer path)

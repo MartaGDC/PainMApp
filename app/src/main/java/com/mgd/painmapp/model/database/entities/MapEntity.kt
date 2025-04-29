@@ -24,6 +24,7 @@ data class MapEntity (
     @ColumnInfo(name="nervioIlioinguinoDerecho") val nervioIlioinguinoDerecho:Float,
     @ColumnInfo(name="nervioObturadoDerecho") val nervioObturadoDerecho:Float,
     @ColumnInfo(name="nervioFemoralAnteriorDerecho") val nervioFemoralAnteriorDerecho:Float,
+    @ColumnInfo(name="nervioSafenoDerecho") val nervioSafenoDerecho:Float,
     @ColumnInfo(name="nervioPeroneoDerecho") val nervioPeroneoDerecho:Float,
     @ColumnInfo(name="nervioSuralDerecho") val nervioSuralDerecho:Float,
     @ColumnInfo(name="nervioBraquialDerecho") val nervioBraquialDerecho:Float,
@@ -40,13 +41,13 @@ data class MapEntity (
     @ColumnInfo(name="nervioIlioinguinoIzquierdo") val nervioIlioinguinoIzquierdo:Float,
     @ColumnInfo(name="nervioObturadoIzquierdo") val nervioObturadoIzquierdo:Float,
     @ColumnInfo(name="nervioFemoralAnteriorIzquierdo") val nervioFemoralAnteriorIzquierdo:Float,
+    @ColumnInfo(name="nervioSafenoIzquierdo") val nervioSafenoIzquierdo:Float,
     @ColumnInfo(name="nervioPeroneoIzquierdo") val nervioPeroneoIzquierdo:Float,
     @ColumnInfo(name="nervioSuralIzquierdo") val nervioSuralIzquierdo:Float,
     @ColumnInfo(name="nervioBraquialIzquierdo") val nervioBraquialIzquierdo:Float,
     @ColumnInfo(name="nervioAntebrazoIzquierdo") val nervioAntebrazoIzquierdo:Float,
     @ColumnInfo(name="nervioRadialIzquierdo") val nervioRadialIzquierdo:Float,
-    @ColumnInfo(name="nervioAxilarIzquierdo") val nervioAxilarIzquierdo:Float,
-
+    @ColumnInfo(name="nervioAxilarIzquierdo") val nervioAxilarIzquierdo:Float
 )
 
 fun MapInterpretation.toDatabase() = MapEntity(
@@ -66,6 +67,7 @@ fun MapInterpretation.toDatabase() = MapEntity(
     nervioIlioinguinoDerecho = nervioIlioinguinoDerecho,
     nervioObturadoDerecho = nervioObturadoDerecho,
     nervioFemoralAnteriorDerecho = nervioFemoralAnteriorDerecho,
+    nervioSafenoDerecho = nervioSafenoDerecho,
     nervioPeroneoDerecho = nervioPeroneoDerecho,
     nervioSuralDerecho = nervioSuralDerecho,
     nervioBraquialDerecho = nervioBraquialDerecho,
@@ -82,6 +84,7 @@ fun MapInterpretation.toDatabase() = MapEntity(
     nervioIlioinguinoIzquierdo = nervioIlioinguinoIzquierdo,
     nervioObturadoIzquierdo = nervioObturadoIzquierdo,
     nervioFemoralAnteriorIzquierdo = nervioFemoralAnteriorIzquierdo,
+    nervioSafenoIzquierdo = nervioSafenoIzquierdo,
     nervioPeroneoIzquierdo = nervioPeroneoIzquierdo,
     nervioSuralIzquierdo = nervioSuralIzquierdo,
     nervioBraquialIzquierdo = nervioBraquialIzquierdo,
@@ -106,6 +109,7 @@ fun MapEntity.toMapInterpretation() = MapInterpretation(
     nervioIlioinguinoDerecho = nervioIlioinguinoDerecho,
     nervioObturadoDerecho = nervioObturadoDerecho,
     nervioFemoralAnteriorDerecho = nervioFemoralAnteriorDerecho,
+    nervioSafenoDerecho = nervioSafenoDerecho,
     nervioPeroneoDerecho = nervioPeroneoDerecho,
     nervioSuralDerecho = nervioSuralDerecho,
     nervioBraquialDerecho = nervioBraquialDerecho,
@@ -122,6 +126,7 @@ fun MapEntity.toMapInterpretation() = MapInterpretation(
     nervioIlioinguinoIzquierdo = nervioIlioinguinoIzquierdo,
     nervioObturadoIzquierdo = nervioObturadoIzquierdo,
     nervioFemoralAnteriorIzquierdo = nervioFemoralAnteriorIzquierdo,
+    nervioSafenoIzquierdo = nervioSafenoIzquierdo,
     nervioPeroneoIzquierdo = nervioPeroneoIzquierdo,
     nervioSuralIzquierdo = nervioSuralIzquierdo,
     nervioBraquialIzquierdo = nervioBraquialIzquierdo,

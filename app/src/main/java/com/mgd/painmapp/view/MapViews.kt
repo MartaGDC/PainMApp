@@ -19,7 +19,6 @@ import com.mgd.painmapp.model.storage.saveColorIndex
 
 class MapViews(context: Context, attrs: AttributeSet) : MapResponsiveViews(context, attrs) {
     lateinit var paths: List<String>
-    private val colorList = ColorBrush.colorList
 
     override fun onDraw(canvas: Canvas) {
         if (isInEditMode) return //Añadido porque onDraw no sabía gestionar que los paths no estuvieran inicializados,
@@ -56,25 +55,11 @@ class MapViews(context: Context, attrs: AttributeSet) : MapResponsiveViews(conte
             matrix.reset()
             matrix.setTranslate(dx, dy)
             dibujoLimpio.transform(matrix)
-            bPaint.color = colorList[count]
-            count = (count + 1) % colorList.size
+            bPaint.color = ColorBrush.colorList[count]
+            count = (count + 1) % ColorBrush.colorList.size
             canvas.drawPath(dibujoLimpio, bPaint)
         }
         canvas.drawPath(cPath, cPaint)
-        CoroutineScope(Dispatchers.IO).launch {
-            actualizarColor()
-        }
-    }
 
-    private suspend fun actualizarColor() {
-        //Funcion llamada para cambiar el color del pincel para MapResponsiveViews, pero lo hago aquí, porque prefiero que el color quede definido de forma definitiva antes de iniciar
-        // LocationActivity (fundamentalmente para evitar gestión de hilos)
-        if(imgFuente == R.drawable.front){ //Para asegurar que solo se calcula el color una vez (dado que hay dos mapviews en la misma actividad)
-            colorIndex =  context.getColorIndex()
-            bPaint.color = colorList[colorIndex]
-            colorIndex = (colorIndex + 1) % colorList.size
-            context.saveColorIndex(colorIndex)
-            Log.d("colorIndex", colorIndex.toString())
-        }
     }
 }
