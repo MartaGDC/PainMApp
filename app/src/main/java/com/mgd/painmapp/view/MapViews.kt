@@ -10,6 +10,7 @@ import android.util.Log
 import androidx.core.content.ContextCompat.*
 import androidx.core.graphics.PathParser
 import com.mgd.painmapp.R
+import com.mgd.painmapp.model.storage.ColorBrush
 import com.mgd.painmapp.model.storage.getColorIndex
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -18,6 +19,7 @@ import com.mgd.painmapp.model.storage.saveColorIndex
 
 class MapViews(context: Context, attrs: AttributeSet) : MapResponsiveViews(context, attrs) {
     lateinit var paths: List<String>
+    private val colorList = ColorBrush.colorList
 
     override fun onDraw(canvas: Canvas) {
         if (isInEditMode) return //Añadido porque onDraw no sabía gestionar que los paths no estuvieran inicializados,

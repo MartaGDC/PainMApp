@@ -138,7 +138,6 @@ class SensorialActivity : AppCompatActivity() {
         return emptyList()
     }
 
-
     private suspend fun fillDatabase() { //Suspend para que el hilo principal espere
         if (idGeneradoEvaluation == (-1).toLong()) { //Si no hay registro de evaluación
             val evaluationEntity =

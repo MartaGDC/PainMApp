@@ -6,6 +6,11 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.mgd.painmapp.databinding.ActivityMainBinding
+import com.mgd.painmapp.model.storage.ColorBrush
+import com.mgd.painmapp.model.storage.saveColorIndex
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
@@ -17,6 +22,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        //color para dibujar y para guardar dibujo
+        ColorBrush.initialize(this)
+        CoroutineScope(Dispatchers.IO).launch {
+            applicationContext.saveColorIndex(0) //al inicio de la app siempre empieza con el mismo color
+        }
         initUI()
     }
 

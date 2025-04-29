@@ -70,38 +70,9 @@
         android:layout_marginBottom="20dp"
         android:gravity="center"
         android:paddingHorizontal="80dp">
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="0.25"
-            android:layout_height="match_parent"
-            android:paddingTop="50dp"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="76dp"
-                android:layout_height="80dp"
-                android:layout_gravity="center"
-                android:layout_margin="20dp"
-                android:contentDescription="@string/brush_width"
-                android:labelFor="@id/brushWidth"
-                android:src="@drawable/brush" />
-            <com.google.android.material.slider.Slider
-                android:id="@+id/brushWidth"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="80dp"
-                android:layout_gravity="center"
-                android:rotation="270"
-                android:value="1"
-                android:valueFrom="0.1"
-                android:valueTo="10"
-                app:trackColorActive="@color/dark_blue"
-                app:trackColorInactive="@color/blue"
-                app:thumbColor="@color/dark_blue" />
-        </LinearLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="50dp"
             android:layout_weight="1">
             <com.mgd.painmapp.view.MapResponsiveViews
                 android:id="@+id/mrvFront"
