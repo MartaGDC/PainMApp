@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(context, attrs) {
     //Variables para el pincel (brush)
     private var bPath : Path? = null
-    private var bPaths = mutableListOf<Path>() //Son los trazos del pince
+    var bPaths = mutableListOf<Path>() //Son los trazos del pince
     val bPaint: Paint = Paint().apply{ //Formato al trazo
         isAntiAlias = true //Bordes suavizados (evita pixelado)
         isDither = true //Mejora la calidad de los colores

@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.room.Room
@@ -90,12 +91,13 @@ class SensorialSurveyActivity : AppCompatActivity() {
     private fun initListeners() {
         //Guardado
         cvSave.setOnClickListener {
-            fillDatabase()
-            val intent = Intent(this, SensorialActivity::class.java).apply {
-                putExtra("idGeneradoEvaluation", idGeneradoEvaluation)
-            //Habra que inlcuir más informaicón aqui, derivada de consultas a la base de datos
+            if (validarCampos()) {
+                fillDatabase()
+                val intent = Intent(this, SensorialActivity::class.java).apply {
+                    putExtra("idGeneradoEvaluation", idGeneradoEvaluation)
+                }
+                startActivity(intent)
             }
-            startActivity(intent)
         }
         //Eliminar datos antes de guardarlos: devolver la pantalla al estado inicial
         cvDelete.setOnClickListener {
@@ -140,6 +142,7 @@ class SensorialSurveyActivity : AppCompatActivity() {
             //Borrar texto en Otro sintoma, si se selecciona alguno
             if (rgSymptom1.checkedRadioButtonId != rbOtherSymptom.id || rgSymptom2.checkedRadioButtonId != -1) {
                 etOtherSymptom.text.clear()
+                etOtherSymptom.error = null
             }
         }
 
@@ -153,6 +156,7 @@ class SensorialSurveyActivity : AppCompatActivity() {
                     rbOtherSymptom.isChecked = true
                     rgSymptom1.check(rbOtherSymptom.id)
                     rgSymptom = rgSymptom1
+                    etOtherSymptom.error = null
                 }
             }
         })
@@ -163,6 +167,7 @@ class SensorialSurveyActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {
                 if (!s.isNullOrEmpty()) {
                     cbOtherCharact.isChecked = true
+                    etOtherCharact.error = null
                 }
             }
         })
@@ -171,6 +176,7 @@ class SensorialSurveyActivity : AppCompatActivity() {
         cbOtherCharact.setOnCheckedChangeListener { _, _ ->
             if (!cbOtherCharact.isChecked) {
                 etOtherCharact.text.clear()
+                etOtherCharact.error = null
             }
         }
         //Radiobuttons que hacen visible otro componente
@@ -181,6 +187,8 @@ class SensorialSurveyActivity : AppCompatActivity() {
             } else {
                 tvWhen.visibility = TextView.INVISIBLE
                 etWhen.visibility = EditText.INVISIBLE
+                etWhen.text.clear()
+                etWhen.error = null
             }
         }
     }
@@ -207,5 +215,27 @@ class SensorialSurveyActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             database.getSymptomDao().insertSymptom(symptomEntity)
         }
+    }
+
+    private fun validarCampos(): Boolean {
+        var validado = true
+        if (rbOtherSymptom.isChecked && etOtherSymptom.text.isNullOrBlank()) {
+            etOtherSymptom.error = "Debe completar este campo"
+            validado = false
+        }
+        if (!cbAgitating.isChecked && !cbMiserable.isChecked && !cbAnnoying.isChecked && !cbPiercing.isChecked &&
+            !cbUnbearable.isChecked && !cbFatiguing.isChecked && !cbOtherCharact.isChecked) {
+            Toast.makeText(this, "Seleccione al menos una característica", Toast.LENGTH_SHORT).show()
+            validado = false
+        }
+        if (cbOtherCharact.isChecked && etOtherCharact.text.isNullOrBlank()) {
+            etOtherCharact.error = "Debe completar este campo"
+            validado = false
+        }
+        if (rgTime.checkedRadioButtonId != rbContinuous.id && etWhen.text.isNullOrBlank()) {
+            etWhen.error = "Debe completar este campo"
+            validado = false
+        }
+        return validado
     }
 }

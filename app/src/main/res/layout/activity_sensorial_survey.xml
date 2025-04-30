@@ -448,11 +448,28 @@
                                 android:layout_height="match_parent"
                                 android:layout_marginEnd="80dp">
                                 <LinearLayout
-                                    android:id="@+id/llPiercing"
+                                    android:id="@+id/llUnbearable"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintTop_toTopOf="parent"
+                                    android:orientation="horizontal">
+                                    <CheckBox
+                                        android:id="@+id/cbUnbearable"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content" />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        style="@style/Small"
+                                        android:text="@string/unbearable" />
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:id="@+id/llPiercing"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:layout_constraintStart_toStartOf="@id/llUnbearable"
+                                    app:layout_constraintTop_toBottomOf="@id/llUnbearable"
                                     android:orientation="horizontal">
                                     <CheckBox
                                         android:id="@+id/cbPiercing"
@@ -465,27 +482,11 @@
                                         android:text="@string/piercing" />
                                 </LinearLayout>
                                 <LinearLayout
-                                    android:id="@+id/llUnbearable"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    app:layout_constraintStart_toStartOf="@id/llPiercing"
-                                    app:layout_constraintTop_toBottomOf="@id/llPiercing"
-                                    android:orientation="horizontal">
-                                    <CheckBox
-                                        android:id="@+id/cbUnbearable"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content" />
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        style="@style/Small"
-                                        android:text="@string/unbearable" />                                </LinearLayout>
-                                <LinearLayout
                                     android:id="@+id/llFatiguing"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    app:layout_constraintStart_toStartOf="@id/llPiercing"
-                                    app:layout_constraintTop_toBottomOf="@id/llUnbearable"
+                                    app:layout_constraintStart_toStartOf="@id/llUnbearable"
+                                    app:layout_constraintTop_toBottomOf="@id/llPiercing"
                                     android:orientation="horizontal">
                                     <CheckBox
                                         android:id="@+id/cbFatiguing"

@@ -23,9 +23,9 @@ class SymptomsViewHolder (view: View, private val context: Context):RecyclerView
         binding.cvSymptom.setStrokeColor(colorList[index%colorList.size])
         binding.tvScore.text = symptom.intensity.toString()
         binding.tvSymptom.text = symptom.symptom
-        binding.cvSymptom.setOnClickListener{  //_______________________________________
+        /*binding.cvSymptom.setOnClickListener{  //_______________________________________
             //Cambiar para incluir los intents necesarios
             context.startActivity(Intent(context, LocationActivity::class.java))
-        }
+        }*/
     }
 }

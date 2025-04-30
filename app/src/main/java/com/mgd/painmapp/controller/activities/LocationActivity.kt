@@ -4,6 +4,7 @@ import android.content.Intent
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.room.Room
@@ -99,15 +100,23 @@ class LocationActivity : AppCompatActivity() {
 
     private fun initListeners() {
         cvSave.setOnClickListener {
-            CoroutineScope(Dispatchers.IO).launch { //Creamos aqui la coroutine, llamando a una funcion suspend
-                fillDatabase()
-                val intent = Intent(this@LocationActivity, SensorialSurveyActivity::class.java).apply {
-                    putExtra("idGeneradoMap", idGeneradoMap)
-                    putExtra("idGeneradoEvaluation", idGeneradoEvaluation)
+            if (mrvFront.bPaths.isEmpty() && mrvBack.bPaths.isEmpty()) {
+                Toast.makeText(this,"Debe dibujar la localización del síntoma",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            else {
+                CoroutineScope(Dispatchers.IO).launch { //Creamos aqui la coroutine, llamando a una funcion suspend
+                    fillDatabase()
+                    val intent = Intent(this@LocationActivity, SensorialSurveyActivity::class.java).apply {
+                        putExtra("idGeneradoMap", idGeneradoMap)
+                        putExtra("idGeneradoEvaluation", idGeneradoEvaluation)
+                    }
+                    startActivity(intent)
                 }
-                startActivity(intent)
             }
         }
+
         cvDelete.setOnClickListener {
             mrvFront.deleteDrawing()
             mrvBack.deleteDrawing()
@@ -157,7 +166,7 @@ class LocationActivity : AppCompatActivity() {
             nervioAntebrazoIzquierdo,
             nervioRadialIzquierdo,
             nervioAxilarIzquierdo
-            ).toDatabase()
+        ).toDatabase()
         idGeneradoMap = database.getMapDao().insertMap(mapEntity)
     }
 
@@ -214,4 +223,12 @@ class LocationActivity : AppCompatActivity() {
         nervioRadialIzquierdo = resultFront[nervios[count++]] ?: 0.0f
         nervioAxilarIzquierdo = resultFront[nervios[count]] ?: 0.0f
     }
+
+    suspend fun validarMapa(): Boolean {
+        val pathsFront = database.getMapDao().getFrontPathsDrawnById(idGeneradoEvaluation)
+        val pathsBack = database.getMapDao().getBackPathsDrawnById(idGeneradoEvaluation)
+
+        return pathsFront.isNotEmpty() && pathsBack.isNotEmpty()
+    }
+
 }

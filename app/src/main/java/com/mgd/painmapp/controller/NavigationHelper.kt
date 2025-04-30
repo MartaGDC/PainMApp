@@ -3,6 +3,7 @@ package com.mgd.painmapp.controller
 import android.content.Context
 import android.content.Intent
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
@@ -55,7 +56,12 @@ object NavigationHelper {
                 navigateToPsychosocial()
             }
             R.id.item_resumen -> {
-                navigateToSummary(context, idGeneradoEvaluation)
+                if (idGeneradoEvaluation ==-1.toLong()) {
+                    Toast.makeText(context, "No hay ningún síntoma que mostrar", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    navigateToSummary(context, idGeneradoEvaluation)
+                }
             }
             else -> {
             }
