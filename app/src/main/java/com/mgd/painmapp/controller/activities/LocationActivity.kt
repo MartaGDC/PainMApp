@@ -173,56 +173,51 @@ class LocationActivity : AppCompatActivity() {
 
     private fun mapCalculate() {
         //Lo haria con map y zip. Pero estoy usando derechaFrente para calcular la derecha de frente y la izquierda de espaldas. Por lo que los indices y valores no coinciden
-        var resultFront = mrvFront.calcularPorcentaje("frente")
+        var resultFront = mrvFront.calcularPixeles("frente")
         Log.d("resultFront",resultFront.toString())
-        var resultBack = mrvBack.calcularPorcentaje("")
-        porcentajeFrente = resultFront["total"] ?: 0.0f
-        porcentajeEspalda = resultBack["total"] ?: 0.0f
-        porcentajeTotal = (porcentajeFrente + porcentajeEspalda) / 2
-        porcentajedchaFrente = resultFront["derechaFrente"] ?: 0.0f
-        porcentajedchaEspalda = resultBack["izquierdaFrente"] ?: 0.0f
-        porcentajedchaTotal = (porcentajedchaFrente + porcentajedchaEspalda) / 2
-        porcentajeizdaFrente = resultFront["izquierdaFrente"] ?: 0.0f
-        porcentajeizdaEspalda = resultBack["derechaFrente"] ?: 0.0f
-        porcentajeizdaTotal = (porcentajeizdaFrente + porcentajeizdaEspalda) / 2
+        var resultBack = mrvBack.calcularPixeles("")
+        var results = InterpretationHelper.calcularPorcentaje(resultFront, resultBack)
+        porcentajeTotal = results["total"] ?: 0.0f
+        porcentajedchaTotal = results["derecha"] ?: 0.0f
+        porcentajeizdaTotal = results["izquierda"] ?: 0.0f
 
         //Nervios (solo parte frontal):
         val nervios = InterpretationHelper.obtenerNerviosPerifericosFrente(this)
         var count=0
-        nervioMedianoDerecho = resultFront[nervios[count++]] ?: 0.0f
-        nervioRadialSuperficialDerecho = resultFront[nervios[count++]] ?: 0.0f
-        nervioCubitalDerecho = resultFront[nervios[count++]] ?: 0.0f
-        nervioMusculoCutaneoDerecho = resultFront[nervios[count++]] ?: 0.0f
-        nerviosSupraclavicularesDerechos = resultFront[nervios[count++]] ?: 0.0f
-        nervioFemoralDerecho = resultFront[nervios[count++]] ?: 0.0f
-        nervioGenitalDerecho = resultFront[nervios[count++]] ?: 0.0f
-        nervioIlioinguinoDerecho = resultFront[nervios[count++]] ?: 0.0f
-        nervioObturadoDerecho = resultFront[nervios[count++]] ?: 0.0f
-        nervioFemoralAnteriorDerecho = resultFront[nervios[count++]] ?: 0.0f
-        nervioSafenoDerecho = resultFront[nervios[count++]] ?: 0.0f
-        nervioPeroneoDerecho = resultFront[nervios[count++]] ?: 0.0f
-        nervioSuralDerecho = resultFront[nervios[count++]] ?: 0.0f
-        nervioBraquialDerecho = resultFront[nervios[count++]] ?: 0.0f
-        nervioAntebrazoDerecho = resultFront[nervios[count++]] ?: 0.0f
-        nervioRadialDerecho = resultFront[nervios[count++]] ?: 0.0f
-        nervioAxilarDerecho = resultFront[nervios[count++]] ?: 0.0f
-        nervioMedianoIzquierdo = resultFront[nervios[count++]] ?: 0.0f
-        nervioRadialSuperficialIzquierdo = resultFront[nervios[count++]] ?: 0.0f
-        nervioCubitalIzquierdo = resultFront[nervios[count++]] ?: 0.0f
-        nervioMusculoCutaneoIzquierdo = resultFront[nervios[count++]] ?: 0.0f
-        nerviosSupraclavicularesIzquierdos = resultFront[nervios[count++]] ?: 0.0f
-        nervioFemoralIzquierdo = resultFront[nervios[count++]] ?: 0.0f
-        nervioGenitalIzquierdo = resultFront[nervios[count++]] ?: 0.0f
-        nervioIlioinguinoIzquierdo = resultFront[nervios[count++]] ?: 0.0f
-        nervioObturadoIzquierdo = resultFront[nervios[count++]] ?: 0.0f
-        nervioFemoralAnteriorIzquierdo = resultFront[nervios[count++]] ?: 0.0f
-        nervioSafenoIzquierdo = resultFront[nervios[count++]] ?: 0.0f
-        nervioPeroneoIzquierdo = resultFront[nervios[count++]] ?: 0.0f
-        nervioSuralIzquierdo = resultFront[nervios[count++]] ?: 0.0f
-        nervioBraquialIzquierdo = resultFront[nervios[count++]] ?: 0.0f
-        nervioAntebrazoIzquierdo = resultFront[nervios[count++]] ?: 0.0f
-        nervioRadialIzquierdo = resultFront[nervios[count++]] ?: 0.0f
-        nervioAxilarIzquierdo = resultFront[nervios[count]] ?: 0.0f
+        nervioMedianoDerecho = results[nervios[count++]] ?: 0.0f
+        nervioRadialSuperficialDerecho = results[nervios[count++]] ?: 0.0f
+        nervioCubitalDerecho = results[nervios[count++]] ?: 0.0f
+        nervioMusculoCutaneoDerecho = results[nervios[count++]] ?: 0.0f
+        nerviosSupraclavicularesDerechos = results[nervios[count++]] ?: 0.0f
+        nervioFemoralDerecho = results[nervios[count++]] ?: 0.0f
+        nervioGenitalDerecho = results[nervios[count++]] ?: 0.0f
+        nervioIlioinguinoDerecho = results[nervios[count++]] ?: 0.0f
+        nervioObturadoDerecho = results[nervios[count++]] ?: 0.0f
+        nervioFemoralAnteriorDerecho = results[nervios[count++]] ?: 0.0f
+        nervioSafenoDerecho = results[nervios[count++]] ?: 0.0f
+        nervioPeroneoDerecho = results[nervios[count++]] ?: 0.0f
+        nervioSuralDerecho = results[nervios[count++]] ?: 0.0f
+        nervioBraquialDerecho = results[nervios[count++]] ?: 0.0f
+        nervioAntebrazoDerecho = results[nervios[count++]] ?: 0.0f
+        nervioRadialDerecho = results[nervios[count++]] ?: 0.0f
+        nervioAxilarDerecho = results[nervios[count++]] ?: 0.0f
+        nervioMedianoIzquierdo = results[nervios[count++]] ?: 0.0f
+        nervioRadialSuperficialIzquierdo = results[nervios[count++]] ?: 0.0f
+        nervioCubitalIzquierdo = results[nervios[count++]] ?: 0.0f
+        nervioMusculoCutaneoIzquierdo = results[nervios[count++]] ?: 0.0f
+        nerviosSupraclavicularesIzquierdos = results[nervios[count++]] ?: 0.0f
+        nervioFemoralIzquierdo = results[nervios[count++]] ?: 0.0f
+        nervioGenitalIzquierdo = results[nervios[count++]] ?: 0.0f
+        nervioIlioinguinoIzquierdo = results[nervios[count++]] ?: 0.0f
+        nervioObturadoIzquierdo = results[nervios[count++]] ?: 0.0f
+        nervioFemoralAnteriorIzquierdo = results[nervios[count++]] ?: 0.0f
+        nervioSafenoIzquierdo = results[nervios[count++]] ?: 0.0f
+        nervioPeroneoIzquierdo = results[nervios[count++]] ?: 0.0f
+        nervioSuralIzquierdo = results[nervios[count++]] ?: 0.0f
+        nervioBraquialIzquierdo = results[nervios[count++]] ?: 0.0f
+        nervioAntebrazoIzquierdo = results[nervios[count++]] ?: 0.0f
+        nervioRadialIzquierdo = results[nervios[count++]] ?: 0.0f
+        nervioAxilarIzquierdo = results[nervios[count]] ?: 0.0f
     }
 
 

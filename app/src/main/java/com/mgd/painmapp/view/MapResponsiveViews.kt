@@ -129,8 +129,8 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
             strokeWidth = 1f
         })
 
-        for (nervioPath in InterpretationHelper.obtenerNerviosyRegionsFrente(context, scaleMatrix)) {
-            canvas.drawPath(nervioPath.second, Paint().apply {
+        for ((_, path) in InterpretationHelper.obtenerNerviosyRegionsFrente(context, scaleMatrix)) {
+            canvas.drawPath(path, Paint().apply {
                 color = Color.RED
                 style = Paint.Style.STROKE
                 strokeWidth = 1f
@@ -188,8 +188,8 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
         invalidate()
     }
     //Interpretación al guardar.
-    fun calcularPorcentaje(tipoMapa:String): Map<String, Float> {
-        return InterpretationHelper.calcularPorcentaje(context, width, height, bPaths, bPaint, cPath, tipoMapa=tipoMapa, escala=scaleMatrix)
+    fun calcularPixeles(tipoMapa:String): Map<String, List<Float>> {
+        return InterpretationHelper.calcularPixeles(context, width, height, bPaths, bPaint, cPath, tipoMapa=tipoMapa, escala=scaleMatrix)
     }
 
 
