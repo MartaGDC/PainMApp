@@ -30,8 +30,11 @@ interface EvaluationDao {
             "FROM evaluations_table " +
             "JOIN map_table ON evaluations_table.idEvaluation = map_table.idEvaluation " +
             "JOIN symptoms_table ON map_table.idMap = symptoms_table.idMap")
-    suspend fun getFullCSV(): List<CSVTable>
+    fun getFullCSV(): List<CSVTable>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertEvaluation(evaluation: EvaluationEntity): Long //Para recuperar el id del registro insertado
+    fun insertEvaluation(evaluation: EvaluationEntity): Long //Para recuperar el id del registro insertado
+
+    @Query("DELETE FROM evaluations_table WHERE idEvaluation NOT IN (SELECT idEvaluation FROM map_table)")
+    fun eliminarEvaluacionesSinMapa()
 }

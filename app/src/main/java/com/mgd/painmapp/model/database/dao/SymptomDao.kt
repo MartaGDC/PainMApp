@@ -27,6 +27,7 @@ interface SymptomDao {
             "INNER JOIN map_table ON symptoms_table.idMap = map_table.idMap " +
             "WHERE map_table.idEvaluation = :idEvaluation")
     fun getSymptomsTableByEvaluation(idEvaluation: Long): List<SymptomTable>
+
 }
 
 

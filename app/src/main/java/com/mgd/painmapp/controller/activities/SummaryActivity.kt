@@ -5,6 +5,7 @@ import android.os.Environment
 import android.util.Log
 import android.widget.TableRow
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.drawerlayout.widget.DrawerLayout
@@ -33,6 +34,7 @@ class SummaryActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navView: NavigationView
     private lateinit var cvCSV: CardView
+    private lateinit var cvMenu: CardView
     private lateinit var mvFront: MapViews
     private lateinit var mvBack: MapViews
     private var idGeneradoEvaluation: Long = -1
@@ -57,15 +59,15 @@ class SummaryActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             symptomsTable = database.getSymptomDao().getSymptomsTableByEvaluation(idGeneradoEvaluation)
             nervesTable = database.getMapDao().getNervesTableByEvaluation(idGeneradoEvaluation)
-            val list = database.getEvaluationDao().getEvaluationById(idGeneradoEvaluation)
+            val evaluationEntity = database.getEvaluationDao().getEvaluationById(idGeneradoEvaluation)
             runOnUiThread{
                 NavigationHelper.setupMenu(
                     navView,
                     drawerLayout,
                     this@SummaryActivity,
-                    list.patientName,
-                    list.researcherName,
-                    list.date,
+                    evaluationEntity.patientName,
+                    evaluationEntity.researcherName,
+                    evaluationEntity.date,
                     idGeneradoEvaluation
                 )
                 tableSymptoms(symptomsTable)
@@ -75,6 +77,7 @@ class SummaryActivity : AppCompatActivity() {
     }
 
     private fun initComponents(){
+        cvMenu = binding.cvMenu
         drawerLayout = binding.main
         navView = binding.navView
         cvCSV = binding.cvCSV
@@ -89,7 +92,11 @@ class SummaryActivity : AppCompatActivity() {
     }
 
     private fun initListeners(){
+        cvMenu.setOnClickListener {
+            drawerLayout.open()
+        }
         cvCSV.setOnClickListener {
+            Toast.makeText(this,"Descargando CSV...", Toast.LENGTH_SHORT).show()
             CoroutineScope(Dispatchers.IO).launch {
                 val dataCSV = database.getEvaluationDao().getFullCSV()
                 runOnUiThread {

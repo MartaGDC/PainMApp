@@ -19,6 +19,21 @@
             app:layout_constraintTop_toTopOf="parent"
             android:padding="30dp">
             <androidx.cardview.widget.CardView
+                android:id="@+id/cvMenu"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:backgroundTint="@color/blue"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:cardCornerRadius="10dp">
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/menu"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/menu"/>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
                 android:id="@+id/cvCSV"
                 android:layout_width="60dp"
                 android:layout_height="60dp"

@@ -14,8 +14,8 @@ import com.mgd.painmapp.model.database.PatientDatabase
 import com.mgd.painmapp.model.database.MapInterpretation
 import com.mgd.painmapp.databinding.ActivityLocationBinding
 import com.mgd.painmapp.model.storage.ColorBrush
-import com.mgd.painmapp.model.storage.getColorIndex
-import com.mgd.painmapp.model.storage.saveColorIndex
+import com.mgd.painmapp.model.storage.ColorBrush.getColorIndex
+import com.mgd.painmapp.model.storage.ColorBrush.saveColorIndex
 import com.mgd.painmapp.view.MapResponsiveViews
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -100,12 +100,13 @@ class LocationActivity : AppCompatActivity() {
 
     private fun initListeners() {
         cvSave.setOnClickListener {
-            if (mrvFront.bPaths.isEmpty() && mrvBack.bPaths.isEmpty()) {
+            if (!mrvFront.validarMapa() && !mrvBack.validarMapa()) {
                 Toast.makeText(this,"Debe dibujar la localización del síntoma",
                     Toast.LENGTH_SHORT
                 ).show()
             }
             else {
+                Toast.makeText(this,"Calculando...", Toast.LENGTH_SHORT).show()
                 CoroutineScope(Dispatchers.IO).launch { //Creamos aqui la coroutine, llamando a una funcion suspend
                     fillDatabase()
                     val intent = Intent(this@LocationActivity, SensorialSurveyActivity::class.java).apply {
@@ -224,11 +225,5 @@ class LocationActivity : AppCompatActivity() {
         nervioAxilarIzquierdo = resultFront[nervios[count]] ?: 0.0f
     }
 
-    suspend fun validarMapa(): Boolean {
-        val pathsFront = database.getMapDao().getFrontPathsDrawnById(idGeneradoEvaluation)
-        val pathsBack = database.getMapDao().getBackPathsDrawnById(idGeneradoEvaluation)
-
-        return pathsFront.isNotEmpty() && pathsBack.isNotEmpty()
-    }
 
 }

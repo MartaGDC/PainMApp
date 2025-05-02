@@ -18,7 +18,7 @@ import android.graphics.PathMeasure
 import com.mgd.painmapp.R
 import com.mgd.painmapp.controller.InterpretationHelper
 import com.mgd.painmapp.model.storage.ColorBrush
-import com.mgd.painmapp.model.storage.getColorIndex
+import com.mgd.painmapp.model.storage.ColorBrush.getColorIndex
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,8 +27,8 @@ import kotlinx.coroutines.launch
 open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(context, attrs) {
     //Variables para el pincel (brush)
     private var bPath : Path? = null
-    var bPaths = mutableListOf<Path>() //Son los trazos del pince
-    val bPaint: Paint = Paint().apply{ //Formato al trazo
+    private var bPaths = mutableListOf<Path>() //Son los trazos del pincel
+    protected val bPaint: Paint = Paint().apply{ //Formato al trazo
         isAntiAlias = true //Bordes suavizados (evita pixelado)
         isDither = true //Mejora la calidad de los colores
         style = Paint.Style.STROKE //Hace formas, pero no pinta dentro de ellas
@@ -36,12 +36,12 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
         strokeCap = Paint.Cap.ROUND //Los extremos de las líneas son redondeados
         strokeWidth = 12f // PENSAR LO DEL SLIDE PARA EL TAMAÑO DEL PICEL. Si no hago zoom sobre el canvas, este tamaño esta bien, y no lo cambiaria
     }
-    var colorIndex = 0
+    private var colorIndex = 0
     private val colorList = ColorBrush.colorList
     //Variables para crear el canva con forma humana
     private val bounds = RectF()
-    val cPath = Path() //El trazo de la forma humana (en el xml del drawable seleccionado, será el primer path)
-    val cPaint: Paint = Paint().apply{
+    protected val cPath = Path() //El trazo de la forma humana (en el xml del drawable seleccionado, será el primer path)
+    protected val cPaint: Paint = Paint().apply{
         isAntiAlias = true
         style = Paint.Style.STROKE
         strokeJoin = Paint.Join.ROUND
@@ -49,14 +49,14 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
         color = getColor(context, R.color.black)
         strokeWidth = 1f
     }
-    val scaleMatrix = Matrix()
+    private val scaleMatrix = Matrix()
 
     //Variables para respuesta tactil
     private var bX = 0f
     private var bY = 0f
 
     //Para que sea reutilizable en frente y espalda
-    var imgFuente: Int = 0
+    protected var imgFuente: Int = 0
     init {
         val array = context.obtainStyledAttributes(attrs, R.styleable.MapResponsiveViews)
         imgFuente = array.getResourceId(R.styleable.MapResponsiveViews_map, 0)
@@ -218,5 +218,9 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
         val boundsPath = "M${xMin},${yMin} L${xMax},${yMin} L${xMax},${yMax} L${xMin},${yMax} Z"
         sb.append(boundsPath)
         return sb.toString().trim()
+    }
+
+    fun validarMapa(): Boolean {
+        return bPaths.isNotEmpty()
     }
 }

@@ -8,6 +8,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.mgd.painmapp.R
+import com.mgd.painmapp.controller.activities.MainActivity
 import com.mgd.painmapp.controller.activities.SensorialActivity
 import com.mgd.painmapp.controller.activities.SummaryActivity
 
@@ -32,6 +33,10 @@ object NavigationHelper {
         val intent = Intent(context, SummaryActivity::class.java).apply {
             putExtra("idGeneradoEvaluation", idGeneradoEvaluation)
         }
+        context.startActivity(intent)
+    }
+    fun navigateToNewPatient(context:Context) {
+        val intent = Intent(context, MainActivity::class.java)
         context.startActivity(intent)
     }
 
@@ -64,6 +69,7 @@ object NavigationHelper {
                 }
             }
             else -> {
+                navigateToNewPatient(context)
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
