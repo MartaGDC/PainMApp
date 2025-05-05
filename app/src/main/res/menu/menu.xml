@@ -8,6 +8,8 @@
         android:title="@string/psychosocial"/>
     <item android:id="@+id/item_resumen"
         android:title="@string/summary"/>
+    <item android:id="@+id/vacio"
+        android:title=""/>
     <item android:id="@+id/item_nuevo"
         android:title="@string/newPatient"/>
 </menu>

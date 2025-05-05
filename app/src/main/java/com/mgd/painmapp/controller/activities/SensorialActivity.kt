@@ -49,11 +49,7 @@ class SensorialActivity : AppCompatActivity() {
         currentDate = intent.getStringExtra("date").toString()
         type = intent.getStringExtra("type").toString()
         idGeneradoEvaluation = intent.getLongExtra("idGeneradoEvaluation", -1)
-        /*database = Room.databaseBuilder(
-            this, PatientDatabase::class.java,
-            "patient_database"
-        ).build()
-        this.deleteDatabase("patient_database")*/
+
         database = Room.databaseBuilder(
             this, PatientDatabase::class.java,
             "patient_database"

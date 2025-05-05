@@ -69,7 +69,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sobrescribir evaluación"
+                android:text="Borrar y sobrescribir evaluación"
                 android:gravity="center"
                 style="@style/Small"
                 android:textSize="14sp"

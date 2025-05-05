@@ -68,8 +68,10 @@ object NavigationHelper {
                     navigateToSummary(context, idGeneradoEvaluation)
                 }
             }
-            else -> {
+            R.id.item_nuevo -> {
                 navigateToNewPatient(context)
+            }
+            else -> {
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)

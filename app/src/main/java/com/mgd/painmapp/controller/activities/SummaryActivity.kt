@@ -19,6 +19,7 @@ import com.mgd.painmapp.model.database.CSVTable
 import com.mgd.painmapp.model.database.NervesTable
 import com.mgd.painmapp.model.database.PatientDatabase
 import com.mgd.painmapp.model.database.SymptomTable
+import com.mgd.painmapp.view.MapResponsiveViews
 import com.mgd.painmapp.view.MapViews
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

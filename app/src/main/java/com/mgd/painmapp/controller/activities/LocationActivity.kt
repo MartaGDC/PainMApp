@@ -30,14 +30,8 @@ class LocationActivity : AppCompatActivity() {
     private var idGeneradoEvaluation: Long = -1
     private var idGeneradoMap: Long = -1
     private lateinit var database: PatientDatabase
-    private var porcentajeFrente: Float = 0.0f
-    private var porcentajeEspalda: Float = 0.0f
     private var porcentajeTotal: Float = 0.0f
-    private var porcentajedchaFrente: Float = 0.0f
-    private var porcentajedchaEspalda: Float = 0.0f
     private var porcentajedchaTotal: Float = 0.0f
-    private var porcentajeizdaFrente: Float = 0.0f
-    private var porcentajeizdaEspalda: Float = 0.0f
     private var porcentajeizdaTotal: Float = 0.0f
     private var nervioMedianoDerecho: Float = 0.0f
     private var nervioRadialSuperficialDerecho : Float= 0.0f
@@ -174,7 +168,6 @@ class LocationActivity : AppCompatActivity() {
     private fun mapCalculate() {
         //Lo haria con map y zip. Pero estoy usando derechaFrente para calcular la derecha de frente y la izquierda de espaldas. Por lo que los indices y valores no coinciden
         var resultFront = mrvFront.calcularPixeles("frente")
-        Log.d("resultFront",resultFront.toString())
         var resultBack = mrvBack.calcularPixeles("")
         var results = InterpretationHelper.calcularPorcentaje(resultFront, resultBack)
         porcentajeTotal = results["total"] ?: 0.0f

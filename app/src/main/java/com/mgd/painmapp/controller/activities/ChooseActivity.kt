@@ -3,6 +3,7 @@ package com.mgd.painmapp.controller.activities
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -108,6 +109,7 @@ class ChooseActivity : AppCompatActivity() {
         Log.d("listEntities", listEntities.toString())
         if (listEntities.any {it.patientName == patientName && it.test == testIntroducido}) { //Al iterar sobre cada entity de la lista, buscar el item con ese nombre y ese test
             val idEvaluation = listEntities.first {it.patientName == patientName && it.test == testIntroducido}.idEvaluation //Solo debe haber un registro. Elegimos first porque será el unico
+            (dialogView.parent as? ViewGroup)?.removeView(dialogView) // Por si ha salido el dialogo y el usuario despues vuelto hacia atras a esta activity
             val dialog = AlertDialog.Builder(this).setView(dialogView).create()
             dialogView.findViewById<CardView>(R.id.btnSobreescribir).setOnClickListener {
                 sobrescribir(idEvaluation, testIntroducido)

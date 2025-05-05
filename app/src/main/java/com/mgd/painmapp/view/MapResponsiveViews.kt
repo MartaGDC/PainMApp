@@ -17,6 +17,7 @@ import org.xmlpull.v1.XmlPullParser
 import android.graphics.PathMeasure
 import com.mgd.painmapp.R
 import com.mgd.painmapp.controller.InterpretationHelper
+import com.mgd.painmapp.model.database.PatientDatabase
 import com.mgd.painmapp.model.storage.ColorBrush
 import com.mgd.painmapp.model.storage.ColorBrush.getColorIndex
 import kotlinx.coroutines.CoroutineScope
@@ -40,7 +41,7 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
     private val colorList = ColorBrush.colorList
     //Variables para crear el canva con forma humana
     private val bounds = RectF()
-    protected val cPath = Path() //El trazo de la forma humana (en el xml del drawable seleccionado, será el primer path)
+    val cPath = Path() //El trazo de la forma humana (en el xml del drawable seleccionado, será el primer path)
     protected val cPaint: Paint = Paint().apply{
         isAntiAlias = true
         style = Paint.Style.STROKE
@@ -123,19 +124,13 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
         cDrawable?.draw(canvas)
         drawPathsOnCanvas(canvas)
         canvas.restore()
-        canvas.drawPath(cPath, Paint().apply {
-            color = Color.GREEN
-            style = Paint.Style.STROKE
-            strokeWidth = 1f
-        })
-
-        for ((_, path) in InterpretationHelper.obtenerNerviosyRegionsFrente(context, scaleMatrix)) {
+        /*for ((_, path) in InterpretationHelper.obtenerNerviosyRegionsFrente(context, scaleMatrix)) {
             canvas.drawPath(path, Paint().apply {
                 color = Color.RED
                 style = Paint.Style.STROKE
                 strokeWidth = 1f
             })
-        }
+        }*/
         canvas.drawPath(cPath, cPaint)
     }
 
@@ -190,6 +185,9 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
     //Interpretación al guardar.
     fun calcularPixeles(tipoMapa:String): Map<String, List<Float>> {
         return InterpretationHelper.calcularPixeles(context, width, height, bPaths, bPaint, cPath, tipoMapa=tipoMapa, escala=scaleMatrix)
+    }
+    fun calcularTotalPixeles(database: PatientDatabase, tipoMapa:String): Map<String, List<Float>> {
+        return InterpretationHelper.calcularTotalPixeles(database, cPath, width, height, bPaint, tipoMapa=tipoMapa, optimization=5)
     }
 
 
