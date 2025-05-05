@@ -186,10 +186,6 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
     fun calcularPixeles(tipoMapa:String): Map<String, List<Float>> {
         return InterpretationHelper.calcularPixeles(context, width, height, bPaths, bPaint, cPath, tipoMapa=tipoMapa, escala=scaleMatrix)
     }
-    fun calcularTotalPixeles(database: PatientDatabase, tipoMapa:String): Map<String, List<Float>> {
-        return InterpretationHelper.calcularTotalPixeles(database, cPath, width, height, bPaint, tipoMapa=tipoMapa, optimization=5)
-    }
-
 
     //SVG del dibujo
     fun pathToSVGString(): String {

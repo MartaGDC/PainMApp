@@ -9,6 +9,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
 import com.google.android.material.navigation.NavigationView
+import com.mgd.painmapp.controller.InterpretationHelper
 import com.mgd.painmapp.model.database.entities.toDatabase
 import com.mgd.painmapp.model.database.entities.toSymptom
 import com.mgd.painmapp.model.database.PatientDatabase
@@ -34,6 +35,9 @@ class SensorialActivity : AppCompatActivity() {
     private lateinit var type: String
     private var idGeneradoEvaluation: Long = -1
     private lateinit var database: PatientDatabase
+    private var mvFrontReady: Boolean = false
+    private var mvBackReady: Boolean = false
+
     //Menu
     private lateinit var cvMenu: CardView
     private lateinit var drawerLayout: DrawerLayout
@@ -54,6 +58,7 @@ class SensorialActivity : AppCompatActivity() {
             this, PatientDatabase::class.java,
             "patient_database"
         ).build()
+
 
         initComponents()
         initListeners()
@@ -85,6 +90,15 @@ class SensorialActivity : AppCompatActivity() {
             mvFront.paths = bPathFront
             mvBack.paths = bPathBack
         }
+        mvFront.post {
+            mvFrontReady = true
+            calcularTotales()
+        }
+        mvBack.post {
+            mvBackReady = true
+            calcularTotales()
+        }
+
 
         //Menu:
         cvMenu = binding.cvMenu
@@ -142,6 +156,21 @@ class SensorialActivity : AppCompatActivity() {
         }
         else { //Si ya se ha registrado
             return
+        }
+    }
+
+    private fun calcularTotales() {
+        if (mvFrontReady && mvBackReady && idGeneradoEvaluation != (-1).toLong()) { //Hay registro de evaluación, y mapas disponibles
+            var resultFront = mvFront.calcularTotalPixeles("frente")
+            var resultBack = mvBack.calcularTotalPixeles("espalda")
+            var results = InterpretationHelper.calcularPorcentaje(resultFront, resultBack)
+            var porcentajeTotal = results["total"] ?: 0.0f
+            var porcentajedchaTotal = results["derecha"] ?: 0.0f
+            var porcentajeizdaTotal = results["izquierda"] ?: 0.0f
+            CoroutineScope(Dispatchers.IO).launch {
+                database.getMapDao().updatePatientPercentages(idGeneradoEvaluation, porcentajeTotal, porcentajedchaTotal, porcentajeizdaTotal)
+            }
+
         }
     }
 }

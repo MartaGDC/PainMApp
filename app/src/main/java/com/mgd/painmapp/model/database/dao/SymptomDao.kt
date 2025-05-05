@@ -23,7 +23,8 @@ interface SymptomDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSymptom(symptom: SymptomEntity): Long //Para recuperar el id del registro insertado
 
-    @Query("SELECT symptom, totalPercentage, rightPercentage, leftPercentage FROM symptoms_table " +
+    @Query("SELECT symptom, totalPatientPercentage, rightPatientPercentage, leftPatientPercentage, " +
+            "totalPercentage, rightPercentage, leftPercentage FROM symptoms_table " +
             "INNER JOIN map_table ON symptoms_table.idMap = map_table.idMap " +
             "WHERE map_table.idEvaluation = :idEvaluation")
     fun getSymptomsTableByEvaluation(idEvaluation: Long): List<SymptomTable>

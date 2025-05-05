@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.mgd.painmapp.model.database.NervesTable
 import com.mgd.painmapp.model.database.SymptomTable
 import com.mgd.painmapp.model.database.entities.MapEntity
@@ -40,6 +41,11 @@ interface MapDao {
             "INNER JOIN symptoms_table ON map_table.idMap = symptoms_table.idMap " +
             "WHERE map_table.idEvaluation = :idEvaluation")
     fun getNervesTableByEvaluation(idEvaluation: Long): List<NervesTable>
+
+    @Query("UPDATE map_table " +
+            "SET totalPatientPercentage = :totalPatientPercentage, rightPatientPercentage = :rightPatientPercentage, leftPatientPercentage = :leftPatientPercentage " +
+            "WHERE idEvaluation = :idEvaluation")
+    fun updatePatientPercentages(idEvaluation: Long, totalPatientPercentage: Float, rightPatientPercentage: Float, leftPatientPercentage: Float)
 
     @Query("DELETE FROM map_table WHERE idEvaluation = :idEvaluation")
     fun deleteMapsByEvaluation(idEvaluation: Long)

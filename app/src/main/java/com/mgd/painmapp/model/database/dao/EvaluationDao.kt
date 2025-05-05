@@ -17,7 +17,8 @@ interface EvaluationDao {
     fun getEvaluationById(idEvaluation: Long): EvaluationEntity
 
     @Query("SELECT evaluations_table.idEvaluation, patient, researcher, date, test, " +
-            "map_table.idMap, pathsDrawnFront, pathsDrawnBack, totalPercentage, rightPercentage, leftPercentage, nervioMedianoDerecho, " +
+            "map_table.idMap, pathsDrawnFront, pathsDrawnBack, totalPatientPercentage, rightPatientPercentage, leftPatientPercentage, " +
+            "totalPercentage, rightPercentage, leftPercentage, nervioMedianoDerecho, " +
             "nervioRadialSuperficialDerecho, nervioCubitalDerecho, nervioMusculoCutaneoDerecho, nerviosSupraclavicularesDerechos, " +
             "nervioFemoralDerecho, nervioGenitalDerecho, nervioIlioinguinoDerecho, nervioObturadoDerecho, nervioFemoralAnteriorDerecho, " +
             "nervioSafenoDerecho, nervioPeroneoDerecho, nervioSuralDerecho, nervioBraquialDerecho, nervioAntebrazoDerecho, nervioRadialDerecho, " +

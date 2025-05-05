@@ -130,7 +130,8 @@ class SummaryActivity : AppCompatActivity() {
         val fileName = "PainMApp_${formattedDate}.csv"
         val header = listOf(
             "idEvaluation", "patient", "researcher", "date", "test",
-            "idMap", "pathsDrawnFront", "pathsDrawnBack", "totalPercentage", "rightPercentage", "leftPercentage",
+            "idMap", "pathsDrawnFront", "pathsDrawnBack", "totalPatientPercentage", "rightPatientPercentage", "leftPatientPercentage",
+            "totalPercentage", "rightPercentage", "leftPercentage",
             "nervioMedianoDerecho", "nervioRadialSuperficialDerecho", "nervioCubitalDerecho", "nervioMusculoCutaneoDerecho",
             "nerviosSupraclavicularesDerechos", "nervioFemoralDerecho", "nervioGenitalDerecho", "nervioIlioinguinoDerecho",
             "nervioObturadoDerecho", "nervioFemoralAnteriorDerecho", "nervioSafenoDerecho", "nervioPeroneoDerecho", "nervioSuralDerecho",
@@ -158,6 +159,9 @@ class SummaryActivity : AppCompatActivity() {
                     row.idMap,
                     row.pathsDrawnFront.replace(Regex("M[\\d.,\\s]+L[\\d.,\\s]+L[\\d.,\\s]+L[\\d.,\\s]+Z"), ""),
                     row.pathsDrawnBack.replace(Regex("M[\\d.,\\s]+L[\\d.,\\s]+L[\\d.,\\s]+L[\\d.,\\s]+Z"), ""),
+                    row.totalPatientPercentage.toString().replace('.', ','),
+                    row.rightPatientPercentage.toString().replace('.', ','),
+                    row.leftPatientPercentage.toString().replace('.', ','),
                     row.totalPercentage.toString().replace('.', ','),
                     row.rightPercentage.toString().replace('.', ','),
                     row.leftPercentage.toString().replace('.', ','),
@@ -235,9 +239,9 @@ class SummaryActivity : AppCompatActivity() {
         val rowGeneral = TableRow(this).apply { //No es la suma de los porcentajes, ya que pueden solaparse
             insertCell("General",  true,0 )
             insertCell("",  true,0 )
-            insertCell("",  false, 1)
-            insertCell("",  false, 1)
-            insertCell("",  false, 1)
+            insertCell(String.format("%.2f%%", symptomsTable[0].totalPatientPercentage), false, 1)
+            insertCell(String.format("%.2f%%", symptomsTable[0].rightPatientPercentage),  false, 1)
+            insertCell(String.format("%.2f%%", symptomsTable[0].leftPatientPercentage),  false, 1)
         }
         table.addView(rowGeneral)
         var firstSymptom = true
