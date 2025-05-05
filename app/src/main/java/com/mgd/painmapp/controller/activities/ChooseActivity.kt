@@ -1,12 +1,15 @@
 package com.mgd.painmapp.controller.activities
 
 import android.os.Bundle
-import android.widget.Toast
+import android.util.Log
+import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.room.Room
 import com.google.android.material.navigation.NavigationView
+import com.mgd.painmapp.R
 import com.mgd.painmapp.controller.NavigationHelper
 import com.mgd.painmapp.databinding.ActivityChooseBinding
 import com.mgd.painmapp.model.database.PatientDatabase
@@ -25,6 +28,7 @@ class ChooseActivity : AppCompatActivity() {
     private lateinit var sensorial: CardView
     private lateinit var motor: CardView
     private lateinit var psychosocial: CardView
+    private lateinit var dialogView: View
     private lateinit var currentDate: String
     private lateinit var database: PatientDatabase
     private lateinit var listEntities: List<EvaluationEntity>
@@ -56,6 +60,7 @@ class ChooseActivity : AppCompatActivity() {
         sensorial = binding.cvSensorial
         motor = binding.cvMotor
         psychosocial = binding.cvPsychosocial
+        dialogView = layoutInflater.inflate(R.layout.dialog_choose, null)
 
         //Menu:
         cvMenu = binding.cvMenu
@@ -89,35 +94,56 @@ class ChooseActivity : AppCompatActivity() {
         }
         motor.setOnClickListener {
             if(validarUsuario("motor")){
-                NavigationHelper.navigateToSensorial(
-                    this,
-                    patientName,
-                    researcherName,
-                    currentDate,
-                    idGeneradoEvaluation = -1
-                )
+                NavigationHelper.navigateToMotor()
             }
-            NavigationHelper.navigateToMotor()
         }
         psychosocial.setOnClickListener {
             if(validarUsuario("psychosocial")){
-                NavigationHelper.navigateToSensorial(
-                    this,
-                    patientName,
-                    researcherName,
-                    currentDate,
-                    idGeneradoEvaluation = -1
-                )
+                NavigationHelper.navigateToPsychosocial()
             }
-            NavigationHelper.navigateToPsychosocial()
         }
     }
 
     private fun validarUsuario(testIntroducido: String):Boolean {
+        Log.d("listEntities", listEntities.toString())
         if (listEntities.any {it.patientName == patientName && it.test == testIntroducido}) { //Al iterar sobre cada entity de la lista, buscar el item con ese nombre y ese test
-            Toast.makeText(this,"Esta evaluación ya ha sido realizada en este paciente", Toast.LENGTH_SHORT).show()
+            val idEvaluation = listEntities.first {it.patientName == patientName && it.test == testIntroducido}.idEvaluation //Solo debe haber un registro. Elegimos first porque será el unico
+            val dialog = AlertDialog.Builder(this).setView(dialogView).create()
+            dialogView.findViewById<CardView>(R.id.btnSobreescribir).setOnClickListener {
+                sobrescribir(idEvaluation, testIntroducido)
+                dialog.dismiss()
+            }
+            dialogView.findViewById<CardView>(R.id.btnResumen).setOnClickListener {
+                NavigationHelper.navigateToSummary(this, idEvaluation)
+                dialog.dismiss()
+            }
+
+            dialogView.findViewById<CardView>(R.id.btnCancelar).setOnClickListener {
+                dialog.dismiss()
+            }
+            dialog.show()
             return false
         }
         return true
+    }
+    private fun sobrescribir(idEvaluation: Long, test: String){
+        CoroutineScope(Dispatchers.IO).launch {
+            database.getMapDao().deleteMapsByEvaluation(idEvaluation) //No es necesario eliminar en symptom table por las inner joins.
+        }
+        if(test == "sensorial"){
+            NavigationHelper.navigateToSensorial(
+                this,
+                patientName,
+                researcherName,
+                currentDate,
+                idGeneradoEvaluation = idEvaluation
+            )
+        }
+        else if (test == "motor"){
+            NavigationHelper.navigateToMotor()
+        }
+        else {
+            NavigationHelper.navigateToPsychosocial()
+        }
     }
 }

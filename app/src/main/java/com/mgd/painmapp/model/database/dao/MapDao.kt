@@ -35,6 +35,9 @@ interface MapDao {
             "WHERE map_table.idEvaluation = :idEvaluation")
     fun getNervesTableByEvaluation(idEvaluation: Long): List<NervesTable>
 
+    @Query("DELETE FROM map_table WHERE idEvaluation = :idEvaluation")
+    fun deleteMapsByEvaluation(idEvaluation: Long)
+
     @Query("DELETE FROM map_table WHERE idMap NOT IN (SELECT idMap FROM symptoms_table)")
     fun eliminarMapasSinSintomas()
 }

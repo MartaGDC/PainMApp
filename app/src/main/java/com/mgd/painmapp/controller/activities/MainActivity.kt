@@ -44,6 +44,10 @@ class MainActivity : AppCompatActivity() {
         }
         initUI()
     }
+    @Suppress("MissingSuperCall")
+    override fun onBackPressed(){
+        finishAffinity()
+    }
 
     private fun initUI() {
         patientName = binding.etPatientName
