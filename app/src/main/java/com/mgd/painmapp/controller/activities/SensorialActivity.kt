@@ -17,6 +17,7 @@ import com.mgd.painmapp.model.database.Evaluation
 import com.mgd.painmapp.controller.NavigationHelper
 import com.mgd.painmapp.view.adapters.SymptomsAdapter
 import com.mgd.painmapp.databinding.ActivitySensorialBinding
+import com.mgd.painmapp.model.storage.ColorBrush
 import com.mgd.painmapp.view.MapViews
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -113,6 +114,9 @@ class SensorialActivity : AppCompatActivity() {
             currentDate,
             idGeneradoEvaluation
         )
+
+        Log.d("Color en Sensorial", ColorBrush.colorList.toString())
+
     }
 
     private fun initListeners(){
@@ -164,9 +168,9 @@ class SensorialActivity : AppCompatActivity() {
             var resultFront = mvFront.calcularTotalPixeles("frente")
             var resultBack = mvBack.calcularTotalPixeles("espalda")
             var results = InterpretationHelper.calcularPorcentaje(resultFront, resultBack)
-            var porcentajeTotal = results["total"] ?: 0.0f
-            var porcentajedchaTotal = results["derecha"] ?: 0.0f
-            var porcentajeizdaTotal = results["izquierda"] ?: 0.0f
+            var porcentajeTotal = results["total"] ?: 0f
+            var porcentajedchaTotal = results["derecha"] ?: 0f
+            var porcentajeizdaTotal = results["izquierda"] ?: 0f
             CoroutineScope(Dispatchers.IO).launch {
                 database.getMapDao().updatePatientPercentages(idGeneradoEvaluation, porcentajeTotal, porcentajedchaTotal, porcentajeizdaTotal)
             }

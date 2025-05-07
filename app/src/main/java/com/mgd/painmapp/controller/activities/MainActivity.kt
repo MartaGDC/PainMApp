@@ -2,6 +2,7 @@ package com.mgd.painmapp.controller.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -27,11 +28,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        /*database = Room.databaseBuilder(
+        database = Room.databaseBuilder(
             this, PatientDatabase::class.java,
             "patient_database"
         ).build()
-        this.deleteDatabase("patient_database")*/
+        this.deleteDatabase("patient_database")
 
         //Establecer en settings el color del pincel
         ColorBrush.initialize(this)

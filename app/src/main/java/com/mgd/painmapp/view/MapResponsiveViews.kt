@@ -62,10 +62,6 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
         val array = context.obtainStyledAttributes(attrs, R.styleable.MapResponsiveViews)
         imgFuente = array.getResourceId(R.styleable.MapResponsiveViews_map, 0)
         array.recycle()
-        CoroutineScope(Dispatchers.IO).launch {
-            colorIndex =  context.getColorIndex()
-            bPaint.color = colorList[colorIndex]
-        }
     }
 
     override fun onSizeChanged(widthC: Int, heightC: Int, oldWidth: Int, oldHeight: Int) {

@@ -17,7 +17,6 @@ class MapViews(context: Context, attrs: AttributeSet) : MapResponsiveViews(conte
     lateinit var paths: List<String>
     val listLimpio = mutableListOf<Path>()
     override fun onDraw(canvas: Canvas) {
-        Log.d("width", width.toString())
         if (isInEditMode) return //Añadido porque onDraw no sabía gestionar que los paths no estuvieran inicializados,
                                  // antes de la ejecución de la app, dado que se inician desde SensorialActivity.
                                  // Esto es porque las views realizan un renderizado-simulación antes de la ejecución, y
@@ -44,21 +43,21 @@ class MapViews(context: Context, attrs: AttributeSet) : MapResponsiveViews(conte
             val scaleFactor = minOf(scaleX, scaleY)
             val matrix =Matrix()
             matrix.setScale(scaleFactor, scaleFactor, boundsDibujo.centerX(), boundsDibujo.centerY())
+            dibujoLimpio.transform(matrix)
             //Centrado:
             dibujos.computeBounds(boundsDibujo, true)
             val dx = (bounds.centerX() - boundsDibujo.centerX())
             val dy = (bounds.centerY() - boundsDibujo.centerY())
-            matrix.postTranslate(dx, dy)
+            matrix.reset()
+            matrix.setTranslate(dx, dy)
             dibujoLimpio.transform(matrix)
             listLimpio.add(dibujoLimpio)
             bPaint.color = ColorBrush.colorList[count]
-            bPaint.strokeWidth = 14f
+            bPaint.strokeWidth = 9f
             count = (count + 1) % ColorBrush.colorList.size
             canvas.drawPath(dibujoLimpio, bPaint)
         }
         canvas.drawPath(cPath, cPaint)
-        Log.d("width2", width.toString())
-
     }
     fun calcularTotalPixeles(tipoMapa:String): Map<String, List<Float>> {
         return InterpretationHelper.calcularTotalPixeles(width, height, listLimpio, bPaint, cPath, optimization=5, tipoMapa=tipoMapa)

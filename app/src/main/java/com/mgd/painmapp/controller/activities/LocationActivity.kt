@@ -90,6 +90,8 @@ class LocationActivity : AppCompatActivity() {
         cvDelete = binding.cvDelete
         mrvFront = binding.mrvFront
         mrvBack = binding.mrvBack
+        Log.d("Color en Location", ColorBrush.colorList.toString())
+
     }
 
     private fun initListeners() {

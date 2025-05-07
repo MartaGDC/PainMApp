@@ -18,6 +18,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.xmlpull.v1.XmlPullParser
+import kotlin.math.roundToInt
 
 object InterpretationHelper {
     @SuppressLint("ResourceType")
@@ -197,20 +198,20 @@ object InterpretationHelper {
             mapTotales[name] = resultadosTotales
             val total = resultadosTotales[0]
             val pintado = resultadosTotales[1]
-            resultadoPorcentajes[name] = pintado / total * 100f
+            resultadoPorcentajes[name] = String.format("%.1f", (pintado / total * 100f)).toFloat()
         }
 
         for (name in mapResultsFrente.keys - mapResultsEspalda.keys) {
             val resultadosFrente = mapResultsFrente[name]!!
             val total = resultadosFrente[0]
             val pintado = resultadosFrente[1]
-            resultadoPorcentajes[name] = pintado / total * 100f
+            resultadoPorcentajes[name] = String.format("%.1f", (pintado / total * 100f)).toFloat()
         }
         for (name in mapResultsEspalda.keys - mapResultsFrente.keys) {
             val resultadosEspalda = mapResultsEspalda[name]!!
             val total = resultadosEspalda[0]
             val pintado = resultadosEspalda[1]
-            resultadoPorcentajes[name] = pintado / total * 100f
+            resultadoPorcentajes[name] = String.format("%.1f", (pintado / total * 100f)).toFloat()
         }
         return resultadoPorcentajes
     }

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.RadioButton
@@ -18,6 +19,7 @@ import com.mgd.painmapp.model.database.entities.toDatabase
 import com.mgd.painmapp.model.database.PatientDatabase
 import com.mgd.painmapp.model.database.Symptom
 import com.mgd.painmapp.databinding.ActivitySensorialSurveyBinding
+import com.mgd.painmapp.model.storage.ColorBrush
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

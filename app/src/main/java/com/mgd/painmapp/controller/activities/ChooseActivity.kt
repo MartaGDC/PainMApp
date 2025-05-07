@@ -15,6 +15,7 @@ import com.mgd.painmapp.controller.NavigationHelper
 import com.mgd.painmapp.databinding.ActivityChooseBinding
 import com.mgd.painmapp.model.database.PatientDatabase
 import com.mgd.painmapp.model.database.entities.EvaluationEntity
+import com.mgd.painmapp.model.storage.ColorBrush
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -76,6 +77,8 @@ class ChooseActivity : AppCompatActivity() {
             currentDate,
             idGeneradoEvaluation = -1
         )
+        Log.d("Color en choose", ColorBrush.colorList.toString())
+
     }
 
     private fun initListeners(){
