@@ -17,7 +17,6 @@ import com.mgd.painmapp.model.database.Evaluation
 import com.mgd.painmapp.controller.NavigationHelper
 import com.mgd.painmapp.view.adapters.SymptomsAdapter
 import com.mgd.painmapp.databinding.ActivitySensorialBinding
-import com.mgd.painmapp.model.storage.ColorBrush
 import com.mgd.painmapp.view.MapViews
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -114,9 +113,6 @@ class SensorialActivity : AppCompatActivity() {
             currentDate,
             idGeneradoEvaluation
         )
-
-        Log.d("Color en Sensorial", ColorBrush.colorList.toString())
-
     }
 
     private fun initListeners(){
@@ -152,7 +148,7 @@ class SensorialActivity : AppCompatActivity() {
         return emptyList()
     }
 
-    private suspend fun fillDatabase() { //Suspend para que el hilo principal espere
+    private fun fillDatabase() { //Suspend para que el hilo principal espere
         if (idGeneradoEvaluation == (-1).toLong()) { //Si no hay registro de evaluación
             val evaluationEntity =
                 Evaluation(patientName, researcherName, currentDate, type).toDatabase()

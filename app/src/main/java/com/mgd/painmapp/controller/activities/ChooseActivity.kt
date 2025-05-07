@@ -77,8 +77,6 @@ class ChooseActivity : AppCompatActivity() {
             currentDate,
             idGeneradoEvaluation = -1
         )
-        Log.d("Color en choose", ColorBrush.colorList.toString())
-
     }
 
     private fun initListeners(){
@@ -109,7 +107,6 @@ class ChooseActivity : AppCompatActivity() {
     }
 
     private fun validarUsuario(testIntroducido: String):Boolean {
-        Log.d("listEntities", listEntities.toString())
         if (listEntities.any {it.patientName == patientName && it.test == testIntroducido}) { //Al iterar sobre cada entity de la lista, buscar el item con ese nombre y ese test
             val idEvaluation = listEntities.first {it.patientName == patientName && it.test == testIntroducido}.idEvaluation //Solo debe haber un registro. Elegimos first porque será el unico
             (dialogView.parent as? ViewGroup)?.removeView(dialogView) // Por si ha salido el dialogo y el usuario despues vuelto hacia atras a esta activity

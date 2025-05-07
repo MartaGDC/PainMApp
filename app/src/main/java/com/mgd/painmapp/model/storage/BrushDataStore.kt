@@ -1,6 +1,7 @@
 package com.mgd.painmapp.model.storage
 
 import android.content.Context
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
@@ -16,6 +17,7 @@ object ColorBrush {
     val colorList = mutableListOf<Int>()
 
     fun initialize(context: Context) {
+        Log.d("ColorBrush", "Initializing color list")
         colorList.clear()
         colorList.addAll(
             listOf(

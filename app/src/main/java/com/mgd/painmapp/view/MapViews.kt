@@ -38,8 +38,8 @@ class MapViews(context: Context, attrs: AttributeSet) : MapResponsiveViews(conte
             val boundsDibujo = RectF()
             //Escala:
             dibujos.computeBounds(boundsDibujo, true)
-            val scaleX = bounds.width() / boundsDibujo.width()
-            val scaleY = bounds.height() / boundsDibujo.height()
+            val scaleX = (bounds.width()+400)/ boundsDibujo.width()
+            val scaleY = (bounds.height()+400) / boundsDibujo.height()
             val scaleFactor = minOf(scaleX, scaleY)
             val matrix =Matrix()
             matrix.setScale(scaleFactor, scaleFactor, boundsDibujo.centerX(), boundsDibujo.centerY())
@@ -53,7 +53,7 @@ class MapViews(context: Context, attrs: AttributeSet) : MapResponsiveViews(conte
             dibujoLimpio.transform(matrix)
             listLimpio.add(dibujoLimpio)
             bPaint.color = ColorBrush.colorList[count]
-            bPaint.strokeWidth = 9f
+            bPaint.strokeWidth = 11f
             count = (count + 1) % ColorBrush.colorList.size
             canvas.drawPath(dibujoLimpio, bPaint)
         }

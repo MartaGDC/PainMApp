@@ -15,9 +15,9 @@ import androidx.core.content.ContextCompat.*
 import androidx.core.graphics.PathParser
 import org.xmlpull.v1.XmlPullParser
 import android.graphics.PathMeasure
+import android.graphics.Region
 import com.mgd.painmapp.R
 import com.mgd.painmapp.controller.InterpretationHelper
-import com.mgd.painmapp.model.database.PatientDatabase
 import com.mgd.painmapp.model.storage.ColorBrush
 import com.mgd.painmapp.model.storage.ColorBrush.getColorIndex
 import kotlinx.coroutines.CoroutineScope
@@ -62,6 +62,10 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
         val array = context.obtainStyledAttributes(attrs, R.styleable.MapResponsiveViews)
         imgFuente = array.getResourceId(R.styleable.MapResponsiveViews_map, 0)
         array.recycle()
+        CoroutineScope(Dispatchers.IO).launch {
+            colorIndex =  context.getColorIndex()
+            bPaint.color = colorList[colorIndex]
+        }
     }
 
     override fun onSizeChanged(widthC: Int, heightC: Int, oldWidth: Int, oldHeight: Int) {
@@ -136,6 +140,9 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
             canvas.drawPath(path, bPaint)
         }
     }
+
+
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         if (event == null) return false
@@ -201,10 +208,10 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
         }
         //Añado el recuadro del canvas para que al reescarlarlo en SensorialActivity tenga en cuenta el recuadro en el que el dibujo del usuario se encuentra:
         cPath.computeBounds(bounds, true)
-        val xMin = bounds.left+1
-        val yMin = bounds.top+1
-        val xMax = bounds.right+1
-        val yMax = bounds.bottom+1
+        val xMin = bounds.left-200
+        val yMin = bounds.top-200
+        val xMax = bounds.right+200
+        val yMax = bounds.bottom+200
         val boundsPath = "M${xMin},${yMin} L${xMax},${yMin} L${xMax},${yMax} L${xMin},${yMax} Z"
         sb.append(boundsPath)
         return sb.toString().trim()

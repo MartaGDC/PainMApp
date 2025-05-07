@@ -30,43 +30,11 @@ class LocationActivity : AppCompatActivity() {
     private var idGeneradoEvaluation: Long = -1
     private var idGeneradoMap: Long = -1
     private lateinit var database: PatientDatabase
-    private var porcentajeTotal: Float = 0.0f
-    private var porcentajedchaTotal: Float = 0.0f
-    private var porcentajeizdaTotal: Float = 0.0f
-    private var nervioMedianoDerecho: Float = 0.0f
-    private var nervioRadialSuperficialDerecho : Float= 0.0f
-    private var nervioCubitalDerecho : Float= 0.0f
-    private var nervioMusculoCutaneoDerecho : Float= 0.0f
-    private var nerviosSupraclavicularesDerechos : Float= 0.0f
-    private var nervioFemoralDerecho : Float= 0.0f
-    private var nervioGenitalDerecho : Float= 0.0f
-    private var nervioIlioinguinoDerecho : Float= 0.0f
-    private var nervioObturadoDerecho : Float= 0.0f
-    private var nervioFemoralAnteriorDerecho: Float= 0.0f
-    private var nervioSafenoDerecho : Float= 0.0f
-    private var nervioPeroneoDerecho: Float= 0.0f
-    private var nervioSuralDerecho : Float= 0.0f
-    private var nervioBraquialDerecho : Float= 0.0f
-    private var nervioAntebrazoDerecho : Float= 0.0f
-    private var nervioRadialDerecho : Float= 0.0f
-    private var nervioAxilarDerecho: Float= 0.0f
-    private var nervioMedianoIzquierdo : Float= 0.0f
-    private var nervioRadialSuperficialIzquierdo : Float= 0.0f
-    private var nervioCubitalIzquierdo : Float= 0.0f
-    private var nervioMusculoCutaneoIzquierdo : Float= 0.0f
-    private var nerviosSupraclavicularesIzquierdos : Float= 0.0f
-    private var nervioFemoralIzquierdo : Float= 0.0f
-    private var nervioGenitalIzquierdo : Float= 0.0f
-    private var nervioIlioinguinoIzquierdo : Float= 0.0f
-    private var nervioObturadoIzquierdo : Float= 0.0f
-    private var nervioFemoralAnteriorIzquierdo : Float= 0.0f
-    private var nervioSafenoIzquierdo : Float= 0.0f
-    private var nervioPeroneoIzquierdo : Float= 0.0f
-    private var nervioSuralIzquierdo : Float= 0.0f
-    private var nervioBraquialIzquierdo : Float= 0.0f
-    private var nervioAntebrazoIzquierdo: Float= 0.0f
-    private var nervioRadialIzquierdo : Float= 0.0f
-    private var nervioAxilarIzquierdo : Float= 0.0f
+    private var porcentajeTotal: Float = 0f
+    private var porcentajedchaTotal: Float = 0f
+    private var porcentajeizdaTotal: Float = 0f
+    private lateinit var nerviosNombres: List<String>
+    private val nervios: MutableMap<String, Float> = mutableMapOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,6 +49,7 @@ class LocationActivity : AppCompatActivity() {
             "patient_database"
         ).build()
 
+        nerviosNombres = InterpretationHelper.obtenerNerviosPerifericosFrente(this)
         initComponents()
         initListeners()
     }
@@ -90,8 +59,6 @@ class LocationActivity : AppCompatActivity() {
         cvDelete = binding.cvDelete
         mrvFront = binding.mrvFront
         mrvBack = binding.mrvBack
-        Log.d("Color en Location", ColorBrush.colorList.toString())
-
     }
 
     private fun initListeners() {
@@ -132,91 +99,59 @@ class LocationActivity : AppCompatActivity() {
             porcentajeTotal,
             porcentajedchaTotal,
             porcentajeizdaTotal,
-            nervioMedianoDerecho,
-            nervioRadialSuperficialDerecho,
-            nervioCubitalDerecho,
-            nervioMusculoCutaneoDerecho,
-            nerviosSupraclavicularesDerechos,
-            nervioFemoralDerecho,
-            nervioGenitalDerecho,
-            nervioIlioinguinoDerecho,
-            nervioObturadoDerecho,
-            nervioFemoralAnteriorDerecho,
-            nervioSafenoDerecho,
-            nervioPeroneoDerecho,
-            nervioSuralDerecho,
-            nervioBraquialDerecho,
-            nervioAntebrazoDerecho,
-            nervioRadialDerecho,
-            nervioAxilarDerecho,
-            nervioMedianoIzquierdo,
-            nervioRadialSuperficialIzquierdo,
-            nervioCubitalIzquierdo,
-            nervioMusculoCutaneoIzquierdo,
-            nerviosSupraclavicularesIzquierdos,
-            nervioFemoralIzquierdo,
-            nervioGenitalIzquierdo,
-            nervioIlioinguinoIzquierdo,
-            nervioObturadoIzquierdo,
-            nervioFemoralAnteriorIzquierdo,
-            nervioSafenoIzquierdo,
-            nervioPeroneoIzquierdo,
-            nervioSuralIzquierdo,
-            nervioBraquialIzquierdo,
-            nervioAntebrazoIzquierdo,
-            nervioRadialIzquierdo,
-            nervioAxilarIzquierdo
+            nervios[nerviosNombres[0]] ?: 0f,
+            nervios[nerviosNombres[1]] ?: 0f,
+            nervios[nerviosNombres[2]] ?: 0f,
+            nervios[nerviosNombres[3]] ?: 0f,
+            nervios[nerviosNombres[4]] ?: 0f,
+            nervios[nerviosNombres[5]] ?: 0f,
+            nervios[nerviosNombres[6]] ?: 0f,
+            nervios[nerviosNombres[7]] ?: 0f,
+            nervios[nerviosNombres[8]] ?: 0f,
+            nervios[nerviosNombres[9]] ?: 0f,
+            nervios[nerviosNombres[10]] ?: 0f,
+            nervios[nerviosNombres[11]] ?: 0f,
+            nervios[nerviosNombres[12]] ?: 0f,
+            nervios[nerviosNombres[13]] ?: 0f,
+            nervios[nerviosNombres[14]] ?: 0f,
+            nervios[nerviosNombres[15]] ?: 0f,
+            nervios[nerviosNombres[16]] ?: 0f,
+            nervios[nerviosNombres[17]] ?: 0f,
+            nervios[nerviosNombres[18]] ?: 0f,
+            nervios[nerviosNombres[19]] ?: 0f,
+            nervios[nerviosNombres[20]] ?: 0f,
+            nervios[nerviosNombres[21]] ?: 0f,
+            nervios[nerviosNombres[22]] ?: 0f,
+            nervios[nerviosNombres[23]] ?: 0f,
+            nervios[nerviosNombres[24]] ?: 0f,
+            nervios[nerviosNombres[25]] ?: 0f,
+            nervios[nerviosNombres[26]] ?: 0f,
+            nervios[nerviosNombres[27]] ?: 0f,
+            nervios[nerviosNombres[28]] ?: 0f,
+            nervios[nerviosNombres[29]] ?: 0f,
+            nervios[nerviosNombres[30]] ?: 0f,
+            nervios[nerviosNombres[31]] ?: 0f,
+            nervios[nerviosNombres[32]] ?: 0f,
+            nervios[nerviosNombres[33]] ?: 0f
         ).toDatabase()
         idGeneradoMap = database.getMapDao().insertMap(mapEntity)
     }
 
     private fun mapCalculate() {
-        //Lo haria con map y zip. Pero estoy usando derechaFrente para calcular la derecha de frente y la izquierda de espaldas. Por lo que los indices y valores no coinciden
         var resultFront = mrvFront.calcularPixeles("frente")
         var resultBack = mrvBack.calcularPixeles("")
         var results = InterpretationHelper.calcularPorcentaje(resultFront, resultBack)
-        porcentajeTotal = results["total"] ?: 0.0f
-        porcentajedchaTotal = results["derecha"] ?: 0.0f
-        porcentajeizdaTotal = results["izquierda"] ?: 0.0f
+        porcentajeTotal = results["total"] ?: 0f
+        porcentajedchaTotal = results["derecha"] ?: 0f
+        porcentajeizdaTotal = results["izquierda"] ?: 0f
 
         //Nervios (solo parte frontal):
-        val nervios = InterpretationHelper.obtenerNerviosPerifericosFrente(this)
-        var count=0
-        nervioMedianoDerecho = results[nervios[count++]] ?: 0.0f
-        nervioRadialSuperficialDerecho = results[nervios[count++]] ?: 0.0f
-        nervioCubitalDerecho = results[nervios[count++]] ?: 0.0f
-        nervioMusculoCutaneoDerecho = results[nervios[count++]] ?: 0.0f
-        nerviosSupraclavicularesDerechos = results[nervios[count++]] ?: 0.0f
-        nervioFemoralDerecho = results[nervios[count++]] ?: 0.0f
-        nervioGenitalDerecho = results[nervios[count++]] ?: 0.0f
-        nervioIlioinguinoDerecho = results[nervios[count++]] ?: 0.0f
-        nervioObturadoDerecho = results[nervios[count++]] ?: 0.0f
-        nervioFemoralAnteriorDerecho = results[nervios[count++]] ?: 0.0f
-        nervioSafenoDerecho = results[nervios[count++]] ?: 0.0f
-        nervioPeroneoDerecho = results[nervios[count++]] ?: 0.0f
-        nervioSuralDerecho = results[nervios[count++]] ?: 0.0f
-        nervioBraquialDerecho = results[nervios[count++]] ?: 0.0f
-        nervioAntebrazoDerecho = results[nervios[count++]] ?: 0.0f
-        nervioRadialDerecho = results[nervios[count++]] ?: 0.0f
-        nervioAxilarDerecho = results[nervios[count++]] ?: 0.0f
-        nervioMedianoIzquierdo = results[nervios[count++]] ?: 0.0f
-        nervioRadialSuperficialIzquierdo = results[nervios[count++]] ?: 0.0f
-        nervioCubitalIzquierdo = results[nervios[count++]] ?: 0.0f
-        nervioMusculoCutaneoIzquierdo = results[nervios[count++]] ?: 0.0f
-        nerviosSupraclavicularesIzquierdos = results[nervios[count++]] ?: 0.0f
-        nervioFemoralIzquierdo = results[nervios[count++]] ?: 0.0f
-        nervioGenitalIzquierdo = results[nervios[count++]] ?: 0.0f
-        nervioIlioinguinoIzquierdo = results[nervios[count++]] ?: 0.0f
-        nervioObturadoIzquierdo = results[nervios[count++]] ?: 0.0f
-        nervioFemoralAnteriorIzquierdo = results[nervios[count++]] ?: 0.0f
-        nervioSafenoIzquierdo = results[nervios[count++]] ?: 0.0f
-        nervioPeroneoIzquierdo = results[nervios[count++]] ?: 0.0f
-        nervioSuralIzquierdo = results[nervios[count++]] ?: 0.0f
-        nervioBraquialIzquierdo = results[nervios[count++]] ?: 0.0f
-        nervioAntebrazoIzquierdo = results[nervios[count++]] ?: 0.0f
-        nervioRadialIzquierdo = results[nervios[count++]] ?: 0.0f
-        nervioAxilarIzquierdo = results[nervios[count]] ?: 0.0f
-    }
+        for (nombre in nerviosNombres) {
+            nervios[nombre] = results[nombre] ?: 0f
+            Log.d("Nervio", "$nombre: ${results[nombre]}")
+        }
 
+        Log.d("n mediano derecho:", "${nervios["nervioMedianoDerecho"]}" )
+    }
 
 }
