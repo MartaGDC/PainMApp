@@ -25,27 +25,27 @@ class MapViews(context: Context, attrs: AttributeSet) : MapResponsiveViews(conte
         cPath.computeBounds(bounds, true)
         cDrawable?.setBounds(bounds.left.toInt(), bounds.top.toInt(), bounds.right.toInt(), bounds.bottom.toInt())
         cDrawable?.draw(canvas)
+        val matrix =Matrix()
+
+        if (!paths.isEmpty()){
+            var rectanguloEscala = PathParser.createPathFromPathData(paths[0])
+            val boundsRectangulo = RectF()
+            rectanguloEscala.computeBounds(boundsRectangulo, true)
+            val scaleX = (bounds.width()+270)/ boundsRectangulo.width()
+            val scaleY = (bounds.height()+270) / boundsRectangulo.height()
+            val scaleFactor = minOf(scaleX, scaleY)
+            matrix.setScale(scaleFactor, scaleFactor, boundsRectangulo.centerX(), boundsRectangulo.centerY())
+            rectanguloEscala.computeBounds(boundsRectangulo, true)
+            val dx = (bounds.centerX() - boundsRectangulo.centerX())
+            val dy = (bounds.centerY() - boundsRectangulo.centerY())
+            matrix.postTranslate(dx, dy)
+        }
+
         var count = 0
         for (path in paths){
-            var dibujos: Path
             var dibujoLimpio: Path
-            dibujos = PathParser.createPathFromPathData(path)
             val dibujosSinRect = path.replace(Regex("M[\\d.,\\s]+L[\\d.,\\s]+L[\\d.,\\s]+L[\\d.,\\s]+Z"), "") //Expresion regex M con digito, punto, coma o espacio + ... (Doble \ para escape)
             dibujoLimpio = PathParser.createPathFromPathData(dibujosSinRect)
-            //Necesario modificar la escala y el centrado del path obtenido del dibujo del usuario para asegurar que coincide con el path del cuerpo humano:
-            val boundsDibujo = RectF()
-            //Escala:
-            dibujos.computeBounds(boundsDibujo, true)
-            val scaleX = (bounds.width()+300)/ boundsDibujo.width()
-            val scaleY = (bounds.height()+300) / boundsDibujo.height()
-            val scaleFactor = minOf(scaleX, scaleY)
-            val matrix =Matrix()
-            matrix.setScale(scaleFactor, scaleFactor, boundsDibujo.centerX(), boundsDibujo.centerY())
-            //Centrado:
-            dibujos.computeBounds(boundsDibujo, true)
-            val dx = (bounds.centerX() - boundsDibujo.centerX())
-            val dy = (bounds.centerY() - boundsDibujo.centerY())
-            matrix.postTranslate(dx, dy)
             dibujoLimpio.transform(matrix)
             listLimpio.add(dibujoLimpio)
             bPaint.color = ColorBrush.colorList[count]

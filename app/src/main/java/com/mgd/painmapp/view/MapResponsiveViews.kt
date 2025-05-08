@@ -70,8 +70,6 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
     }
 
     override fun onSizeChanged(widthC: Int, heightC: Int, oldWidth: Int, oldHeight: Int) {
-        Log.d("MapResponsiveViews", "Ancho: $oldWidth, $widthC, Alto: $oldHeight, $heightC")
-
         loadHumanCanvas()
         scaleAndCenterHumanCanvas()
     }
@@ -122,7 +120,6 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
         val cDrawable = getDrawable(context, imgFuente)
         canvas.save()
         canvas.clipPath(cPath)
-        Log.d("thisondraw", "Ancho: $width, Alto: $height")
         cPath.computeBounds(bounds, true)
         cDrawable?.setBounds(bounds.left.toInt(), bounds.top.toInt(), bounds.right.toInt(), bounds.bottom.toInt())
         cDrawable?.draw(canvas)
