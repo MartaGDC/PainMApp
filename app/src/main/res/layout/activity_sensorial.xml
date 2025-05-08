@@ -74,12 +74,12 @@
                 android:id="@+id/mvFront"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
+                android:layout_marginTop="25dp"
+                app:map="@drawable/front"
                 app:layout_constraintBottom_toTopOf="@id/tvFront"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="25dp"
-                app:map="@drawable/front"/>
+                app:layout_constraintTop_toTopOf="parent"/>
             <TextView
                 android:id="@+id/tvFront"
                 style="@style/Small"
@@ -98,7 +98,6 @@
             android:layout_height="match_parent"
             android:layout_marginStart="50dp"
             android:layout_weight="0.95">
-            <!-- Altura inicial era 560dp, por si acaso -->
             <com.mgd.painmapp.view.MapViews
                 android:id="@+id/mvBack"
                 android:layout_width="wrap_content"

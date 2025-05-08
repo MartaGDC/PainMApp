@@ -6,11 +6,9 @@ import android.graphics.Matrix
 import android.graphics.Path
 import android.graphics.RectF
 import android.util.AttributeSet
-import android.util.Log
 import androidx.core.content.ContextCompat.*
 import androidx.core.graphics.PathParser
 import com.mgd.painmapp.controller.InterpretationHelper
-import com.mgd.painmapp.model.database.PatientDatabase
 import com.mgd.painmapp.model.storage.ColorBrush
 
 class MapViews(context: Context, attrs: AttributeSet) : MapResponsiveViews(context, attrs) {
@@ -38,18 +36,16 @@ class MapViews(context: Context, attrs: AttributeSet) : MapResponsiveViews(conte
             val boundsDibujo = RectF()
             //Escala:
             dibujos.computeBounds(boundsDibujo, true)
-            val scaleX = (bounds.width()+400)/ boundsDibujo.width()
-            val scaleY = (bounds.height()+400) / boundsDibujo.height()
+            val scaleX = (bounds.width()+300)/ boundsDibujo.width()
+            val scaleY = (bounds.height()+300) / boundsDibujo.height()
             val scaleFactor = minOf(scaleX, scaleY)
             val matrix =Matrix()
             matrix.setScale(scaleFactor, scaleFactor, boundsDibujo.centerX(), boundsDibujo.centerY())
-            dibujoLimpio.transform(matrix)
             //Centrado:
             dibujos.computeBounds(boundsDibujo, true)
             val dx = (bounds.centerX() - boundsDibujo.centerX())
             val dy = (bounds.centerY() - boundsDibujo.centerY())
-            matrix.reset()
-            matrix.setTranslate(dx, dy)
+            matrix.postTranslate(dx, dy)
             dibujoLimpio.transform(matrix)
             listLimpio.add(dibujoLimpio)
             bPaint.color = ColorBrush.colorList[count]
