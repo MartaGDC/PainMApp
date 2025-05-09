@@ -3,8 +3,6 @@ package com.mgd.painmapp.controller.activities
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.drawerlayout.widget.DrawerLayout
@@ -15,7 +13,6 @@ import com.mgd.painmapp.controller.NavigationHelper
 import com.mgd.painmapp.databinding.ActivityChooseBinding
 import com.mgd.painmapp.model.database.PatientDatabase
 import com.mgd.painmapp.model.database.entities.EvaluationEntity
-import com.mgd.painmapp.model.storage.ColorBrush
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -85,8 +82,6 @@ class ChooseActivity : AppCompatActivity() {
         cvMenu.setOnClickListener {
             drawerLayout.open()
         }
-        Log.d("entityList", listEntities.toString())
-
         sensorial.setOnClickListener {
             if(NavigationHelper.validarUsuario("sensorial", listEntities, patientName, dialogView, this, database, researcherName, currentDate)){
                 NavigationHelper.navigateToSensorial(

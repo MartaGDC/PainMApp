@@ -9,7 +9,6 @@ import android.util.AttributeSet
 import androidx.core.content.ContextCompat.*
 import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.PathParser
-import androidx.core.graphics.alpha
 import com.mgd.painmapp.controller.InterpretationHelper
 import com.mgd.painmapp.model.storage.ColorBrush
 

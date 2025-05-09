@@ -148,10 +148,6 @@ class LocationActivity : AppCompatActivity() {
         //Nervios (solo parte frontal):
         for (nombre in nerviosNombres) {
             nervios[nombre] = results[nombre] ?: 0f
-            Log.d("Nervio", "$nombre: ${results[nombre]}")
         }
-
-        Log.d("n mediano derecho:", "${nervios["nervioMedianoDerecho"]}" )
     }
-
 }

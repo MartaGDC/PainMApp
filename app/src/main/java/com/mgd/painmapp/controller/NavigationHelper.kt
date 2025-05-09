@@ -3,7 +3,6 @@ package com.mgd.painmapp.controller
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
-import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
@@ -50,7 +48,7 @@ object NavigationHelper {
     fun navigateToPsychosocial() {
         TODO()
     }
-    fun navigateToSummary(context: Context, idGeneradoEvaluation: Long, yaExiste:Boolean=false) {
+    fun navigateToSummary(context: Context, idGeneradoEvaluation: Long, yaExiste:Boolean) {
         val intent = Intent(context, SummaryActivity::class.java).apply {
             putExtra("idGeneradoEvaluation", idGeneradoEvaluation)
             putExtra("yaExiste", yaExiste)
@@ -67,10 +65,10 @@ object NavigationHelper {
     fun setupMenu(navView: NavigationView, drawerLayout: DrawerLayout, context: Context, patientName: String,
                   researcherName: String, currentDate: String, idGeneradoEvaluation: Long,
                   listEntities: List<EvaluationEntity>?=null, dialogView: View?=null, database: PatientDatabase?=null,
-                  actividad:String?=null) {
+                  actividad:String?=null, yaExiste: Boolean=false) {
         navView.setNavigationItemSelectedListener { menuItem ->
             handleMenuItemClick(menuItem, drawerLayout, context, patientName, researcherName, currentDate,
-                idGeneradoEvaluation, listEntities, dialogView, database, actividad)
+                idGeneradoEvaluation, listEntities, dialogView, database, actividad, yaExiste)
             true
         }
     }
@@ -78,7 +76,7 @@ object NavigationHelper {
     private fun handleMenuItemClick(menuItem: MenuItem, drawerLayout: DrawerLayout, context: Context,
                                     patientName: String, researcherName: String, currentDate: String,
                                     idGeneradoEvaluation: Long, listEntities: List<EvaluationEntity>?=null,
-                                    dialogView: View?=null, database: PatientDatabase?=null, actividad:String?=null) {
+                                    dialogView: View?=null, database: PatientDatabase?=null, actividad:String?=null, yaExiste: Boolean) {
         when (menuItem.itemId) {
             R.id.item_sensorial -> {
                 if(!listEntities.isNullOrEmpty() && dialogView!=null && database!=null) {
@@ -115,7 +113,7 @@ object NavigationHelper {
                     Toast.makeText(context, "No hay ningún síntoma que mostrar", Toast.LENGTH_SHORT).show()
                 }
                 else{
-                    navigateToSummary(context, idGeneradoEvaluation)
+                    navigateToSummary(context, idGeneradoEvaluation, yaExiste)
                 }
             }
             R.id.item_nuevo -> {
@@ -134,7 +132,7 @@ object NavigationHelper {
             (dialogView.parent as? ViewGroup)?.removeView(dialogView) // Por si ha salido el dialogo y el usuario despues vuelto hacia atras a esta activity
             val dialog = AlertDialog.Builder(context).setView(dialogView).create()
             dialogView.findViewById<CardView>(R.id.btnSobreescribir).setOnClickListener {
-                sobrescribir(idEvaluation, testIntroducido, database, context, patientName, researcherName, currentDate)
+                sobrescribir(testIntroducido, database, context, patientName, researcherName, currentDate)
                 dialog.dismiss()
             }
             if(actividad=="summary"){
@@ -158,7 +156,7 @@ object NavigationHelper {
         }
         return true
     }
-    private fun sobrescribir(idEvaluation: Long, test: String, database: PatientDatabase, context: Context, patientName: String, researcherName: String, currentDate: String){
+    private fun sobrescribir(test: String, database: PatientDatabase, context: Context, patientName: String, researcherName: String, currentDate: String){
         CoroutineScope(Dispatchers.IO).launch {
             database.getEvaluationDao().deleteEvaluationByPatientAndTest(patientName, test) //No es necesario eliminar en symptom table por las inner joins.
         }

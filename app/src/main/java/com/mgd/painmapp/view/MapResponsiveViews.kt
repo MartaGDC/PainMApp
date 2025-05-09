@@ -15,7 +15,6 @@ import androidx.core.content.ContextCompat.*
 import androidx.core.graphics.PathParser
 import org.xmlpull.v1.XmlPullParser
 import android.graphics.PathMeasure
-import android.graphics.Region
 import android.util.Log
 import com.mgd.painmapp.R
 import com.mgd.painmapp.controller.InterpretationHelper

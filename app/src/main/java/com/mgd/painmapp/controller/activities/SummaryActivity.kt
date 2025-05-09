@@ -21,7 +21,6 @@ import com.mgd.painmapp.model.database.NervesTable
 import com.mgd.painmapp.model.database.PatientDatabase
 import com.mgd.painmapp.model.database.SymptomTable
 import com.mgd.painmapp.model.database.entities.EvaluationEntity
-import com.mgd.painmapp.view.MapResponsiveViews
 import com.mgd.painmapp.view.MapViews
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -78,7 +77,7 @@ class SummaryActivity : AppCompatActivity() {
                     evaluationEntity.researcherName,
                     evaluationEntity.date,
                     idGeneradoEvaluation,
-                    listEntities, dialogView, database, "summary"
+                    listEntities, dialogView, database, "summary",yaExiste
                 )
                 tableSymptoms(symptomsTable)
                 tableNerves(nervesTable)
@@ -482,10 +481,8 @@ class SummaryActivity : AppCompatActivity() {
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                Log.d("TAG", nervios[count])
                 insertCell(nervios[count++], false, 0)
                 insertCell(String.format("%.1f%%", sintoma.nervioSafenoIzquierdo), false, 1)
-                Log.d("TAG", sintoma.nervioSafenoIzquierdo.toString())
             }
             if(sintoma.nervioSafenoIzquierdo!=0f){
                 table.addView(row)

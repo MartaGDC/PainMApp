@@ -17,7 +17,6 @@ object ColorBrush {
     val colorList = mutableListOf<Int>()
 
     fun initialize(context: Context) {
-        Log.d("ColorBrush", "Initializing color list")
         colorList.clear()
         colorList.addAll(
             listOf(
