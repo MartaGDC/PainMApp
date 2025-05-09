@@ -36,6 +36,9 @@ interface EvaluationDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertEvaluation(evaluation: EvaluationEntity): Long //Para recuperar el id del registro insertado
 
+    @Query("DELETE FROM evaluations_table WHERE patient = :patient AND test = :test")
+    fun deleteEvaluationByPatientAndTest(patient: String, test: String)
+
     @Query("DELETE FROM evaluations_table WHERE idEvaluation NOT IN (SELECT idEvaluation FROM map_table)")
     fun eliminarEvaluacionesSinMapa()
 }

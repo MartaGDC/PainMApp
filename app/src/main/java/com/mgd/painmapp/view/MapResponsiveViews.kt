@@ -36,7 +36,7 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
         style = Paint.Style.STROKE //Hace formas, pero no pinta dentro de ellas
         strokeJoin = Paint.Join.ROUND //Las uniones entre lineas son redondeadas
         strokeCap = Paint.Cap.ROUND //Los extremos de las líneas son redondeados
-        strokeWidth = 12f // PENSAR LO DEL SLIDE PARA EL TAMAÑO DEL PICEL. Si no hago zoom sobre el canvas, este tamaño esta bien, y no lo cambiaria
+        strokeWidth = 8f // PENSAR LO DEL SLIDE PARA EL TAMAÑO DEL PICEL. Si no hago zoom sobre el canvas, este tamaño esta bien, y no lo cambiaria
     }
     private var colorIndex = 0
     private val colorList = ColorBrush.colorList
@@ -51,7 +51,7 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
         color = getColor(context, R.color.black)
         strokeWidth = 1f
     }
-    private val scaleMatrix = Matrix()
+    val scaleMatrix = Matrix()
 
     //Variables para respuesta tactil
     private var bX = 0f

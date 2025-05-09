@@ -33,7 +33,7 @@ class ChooseActivity : AppCompatActivity() {
     private lateinit var dialogView: View
     private lateinit var currentDate: String
     private lateinit var database: PatientDatabase
-    private lateinit var listEntities: List<EvaluationEntity>
+    private var listEntities: List<EvaluationEntity> = emptyList()
 
     //Menu:
     private lateinit var drawerLayout: DrawerLayout
@@ -44,6 +44,7 @@ class ChooseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityChooseBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         patientName = intent.getStringExtra("patient_name").toString()
         researcherName = intent.getStringExtra("researcher_name").toString()
         currentDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
@@ -75,7 +76,8 @@ class ChooseActivity : AppCompatActivity() {
             patientName,
             researcherName,
             currentDate,
-            idGeneradoEvaluation = -1
+            idGeneradoEvaluation = -1,
+            listEntities, dialogView, database
         )
     }
 
@@ -83,8 +85,10 @@ class ChooseActivity : AppCompatActivity() {
         cvMenu.setOnClickListener {
             drawerLayout.open()
         }
+        Log.d("entityList", listEntities.toString())
+
         sensorial.setOnClickListener {
-            if(validarUsuario("sensorial")){
+            if(NavigationHelper.validarUsuario("sensorial", listEntities, patientName, dialogView, this, database, researcherName, currentDate)){
                 NavigationHelper.navigateToSensorial(
                     this,
                     patientName,
@@ -95,57 +99,14 @@ class ChooseActivity : AppCompatActivity() {
             }
         }
         motor.setOnClickListener {
-            if(validarUsuario("motor")){
+            if(NavigationHelper.validarUsuario("motor", listEntities, patientName, dialogView, this, database, researcherName, currentDate)){
                 NavigationHelper.navigateToMotor()
             }
         }
         psychosocial.setOnClickListener {
-            if(validarUsuario("psychosocial")){
+            if(NavigationHelper.validarUsuario("psychosocial", listEntities, patientName, dialogView, this, database, researcherName, currentDate)){
                 NavigationHelper.navigateToPsychosocial()
             }
-        }
-    }
-
-    private fun validarUsuario(testIntroducido: String):Boolean {
-        if (listEntities.any {it.patientName == patientName && it.test == testIntroducido}) { //Al iterar sobre cada entity de la lista, buscar el item con ese nombre y ese test
-            val idEvaluation = listEntities.first {it.patientName == patientName && it.test == testIntroducido}.idEvaluation //Solo debe haber un registro. Elegimos first porque será el unico
-            (dialogView.parent as? ViewGroup)?.removeView(dialogView) // Por si ha salido el dialogo y el usuario despues vuelto hacia atras a esta activity
-            val dialog = AlertDialog.Builder(this).setView(dialogView).create()
-            dialogView.findViewById<CardView>(R.id.btnSobreescribir).setOnClickListener {
-                sobrescribir(idEvaluation, testIntroducido)
-                dialog.dismiss()
-            }
-            dialogView.findViewById<CardView>(R.id.btnResumen).setOnClickListener {
-                NavigationHelper.navigateToSummary(this, idEvaluation)
-                dialog.dismiss()
-            }
-
-            dialogView.findViewById<CardView>(R.id.btnCancelar).setOnClickListener {
-                dialog.dismiss()
-            }
-            dialog.show()
-            return false
-        }
-        return true
-    }
-    private fun sobrescribir(idEvaluation: Long, test: String){
-        CoroutineScope(Dispatchers.IO).launch {
-            database.getMapDao().deleteMapsByEvaluation(idEvaluation) //No es necesario eliminar en symptom table por las inner joins.
-        }
-        if(test == "sensorial"){
-            NavigationHelper.navigateToSensorial(
-                this,
-                patientName,
-                researcherName,
-                currentDate,
-                idGeneradoEvaluation = idEvaluation
-            )
-        }
-        else if (test == "motor"){
-            NavigationHelper.navigateToMotor()
-        }
-        else {
-            NavigationHelper.navigateToPsychosocial()
         }
     }
 }

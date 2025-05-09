@@ -3,6 +3,7 @@ package com.mgd.painmapp.controller.activities
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
+import android.view.View
 import android.widget.TableRow
 import android.widget.TextView
 import android.widget.Toast
@@ -19,6 +20,7 @@ import com.mgd.painmapp.model.database.CSVTable
 import com.mgd.painmapp.model.database.NervesTable
 import com.mgd.painmapp.model.database.PatientDatabase
 import com.mgd.painmapp.model.database.SymptomTable
+import com.mgd.painmapp.model.database.entities.EvaluationEntity
 import com.mgd.painmapp.view.MapResponsiveViews
 import com.mgd.painmapp.view.MapViews
 import kotlinx.coroutines.CoroutineScope
@@ -36,10 +38,13 @@ class SummaryActivity : AppCompatActivity() {
     private lateinit var navView: NavigationView
     private lateinit var cvCSV: CardView
     private lateinit var cvMenu: CardView
+    private var dialogView: View? = null
     private lateinit var mvFront: MapViews
     private lateinit var mvBack: MapViews
     private var idGeneradoEvaluation: Long = -1
+    private var yaExiste: Boolean = false
     private lateinit var database: PatientDatabase
+    private lateinit var listEntities: List<EvaluationEntity>
     private lateinit var symptomsTable: List<SymptomTable>
     private lateinit var nervesTable: List<NervesTable>
 
@@ -48,11 +53,14 @@ class SummaryActivity : AppCompatActivity() {
         binding = ActivitySummaryBinding.inflate(layoutInflater)
         setContentView(binding.root)
         idGeneradoEvaluation = intent.getLongExtra("idGeneradoEvaluation", -1)
-
+        yaExiste = intent.getBooleanExtra("yaExiste", false)
         database = Room.databaseBuilder(
             this, PatientDatabase::class.java,
             "patient_database"
         ).build()
+        CoroutineScope(Dispatchers.IO).launch {
+            listEntities = database.getEvaluationDao().getEvaluations()
+        }
 
         initComponents()
         initListeners()
@@ -69,7 +77,8 @@ class SummaryActivity : AppCompatActivity() {
                     evaluationEntity.patientName,
                     evaluationEntity.researcherName,
                     evaluationEntity.date,
-                    idGeneradoEvaluation
+                    idGeneradoEvaluation,
+                    listEntities, dialogView, database, "summary"
                 )
                 tableSymptoms(symptomsTable)
                 tableNerves(nervesTable)
@@ -81,6 +90,9 @@ class SummaryActivity : AppCompatActivity() {
         cvMenu = binding.cvMenu
         drawerLayout = binding.main
         navView = binding.navView
+        if(yaExiste) {
+            dialogView = layoutInflater.inflate(R.layout.dialog_choose, null)
+        }
         cvCSV = binding.cvCSV
         mvFront = binding.mvFront
         mvBack = binding.mvBack

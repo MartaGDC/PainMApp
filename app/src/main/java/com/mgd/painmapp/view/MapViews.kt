@@ -7,7 +7,9 @@ import android.graphics.Path
 import android.graphics.RectF
 import android.util.AttributeSet
 import androidx.core.content.ContextCompat.*
+import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.PathParser
+import androidx.core.graphics.alpha
 import com.mgd.painmapp.controller.InterpretationHelper
 import com.mgd.painmapp.model.storage.ColorBrush
 
@@ -25,14 +27,15 @@ class MapViews(context: Context, attrs: AttributeSet) : MapResponsiveViews(conte
         cPath.computeBounds(bounds, true)
         cDrawable?.setBounds(bounds.left.toInt(), bounds.top.toInt(), bounds.right.toInt(), bounds.bottom.toInt())
         cDrawable?.draw(canvas)
+
         val matrix =Matrix()
 
         if (!paths.isEmpty()){
             var rectanguloEscala = PathParser.createPathFromPathData(paths[0])
             val boundsRectangulo = RectF()
             rectanguloEscala.computeBounds(boundsRectangulo, true)
-            val scaleX = (bounds.width()+270)/ boundsRectangulo.width()
-            val scaleY = (bounds.height()+270) / boundsRectangulo.height()
+            val scaleX = (bounds.width()+276) / boundsRectangulo.width()
+            val scaleY = (bounds.height()+276) / boundsRectangulo.height()
             val scaleFactor = minOf(scaleX, scaleY)
             matrix.setScale(scaleFactor, scaleFactor, boundsRectangulo.centerX(), boundsRectangulo.centerY())
             rectanguloEscala.computeBounds(boundsRectangulo, true)
@@ -43,17 +46,19 @@ class MapViews(context: Context, attrs: AttributeSet) : MapResponsiveViews(conte
 
         var count = 0
         for (path in paths){
-            var dibujoLimpio: Path
-            val dibujosSinRect = path.replace(Regex("M[\\d.,\\s]+L[\\d.,\\s]+L[\\d.,\\s]+L[\\d.,\\s]+Z"), "") //Expresion regex M con digito, punto, coma o espacio + ... (Doble \ para escape)
-            dibujoLimpio = PathParser.createPathFromPathData(dibujosSinRect)
-            dibujoLimpio.transform(matrix)
-            listLimpio.add(dibujoLimpio)
-            bPaint.color = ColorBrush.colorList[count]
-            bPaint.strokeWidth = 11f
+            var dibujos = PathParser.createPathFromPathData(path)
+            dibujos.transform(matrix)
+            listLimpio.add(dibujos)
+            var color = ColorBrush.colorList[count]
+            color = ColorUtils.setAlphaComponent(color, (0.8f * 255).toInt())
+            bPaint.color = color
+            bPaint.strokeWidth = 7.2f
             count = (count + 1) % ColorBrush.colorList.size
-            canvas.drawPath(dibujoLimpio, bPaint)
+            canvas.drawPath(dibujos, bPaint)
         }
         canvas.drawPath(cPath, cPaint)
+
+        matrix.reset()
     }
     fun calcularTotalPixeles(tipoMapa:String): Map<String, List<Float>> {
         return InterpretationHelper.calcularTotalPixeles(width, height, listLimpio, bPaint, cPath, optimization=5, tipoMapa=tipoMapa)

@@ -47,9 +47,6 @@ interface MapDao {
             "WHERE idEvaluation = :idEvaluation")
     fun updatePatientPercentages(idEvaluation: Long, totalPatientPercentage: Float, rightPatientPercentage: Float, leftPatientPercentage: Float)
 
-    @Query("DELETE FROM map_table WHERE idEvaluation = :idEvaluation")
-    fun deleteMapsByEvaluation(idEvaluation: Long)
-
     @Query("DELETE FROM map_table WHERE idMap NOT IN (SELECT idMap FROM symptoms_table)")
     fun eliminarMapasSinSintomas()
 }
