@@ -2,7 +2,6 @@ package com.mgd.painmapp.controller
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -67,16 +66,16 @@ object NavigationHelper {
                   listEntities: List<EvaluationEntity>?=null, dialogView: View?=null, database: PatientDatabase?=null,
                   actividad:String?=null, yaExiste: Boolean=false) {
         navView.setNavigationItemSelectedListener { menuItem ->
-            handleMenuItemClick(menuItem, drawerLayout, context, patientName, researcherName, currentDate,
+            handleItemClick(menuItem, drawerLayout, context, patientName, researcherName, currentDate,
                 idGeneradoEvaluation, listEntities, dialogView, database, actividad, yaExiste)
             true
         }
     }
 
-    private fun handleMenuItemClick(menuItem: MenuItem, drawerLayout: DrawerLayout, context: Context,
-                                    patientName: String, researcherName: String, currentDate: String,
-                                    idGeneradoEvaluation: Long, listEntities: List<EvaluationEntity>?=null,
-                                    dialogView: View?=null, database: PatientDatabase?=null, actividad:String?=null, yaExiste: Boolean) {
+    private fun handleItemClick(menuItem: MenuItem, drawerLayout: DrawerLayout, context: Context,
+                                patientName: String, researcherName: String, currentDate: String,
+                                idGeneradoEvaluation: Long, listEntities: List<EvaluationEntity>?=null,
+                                dialogView: View?=null, database: PatientDatabase?=null, actividad:String?=null, yaExiste: Boolean) {
         when (menuItem.itemId) {
             R.id.item_sensorial -> {
                 if(!listEntities.isNullOrEmpty() && dialogView!=null && database!=null) {

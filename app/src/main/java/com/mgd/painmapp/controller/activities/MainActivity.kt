@@ -61,6 +61,18 @@ class MainActivity : AppCompatActivity() {
         researcherName = binding.etResearcherName
         cvNext = binding.cvNext
         cvNext.setOnClickListener {
+            if(patientName.text.isEmpty()){
+                patientName.error = "Debe completar este campo"
+            }
+            else{
+                patientName.error = null
+            }
+            if (researcherName.text.isEmpty()){
+                researcherName.error = "Debe completar este campo"
+            }
+            else{
+                researcherName.error = null
+            }
             if (patientName.text.isNotEmpty() && researcherName.text.isNotEmpty()) {
                 val intent = Intent(this, ChooseActivity::class.java).apply {
                     putExtra("patient_name", patientName.text.toString())

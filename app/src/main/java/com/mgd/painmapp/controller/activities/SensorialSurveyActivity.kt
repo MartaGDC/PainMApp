@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.RadioButton
@@ -102,22 +103,7 @@ class SensorialSurveyActivity : AppCompatActivity() {
         }
         //Eliminar datos antes de guardarlos: devolver la pantalla al estado inicial
         cvDelete.setOnClickListener {
-            cvSlider.value = 0.0f
-            rgSymptom2.clearCheck()
-            rgSymptom1.check(rbPain.id)
-            rgTime.check(rbContinuous.id)
-            cbAgitating.isChecked = false
-            cbMiserable.isChecked = false
-            cbFatiguing.isChecked = false
-            cbPiercing.isChecked = false
-            cbUnbearable.isChecked = false
-            cbAnnoying.isChecked = false
-            cbOtherCharact.isChecked = false
-            etOtherSymptom.text.clear()
-            etOtherCharact.text.clear()
-            tvWhen.visibility = TextView.INVISIBLE
-            etWhen.text.clear()
-            etWhen.visibility = EditText.INVISIBLE
+            resetValues()
         }
         //Slider
         cvSlider.addOnChangeListener { _, value, _ ->
@@ -193,9 +179,29 @@ class SensorialSurveyActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun resetValues() {
+        cvSlider.value = 0.0f
+        rgSymptom2.clearCheck()
+        rgSymptom1.check(rbPain.id)
+        rgTime.check(rbContinuous.id)
+        cbAgitating.isChecked = false
+        cbMiserable.isChecked = false
+        cbFatiguing.isChecked = false
+        cbPiercing.isChecked = false
+        cbUnbearable.isChecked = false
+        cbAnnoying.isChecked = false
+        cbOtherCharact.isChecked = false
+        etOtherSymptom.text.clear()
+        etOtherCharact.text.clear()
+        tvWhen.visibility = View.INVISIBLE
+        etWhen.text.clear()
+        etWhen.visibility = View.INVISIBLE
+    }
+
     private fun fillDatabase() {
         val selectedSymptom = rgSymptom.checkedRadioButtonId
-        val selectedSymptomRB : RadioButton = findViewById(selectedSymptom)
+        val selectedSymptomRB = findViewById<RadioButton>(selectedSymptom)
         val selectedTime = rgTime.checkedRadioButtonId
         val selectedTimeRB : RadioButton = findViewById(selectedTime)
         val symptomEntity = Symptom(
@@ -239,4 +245,5 @@ class SensorialSurveyActivity : AppCompatActivity() {
         }
         return validado
     }
+
 }

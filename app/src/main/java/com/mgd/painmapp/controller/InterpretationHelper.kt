@@ -15,7 +15,7 @@ import androidx.core.graphics.PathParser
 import com.mgd.painmapp.R
 import org.xmlpull.v1.XmlPullParser
 
-object InterpretationHelper {
+object  InterpretationHelper {
     @SuppressLint("ResourceType")
     fun obtenerNerviosPerifericosFrente(context:Context) : List<String> {
         val nerveNames = mutableListOf<String>()
