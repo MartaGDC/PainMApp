@@ -31,13 +31,13 @@ object NavigationHelper {
         }
         context.startActivity(intent)
     }
-    fun navigateToSensorial(context: Context, patientName: String, researcherName: String, currentDate: String, idGeneradoEvaluation: Long) {
+    fun navigateToSensorial(context: Context, patientName: String, researcherName: String, currentDate: String, idGeneratedEvaluation: Long) {
         val intent = Intent(context, SensorialActivity::class.java).apply {
             putExtra("patient_name", patientName)
             putExtra("researcher_name", researcherName)
             putExtra("date", currentDate)
             putExtra("type", "sensorial")
-            putExtra("idGeneradoEvaluation", idGeneradoEvaluation)
+            putExtra("idGeneratedEvaluation", idGeneratedEvaluation)
         }
         context.startActivity(intent)
     }
@@ -47,10 +47,10 @@ object NavigationHelper {
     fun navigateToPsychosocial() {
         TODO()
     }
-    fun navigateToSummary(context: Context, idGeneradoEvaluation: Long, yaExiste:Boolean) {
+    private fun navigateToSummary(context: Context, idGeneratedEvaluation: Long, alreadyExists:Boolean) {
         val intent = Intent(context, SummaryActivity::class.java).apply {
-            putExtra("idGeneradoEvaluation", idGeneradoEvaluation)
-            putExtra("yaExiste", yaExiste)
+            putExtra("idGeneratedEvaluation", idGeneratedEvaluation)
+            putExtra("alreadyExists", alreadyExists)
         }
         context.startActivity(intent)
     }
@@ -62,34 +62,34 @@ object NavigationHelper {
 
     //Menu
     fun setupMenu(navView: NavigationView, drawerLayout: DrawerLayout, context: Context, patientName: String,
-                  researcherName: String, currentDate: String, idGeneradoEvaluation: Long,
+                  researcherName: String, currentDate: String, idGeneratedEvaluation: Long,
                   listEntities: List<EvaluationEntity>?=null, dialogView: View?=null, database: PatientDatabase?=null,
-                  actividad:String?=null, yaExiste: Boolean=false) {
+                  activity:String?=null, alreadyExists: Boolean=false) {
         navView.setNavigationItemSelectedListener { menuItem ->
             handleItemClick(menuItem, drawerLayout, context, patientName, researcherName, currentDate,
-                idGeneradoEvaluation, listEntities, dialogView, database, actividad, yaExiste)
+                idGeneratedEvaluation, listEntities, dialogView, database, activity, alreadyExists)
             true
         }
     }
 
     private fun handleItemClick(menuItem: MenuItem, drawerLayout: DrawerLayout, context: Context,
                                 patientName: String, researcherName: String, currentDate: String,
-                                idGeneradoEvaluation: Long, listEntities: List<EvaluationEntity>?=null,
-                                dialogView: View?=null, database: PatientDatabase?=null, actividad:String?=null, yaExiste: Boolean) {
+                                idGeneratedEvaluation: Long, listEntities: List<EvaluationEntity>?=null,
+                                dialogView: View?=null, database: PatientDatabase?=null, actividad:String?=null, alreadyExists: Boolean) {
         when (menuItem.itemId) {
             R.id.item_sensorial -> {
                 if(!listEntities.isNullOrEmpty() && dialogView!=null && database!=null) {
-                    if(validarUsuario("sensorial", listEntities, patientName, dialogView, context, database, researcherName, currentDate, actividad)){
-                        navigateToSensorial(context, patientName, researcherName, currentDate, idGeneradoEvaluation = -1)
+                    if(validateUser("sensorial", listEntities, patientName, dialogView, context, database, researcherName, currentDate, actividad)){
+                        navigateToSensorial(context, patientName, researcherName, currentDate, idGeneratedEvaluation = -1)
                     }
                 }
                 else{
-                    navigateToSensorial(context, patientName, researcherName, currentDate, idGeneradoEvaluation = idGeneradoEvaluation)
+                    navigateToSensorial(context, patientName, researcherName, currentDate, idGeneratedEvaluation = idGeneratedEvaluation)
                 }
             }
             R.id.item_motor -> {
                 if(!listEntities.isNullOrEmpty() && dialogView!=null && database!=null) {
-                    if(validarUsuario("motor", listEntities, patientName, dialogView, context, database, researcherName, currentDate)){
+                    if(validateUser("motor", listEntities, patientName, dialogView, context, database, researcherName, currentDate)){
                         navigateToMotor()
                     }
                 }
@@ -97,9 +97,9 @@ object NavigationHelper {
                     navigateToMotor()
                 }
             }
-            R.id.item_psicosocial -> {
+            R.id.item_psychosocial -> {
                 if(!listEntities.isNullOrEmpty() && dialogView!=null && database!=null) {
-                    if(validarUsuario("psychosocial", listEntities, patientName, dialogView, context, database, researcherName, currentDate)){
+                    if(validateUser("psychosocial", listEntities, patientName, dialogView, context, database, researcherName, currentDate)){
                         navigateToPsychosocial()
                     }
                 }
@@ -107,15 +107,16 @@ object NavigationHelper {
                     navigateToPsychosocial()
                 }
             }
-            R.id.item_resumen -> {
-                if (idGeneradoEvaluation ==-1.toLong()) {
-                    Toast.makeText(context, "No hay ningún síntoma que mostrar", Toast.LENGTH_SHORT).show()
+            R.id.item_summary -> {
+                if (idGeneratedEvaluation ==(-1).toLong()) {
+                    Toast.makeText(context,
+                        context.getString(R.string.no_symptom), Toast.LENGTH_SHORT).show()
                 }
                 else{
-                    navigateToSummary(context, idGeneradoEvaluation, yaExiste)
+                    navigateToSummary(context, idGeneratedEvaluation, alreadyExists)
                 }
             }
-            R.id.item_nuevo -> {
+            R.id.item_new -> {
                 navigateToNewPatient(context)
             }
             else -> {
@@ -123,31 +124,32 @@ object NavigationHelper {
         }
         drawerLayout.closeDrawer(GravityCompat.START)
     }
-    fun validarUsuario(testIntroducido: String, listEntities: List<EvaluationEntity>, patientName: String,
-                       dialogView: View, context: Context, database: PatientDatabase, researcherName: String,
-                       currentDate: String, actividad:String?=null):Boolean {
-        if (listEntities.any {it.patientName == patientName && it.test == testIntroducido}) { //Al iterar sobre cada entity de la lista, buscar el item con ese nombre y ese test
-            val idEvaluation = listEntities.first {it.patientName == patientName && it.test == testIntroducido}.idEvaluation //Solo debe haber un registro. Elegimos first porque será el unico
+    fun validateUser(test: String, listEntities: List<EvaluationEntity>, patientName: String,
+                     dialogView: View, context: Context, database: PatientDatabase, researcherName: String,
+                     currentDate: String, activity:String?=null):Boolean {
+        if (listEntities.any {it.patientName == patientName && it.test == test}) { //Al iterar sobre cada entity de la lista, buscar el item con ese nombre y ese test
+            val idEvaluation = listEntities.first {it.patientName == patientName && it.test == test}.idEvaluation //Solo debe haber un registro. Elegimos first porque será el unico
             (dialogView.parent as? ViewGroup)?.removeView(dialogView) // Por si ha salido el dialogo y el usuario despues vuelto hacia atras a esta activity
             val dialog = AlertDialog.Builder(context).setView(dialogView).create()
-            dialogView.findViewById<CardView>(R.id.btnSobreescribir).setOnClickListener {
-                sobrescribir(testIntroducido, database, context, patientName, researcherName, currentDate)
+            dialogView.findViewById<CardView>(R.id.btnOverwrite).setOnClickListener {
+                overwrite(test, database, context, patientName, researcherName, currentDate)
                 dialog.dismiss()
             }
-            if(actividad=="summary"){
-                dialogView.findViewById<TextView>(R.id.verResumen).text = "Volver al menú principal"
-                dialogView.findViewById<CardView>(R.id.btnResumen).setOnClickListener {
+            if(activity=="summary"){
+                dialogView.findViewById<TextView>(R.id.seeSummary).text =
+                    context.getString(R.string.back_main_menu)
+                dialogView.findViewById<CardView>(R.id.btnSummary).setOnClickListener {
                     navigateToChoose(context, patientName, researcherName)
                     dialog.dismiss()
                 }
             }
             else{
-                dialogView.findViewById<CardView>(R.id.btnResumen).setOnClickListener {
+                dialogView.findViewById<CardView>(R.id.btnSummary).setOnClickListener {
                     navigateToSummary(context, idEvaluation, true)
                     dialog.dismiss()
                 }
             }
-            dialogView.findViewById<CardView>(R.id.btnCancelar).setOnClickListener {
+            dialogView.findViewById<CardView>(R.id.btnCancel).setOnClickListener {
                 dialog.dismiss()
             }
             dialog.show()
@@ -155,24 +157,28 @@ object NavigationHelper {
         }
         return true
     }
-    private fun sobrescribir(test: String, database: PatientDatabase, context: Context, patientName: String, researcherName: String, currentDate: String){
+    private fun overwrite(test: String, database: PatientDatabase, context: Context, patientName: String, researcherName: String, currentDate: String){
         CoroutineScope(Dispatchers.IO).launch {
             database.getEvaluationDao().deleteEvaluationByPatientAndTest(patientName, test) //No es necesario eliminar en symptom table por las inner joins.
         }
-        if(test == "sensorial"){
-            navigateToSensorial(
-                context,
-                patientName,
-                researcherName,
-                currentDate,
-                idGeneradoEvaluation = -1
-            )
-        }
-        else if (test == "motor"){
-            navigateToMotor()
-        }
-        else {
-            navigateToPsychosocial()
+        when (test) {
+            "sensorial" -> {
+                navigateToSensorial(
+                    context,
+                    patientName,
+                    researcherName,
+                    currentDate,
+                    idGeneratedEvaluation = -1
+                )
+            }
+
+            "motor" -> {
+                navigateToMotor()
+            }
+
+            else -> {
+                navigateToPsychosocial()
+            }
         }
     }
 }

@@ -1,7 +1,6 @@
 package com.mgd.painmapp.controller.activities
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -73,7 +72,7 @@ class ChooseActivity : AppCompatActivity() {
             patientName,
             researcherName,
             currentDate,
-            idGeneradoEvaluation = -1,
+            idGeneratedEvaluation = -1,
             listEntities, dialogView, database
         )
     }
@@ -83,23 +82,23 @@ class ChooseActivity : AppCompatActivity() {
             drawerLayout.open()
         }
         sensorial.setOnClickListener {
-            if(NavigationHelper.validarUsuario("sensorial", listEntities, patientName, dialogView, this, database, researcherName, currentDate)){
+            if(NavigationHelper.validateUser("sensorial", listEntities, patientName, dialogView, this, database, researcherName, currentDate)){
                 NavigationHelper.navigateToSensorial(
                     this,
                     patientName,
                     researcherName,
                     currentDate,
-                    idGeneradoEvaluation = -1
+                    idGeneratedEvaluation = -1
                 )
             }
         }
         motor.setOnClickListener {
-            if(NavigationHelper.validarUsuario("motor", listEntities, patientName, dialogView, this, database, researcherName, currentDate)){
+            if(NavigationHelper.validateUser("motor", listEntities, patientName, dialogView, this, database, researcherName, currentDate)){
                 NavigationHelper.navigateToMotor()
             }
         }
         psychosocial.setOnClickListener {
-            if(NavigationHelper.validarUsuario("psychosocial", listEntities, patientName, dialogView, this, database, researcherName, currentDate)){
+            if(NavigationHelper.validateUser("psychosocial", listEntities, patientName, dialogView, this, database, researcherName, currentDate)){
                 NavigationHelper.navigateToPsychosocial()
             }
         }

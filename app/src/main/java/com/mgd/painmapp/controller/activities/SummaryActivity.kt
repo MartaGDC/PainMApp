@@ -2,7 +2,6 @@ package com.mgd.painmapp.controller.activities
 
 import android.os.Bundle
 import android.os.Environment
-import android.util.Log
 import android.view.View
 import android.widget.TableRow
 import android.widget.TextView
@@ -40,8 +39,8 @@ class SummaryActivity : AppCompatActivity() {
     private var dialogView: View? = null
     private lateinit var mvFront: MapViews
     private lateinit var mvBack: MapViews
-    private var idGeneradoEvaluation: Long = -1
-    private var yaExiste: Boolean = false
+    private var idGeneratedEvaluation: Long = -1
+    private var alreadyExists: Boolean = false
     private lateinit var database: PatientDatabase
     private lateinit var listEntities: List<EvaluationEntity>
     private lateinit var symptomsTable: List<SymptomTable>
@@ -51,8 +50,8 @@ class SummaryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySummaryBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        idGeneradoEvaluation = intent.getLongExtra("idGeneradoEvaluation", -1)
-        yaExiste = intent.getBooleanExtra("yaExiste", false)
+        idGeneratedEvaluation = intent.getLongExtra("idGeneratedEvaluation", -1)
+        alreadyExists = intent.getBooleanExtra("alreadyExists", false)
         database = Room.databaseBuilder(
             this, PatientDatabase::class.java,
             "patient_database"
@@ -65,9 +64,9 @@ class SummaryActivity : AppCompatActivity() {
         initListeners()
 
         CoroutineScope(Dispatchers.IO).launch {
-            symptomsTable = database.getSymptomDao().getSymptomsTableByEvaluation(idGeneradoEvaluation)
-            nervesTable = database.getMapDao().getNervesTableByEvaluation(idGeneradoEvaluation)
-            val evaluationEntity = database.getEvaluationDao().getEvaluationById(idGeneradoEvaluation)
+            symptomsTable = database.getSymptomDao().getSymptomsTableByEvaluation(idGeneratedEvaluation)
+            nervesTable = database.getMapDao().getNervesTableByEvaluation(idGeneratedEvaluation)
+            val evaluationEntity = database.getEvaluationDao().getEvaluationById(idGeneratedEvaluation)
             runOnUiThread{
                 NavigationHelper.setupMenu(
                     navView,
@@ -76,8 +75,8 @@ class SummaryActivity : AppCompatActivity() {
                     evaluationEntity.patientName,
                     evaluationEntity.researcherName,
                     evaluationEntity.date,
-                    idGeneradoEvaluation,
-                    listEntities, dialogView, database, "summary",yaExiste
+                    idGeneratedEvaluation,
+                    listEntities, dialogView, database, "summary",alreadyExists
                 )
                 tableSymptoms(symptomsTable)
                 tableNerves(nervesTable)
@@ -89,7 +88,7 @@ class SummaryActivity : AppCompatActivity() {
         cvMenu = binding.cvMenu
         drawerLayout = binding.main
         navView = binding.navView
-        if(yaExiste) {
+        if(alreadyExists) {
             dialogView = layoutInflater.inflate(R.layout.dialog_choose, null)
         }
         cvCSV = binding.cvCSV
@@ -108,7 +107,7 @@ class SummaryActivity : AppCompatActivity() {
             drawerLayout.open()
         }
         cvCSV.setOnClickListener {
-            Toast.makeText(this,"Descargando CSV...", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.downloading_csv), Toast.LENGTH_SHORT).show()
             CoroutineScope(Dispatchers.IO).launch {
                 val dataCSV = database.getEvaluationDao().getFullCSV()
                 runOnUiThread {
@@ -120,16 +119,16 @@ class SummaryActivity : AppCompatActivity() {
 
     private fun getFrontDrawings(): List<String> {
         val bPath: List<String>
-        if (idGeneradoEvaluation != (-1).toLong()) { //Hay registro de evaluación
-            bPath = database.getMapDao().getFrontPathsDrawnById(idGeneradoEvaluation)
+        if (idGeneratedEvaluation != (-1).toLong()) { //Hay registro de evaluación
+            bPath = database.getMapDao().getFrontPathsDrawnById(idGeneratedEvaluation)
             return bPath
         }
         return emptyList()
     }
     private fun getBackDrawings(): List<String> {
         val bPath: List<String>
-        if (idGeneradoEvaluation != (-1).toLong()) { //Hay registro de evaluación
-            bPath = database.getMapDao().getBackPathsDrawnById(idGeneradoEvaluation)
+        if (idGeneratedEvaluation != (-1).toLong()) { //Hay registro de evaluación
+            bPath = database.getMapDao().getBackPathsDrawnById(idGeneratedEvaluation)
             return bPath
         }
         return emptyList()
@@ -250,9 +249,9 @@ class SummaryActivity : AppCompatActivity() {
         val rowGeneral = TableRow(this).apply { //No es la suma de los porcentajes, ya que pueden solaparse
             insertCell("General",  true,0 )
             insertCell("",  true,0 )
-            insertCell(String.format("%.1f%%", symptomsTable[0].totalPatientPercentage), false, 1)
-            insertCell(String.format("%.1f%%", symptomsTable[0].rightPatientPercentage),  false, 1)
-            insertCell(String.format("%.1f%%", symptomsTable[0].leftPatientPercentage),  false, 1)
+            insertCell(String.format(Locale.getDefault(),"%.1f%%", symptomsTable[0].totalPatientPercentage), false, 1)
+            insertCell(String.format(Locale.getDefault(),"%.1f%%", symptomsTable[0].rightPatientPercentage),  false, 1)
+            insertCell(String.format(Locale.getDefault(),"%.1f%%", symptomsTable[0].leftPatientPercentage),  false, 1)
         }
         table.addView(rowGeneral)
         var firstSymptom = true
@@ -261,9 +260,9 @@ class SummaryActivity : AppCompatActivity() {
                 val row = TableRow(this).apply {
                     insertCell("Por síntomas",  true, 0)
                     insertCell(symptom.symptom,  false, 0)
-                    insertCell(String.format("%.1f%%", symptom.totalPercentage), false, 1)
-                    insertCell(String.format("%.1f%%", symptom.rightPercentage), false, 1)
-                    insertCell(String.format("%.1f%%", symptom.leftPercentage),  false, 1)
+                    insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.totalPercentage), false, 1)
+                    insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.rightPercentage), false, 1)
+                    insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.leftPercentage),  false, 1)
                 }
                 table.addView(row)
                 firstSymptom = false
@@ -271,9 +270,9 @@ class SummaryActivity : AppCompatActivity() {
                 val row = TableRow(this).apply {
                     insertCell("",  true, 0)
                     insertCell(symptom.symptom, false, 0)
-                    insertCell(String.format("%.1f%%", symptom.totalPercentage), false, 1)
-                    insertCell(String.format("%.1f%%", symptom.rightPercentage), false, 1)
-                    insertCell(String.format("%.1f%%", symptom.leftPercentage), false, 1)
+                    insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.totalPercentage), false, 1)
+                    insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.rightPercentage), false, 1)
+                    insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.leftPercentage), false, 1)
                 }
                 table.addView(row)
             }
@@ -281,252 +280,252 @@ class SummaryActivity : AppCompatActivity() {
     }
 
     private fun tableNerves(nervesTable: List<NervesTable>) {
-        val nervios = InterpretationHelper.obtenerNerviosPerifericosFrente(this)
+        val nerves = InterpretationHelper.getFrontPeripheralNerves(this)
         val table = binding.tlNerves
         table.removeAllViews()
-        for (sintoma in nervesTable){
+        for (symptom in nervesTable){
             var row = TableRow(this).apply {
-                insertCell(sintoma.symptom, true, 1)
+                insertCell(symptom.symptom, true, 1)
                 insertCell("", false, 0)
             }
             var count = 0
             table.addView(row)
             row = TableRow(this).apply {
-                insertCell(nervios[count++], false, 0)
-                insertCell(String.format("%.1f%%", sintoma.nervioMedianoDerecho), false, 1)
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioMedianoDerecho), false, 1)
             }
-            if(sintoma.nervioMedianoDerecho!=0f){
+            if(symptom.nervioMedianoDerecho!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                insertCell(nervios[count++], false, 0)
-                insertCell(String.format("%.1f%%", sintoma.nervioRadialSuperficialDerecho), false, 1)
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioRadialSuperficialDerecho), false, 1)
             }
-            if(sintoma.nervioRadialSuperficialDerecho!=0f){
+            if(symptom.nervioRadialSuperficialDerecho!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                insertCell(nervios[count++], false, 0)
-                insertCell(String.format("%.1f%%", sintoma.nervioCubitalDerecho), false, 1)
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioCubitalDerecho), false, 1)
             }
-            if(sintoma.nervioCubitalDerecho!=0f){
+            if(symptom.nervioCubitalDerecho!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                insertCell(nervios[count++], false, 0)
-                insertCell(String.format("%.1f%%", sintoma.nervioMusculoCutaneoDerecho), false, 1)
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioMusculoCutaneoDerecho), false, 1)
             }
-            if(sintoma.nervioMusculoCutaneoDerecho!=0f){
+            if(symptom.nervioMusculoCutaneoDerecho!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                insertCell(nervios[count++], false, 0)
-                insertCell(String.format("%.1f%%", sintoma.nerviosSupraclavicularesDerechos), false, 1)
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nerviosSupraclavicularesDerechos), false, 1)
             }
-            if(sintoma.nerviosSupraclavicularesDerechos!=0f){
+            if(symptom.nerviosSupraclavicularesDerechos!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                insertCell(nervios[count++], false, 0)
-                insertCell(String.format("%.1f%%", sintoma.nervioFemoralDerecho), false, 1)
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioFemoralDerecho), false, 1)
             }
-            if(sintoma.nervioFemoralDerecho!=0f){
+            if(symptom.nervioFemoralDerecho!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                insertCell(nervios[count++], false, 0)
-                insertCell(String.format("%.1f%%", sintoma.nervioGenitalDerecho), false, 1)
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioGenitalDerecho), false, 1)
             }
-            if(sintoma.nervioGenitalDerecho!=0f){
+            if(symptom.nervioGenitalDerecho!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                insertCell(nervios[count++], false, 0)
-                insertCell(String.format("%.1f%%", sintoma.nervioIlioinguinoDerecho), false, 1)
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioIlioinguinoDerecho), false, 1)
             }
-            if(sintoma.nervioIlioinguinoDerecho!=0f){
+            if(symptom.nervioIlioinguinoDerecho!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                insertCell(nervios[count++], false, 0)
-                insertCell(String.format("%.1f%%", sintoma.nervioObturadoDerecho), false, 1)
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioObturadoDerecho), false, 1)
             }
-            if(sintoma.nervioObturadoDerecho!=0f){
+            if(symptom.nervioObturadoDerecho!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                insertCell(nervios[count++], false, 0)
-                insertCell(String.format("%.1f%%", sintoma.nervioFemoralAnteriorDerecho), false, 1)
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioFemoralAnteriorDerecho), false, 1)
             }
-            if(sintoma.nervioFemoralAnteriorDerecho!=0f){
+            if(symptom.nervioFemoralAnteriorDerecho!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                insertCell(nervios[count++], false, 0)
-                insertCell(String.format("%.1f%%", sintoma.nervioSafenoDerecho), false, 1)
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioSafenoDerecho), false, 1)
             }
-            if(sintoma.nervioSafenoDerecho!=0f){
+            if(symptom.nervioSafenoDerecho!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                insertCell(nervios[count++], false, 0)
-                insertCell(String.format("%.1f%%", sintoma.nervioPeroneoDerecho), false, 1)
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioPeroneoDerecho), false, 1)
             }
-            if(sintoma.nervioPeroneoDerecho!=0f){
+            if(symptom.nervioPeroneoDerecho!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                insertCell(nervios[count++], false, 0)
-                insertCell(String.format("%.1f%%", sintoma.nervioSuralDerecho), false, 1)
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioSuralDerecho), false, 1)
             }
-            if(sintoma.nervioSuralDerecho!=0f){
+            if(symptom.nervioSuralDerecho!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                insertCell(nervios[count++], false, 0)
-                insertCell(String.format("%.1f%%", sintoma.nervioBraquialDerecho), false, 1)
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioBraquialDerecho), false, 1)
             }
-            if(sintoma.nervioBraquialDerecho!=0f){
+            if(symptom.nervioBraquialDerecho!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                insertCell(nervios[count++], false, 0)
-                insertCell(String.format("%.1f%%", sintoma.nervioAntebrazoDerecho), false, 1)
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioAntebrazoDerecho), false, 1)
             }
-            if(sintoma.nervioAntebrazoDerecho!=0f){
+            if(symptom.nervioAntebrazoDerecho!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                insertCell(nervios[count++], false, 0)
-                insertCell(String.format("%.1f%%", sintoma.nervioRadialDerecho), false, 1)
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioRadialDerecho), false, 1)
             }
-            if(sintoma.nervioRadialDerecho!=0f){
+            if(symptom.nervioRadialDerecho!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                insertCell(nervios[count++], false, 0)
-                insertCell(String.format("%.1f%%", sintoma.nervioAxilarDerecho), false, 1)
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioAxilarDerecho), false, 1)
             }
-            if(sintoma.nervioAxilarDerecho!=0f){
+            if(symptom.nervioAxilarDerecho!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                insertCell(nervios[count++], false, 0)
-                insertCell(String.format("%.1f%%", sintoma.nervioMedianoIzquierdo), false, 1)
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioMedianoIzquierdo), false, 1)
             }
-            if(sintoma.nervioMedianoIzquierdo!=0f){
+            if(symptom.nervioMedianoIzquierdo!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                insertCell(nervios[count++], false, 0)
-                insertCell(String.format("%.1f%%", sintoma.nervioRadialSuperficialIzquierdo), false, 1)
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioRadialSuperficialIzquierdo), false, 1)
             }
-            if(sintoma.nervioRadialSuperficialIzquierdo!=0f){
+            if(symptom.nervioRadialSuperficialIzquierdo!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                insertCell(nervios[count++], false, 0)
-                insertCell(String.format("%.1f%%", sintoma.nervioCubitalIzquierdo), false, 1)
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioCubitalIzquierdo), false, 1)
             }
-            if(sintoma.nervioCubitalIzquierdo!=0f){
+            if(symptom.nervioCubitalIzquierdo!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                insertCell(nervios[count++], false, 0)
-                insertCell(String.format("%.1f%%", sintoma.nervioMusculoCutaneoIzquierdo), false, 1)
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioMusculoCutaneoIzquierdo), false, 1)
             }
-            if(sintoma.nervioMusculoCutaneoIzquierdo!=0f){
+            if(symptom.nervioMusculoCutaneoIzquierdo!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                insertCell(nervios[count++], false, 0)
-                insertCell(String.format("%.1f%%", sintoma.nerviosSupraclavicularesIzquierdos), false, 1)
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nerviosSupraclavicularesIzquierdos), false, 1)
             }
-            if(sintoma.nerviosSupraclavicularesIzquierdos!=0f){
+            if(symptom.nerviosSupraclavicularesIzquierdos!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                insertCell(nervios[count++], false, 0)
-                insertCell(String.format("%.1f%%", sintoma.nervioFemoralIzquierdo), false, 1)
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioFemoralIzquierdo), false, 1)
             }
-            if(sintoma.nervioFemoralIzquierdo!=0f){
+            if(symptom.nervioFemoralIzquierdo!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                insertCell(nervios[count++], false, 0)
-                insertCell(String.format("%.1f%%", sintoma.nervioGenitalIzquierdo), false, 1)
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioGenitalIzquierdo), false, 1)
             }
-            if(sintoma.nervioGenitalIzquierdo!=0f){
+            if(symptom.nervioGenitalIzquierdo!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                insertCell(nervios[count++], false, 0)
-                insertCell(String.format("%.1f%%", sintoma.nervioIlioinguinoIzquierdo), false, 1)
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioIlioinguinoIzquierdo), false, 1)
             }
-            if(sintoma.nervioIlioinguinoIzquierdo!=0f){
+            if(symptom.nervioIlioinguinoIzquierdo!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                insertCell(nervios[count++], false, 0)
-                insertCell(String.format("%.1f%%", sintoma.nervioObturadoIzquierdo), false, 1)
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioObturadoIzquierdo), false, 1)
             }
-            if(sintoma.nervioObturadoIzquierdo!=0f){
+            if(symptom.nervioObturadoIzquierdo!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                insertCell(nervios[count++], false, 0)
-                insertCell(String.format("%.1f%%", sintoma.nervioFemoralAnteriorIzquierdo), false, 1)
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioFemoralAnteriorIzquierdo), false, 1)
             }
-            if(sintoma.nervioFemoralAnteriorIzquierdo!=0f){
+            if(symptom.nervioFemoralAnteriorIzquierdo!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                insertCell(nervios[count++], false, 0)
-                insertCell(String.format("%.1f%%", sintoma.nervioSafenoIzquierdo), false, 1)
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioSafenoIzquierdo), false, 1)
             }
-            if(sintoma.nervioSafenoIzquierdo!=0f){
+            if(symptom.nervioSafenoIzquierdo!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                insertCell(nervios[count++], false, 0)
-                insertCell(String.format("%.1f%%", sintoma.nervioPeroneoIzquierdo), false, 1)
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioPeroneoIzquierdo), false, 1)
             }
-            if(sintoma.nervioPeroneoIzquierdo!=0f){
+            if(symptom.nervioPeroneoIzquierdo!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                insertCell(nervios[count++], false, 0)
-                insertCell(String.format("%.1f%%", sintoma.nervioSuralIzquierdo), false, 1)
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioSuralIzquierdo), false, 1)
             }
-            if(sintoma.nervioSuralIzquierdo!=0f){
+            if(symptom.nervioSuralIzquierdo!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                insertCell(nervios[count++], false, 0)
-                insertCell(String.format("%.1f%%", sintoma.nervioBraquialIzquierdo), false, 1)
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioBraquialIzquierdo), false, 1)
             }
-            if(sintoma.nervioBraquialIzquierdo!=0f){
+            if(symptom.nervioBraquialIzquierdo!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                insertCell(nervios[count++], false, 0)
-                insertCell(String.format("%.1f%%", sintoma.nervioAntebrazoIzquierdo), false, 1)
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioAntebrazoIzquierdo), false, 1)
             }
-            if(sintoma.nervioAntebrazoIzquierdo!=0f){
+            if(symptom.nervioAntebrazoIzquierdo!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                insertCell(nervios[count++], false, 0)
-                insertCell(String.format("%.1f%%", sintoma.nervioRadialIzquierdo), false, 1)
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioRadialIzquierdo), false, 1)
             }
-            if(sintoma.nervioRadialIzquierdo!=0f){
+            if(symptom.nervioRadialIzquierdo!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                insertCell(nervios[count], false, 0)
-                insertCell(String.format("%.1f%%", sintoma.nervioAxilarIzquierdo), false, 1)
+                insertCell(nerves[count], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioAxilarIzquierdo), false, 1)
             }
-            if(sintoma.nervioAxilarIzquierdo!=0f){
+            if(symptom.nervioAxilarIzquierdo!=0f){
                 table.addView(row)
             }
         }

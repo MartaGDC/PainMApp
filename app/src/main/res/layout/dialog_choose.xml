@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Esta evaluación ya ha sido realizada en este paciente."
+        android:text="@string/evaluation_already_done"
         style="@style/Small"
         android:textSize="18sp"
         android:gravity="center"
@@ -16,7 +16,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="¿Qué deseas hacer?"
+        android:text="@string/what_to_do"
         style="@style/Small"
         android:gravity="center"/>
     <LinearLayout
@@ -26,7 +26,7 @@
         android:layout_marginTop="16dp"
         android:gravity="center">
         <androidx.cardview.widget.CardView
-            android:id="@+id/btnCancelar"
+            android:id="@+id/btnCancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:cardCornerRadius="50dp"
@@ -35,7 +35,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cancelar"
+                android:text="@string/cancel"
                 android:gravity="center"
                 style="@style/Small"
                 android:textSize="14sp"
@@ -43,17 +43,17 @@
                 android:layout_marginVertical="2dp"/>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
-            android:id="@+id/btnResumen"
+            android:id="@+id/btnSummary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/blue"
             app:cardCornerRadius="50dp"
             android:layout_marginHorizontal="10dp">
             <TextView
-                android:id="@+id/verResumen"
+                android:id="@+id/seeSummary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ver resumen del paciente"
+                android:text="@string/see_patient_summary"
                 android:gravity="center"
                 style="@style/Small"
                 android:textSize="14sp"
@@ -61,7 +61,7 @@
                 android:layout_marginVertical="2dp"/>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
-            android:id="@+id/btnSobreescribir"
+            android:id="@+id/btnOverwrite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/blue"
@@ -70,7 +70,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Borrar y sobrescribir evaluación"
+                android:text="@string/delete_overwrite"
                 android:gravity="center"
                 style="@style/Small"
                 android:textSize="14sp"

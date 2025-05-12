@@ -10,18 +10,17 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.RectF
 import android.graphics.Region
-import android.util.Log
 import androidx.core.graphics.PathParser
 import com.mgd.painmapp.R
 import org.xmlpull.v1.XmlPullParser
 
 object  InterpretationHelper {
     @SuppressLint("ResourceType")
-    fun obtenerNerviosPerifericosFrente(context:Context) : List<String> {
+    fun getFrontPeripheralNerves(context:Context) : List<String> {
         val nerveNames = mutableListOf<String>()
-        val imgFuente:Int = R.drawable.nerviosanterior
+        val imgSource:Int = R.drawable.front_nerves
         val resources = context.resources
-        val parser = resources.getXml(imgFuente)
+        val parser = resources.getXml(imgSource)
         var eventType = parser.eventType
         while (eventType != XmlPullParser.END_DOCUMENT) {
             if (eventType == XmlPullParser.START_TAG && parser.name == "path") {
@@ -38,11 +37,11 @@ object  InterpretationHelper {
         return nerveNames
     }
     @SuppressLint("ResourceType")
-    fun obtenerNerviosyRegionsFrente(context: Context, escala: Matrix):MutableMap<String,Path>{
-        val nervios = mutableMapOf<String, Path>()
-        val imgFuente:Int = R.drawable.nerviosanterior
+    fun getFrontNerves_Regions(context: Context, scale: Matrix):MutableMap<String,Path>{
+        val nerves = mutableMapOf<String, Path>()
+        val imgSource:Int = R.drawable.front_nerves
         val resources = context.resources
-        val parser = resources.getXml(imgFuente)
+        val parser = resources.getXml(imgSource)
         var eventType = parser.eventType
         while (eventType != XmlPullParser.END_DOCUMENT) {
             if (eventType == XmlPullParser.START_TAG && parser.name == "path") {
@@ -56,13 +55,13 @@ object  InterpretationHelper {
                 )
                 if (!nameAttr.isNullOrEmpty()) {
                     val path = PathParser.createPathFromPathData(pathData)
-                    nervios[nameAttr] = path
-                    path.transform(escala)
+                    nerves[nameAttr] = path
+                    path.transform(scale)
                 }
             }
             eventType = parser.next()
         }
-        return nervios
+        return nerves
     }
     @SuppressLint("ResourceType")
     /* fun obtenerNerviosyRegionsEspalda(context: Context, escala: Matrix):List<Pair<String,Path>>{
@@ -92,51 +91,51 @@ object  InterpretationHelper {
         return nervios
     } */
 
-    private fun obtenerZonasFrente(path:Path, context: Context, escala: Matrix): Map<String, Region> {
-        val zonas = mutableMapOf<String, Region>()
+    private fun getFrontZones(path:Path, context: Context, escala: Matrix): Map<String, Region> {
+        val zones = mutableMapOf<String, Region>()
         val bounds = RectF()
         path.computeBounds(bounds, true)
         val mitadX = (bounds.right.toInt()+bounds.left.toInt())/2
-        zonas["total"] = Region().apply {
+        zones["total"] = Region().apply {
             setPath(path, Region(bounds.left.toInt(), bounds.top.toInt(), bounds.right.toInt(), bounds.bottom.toInt()))
         }
-        zonas["derecha"] = Region().apply {
+        zones["derecha"] = Region().apply {
             setPath(path, Region(bounds.left.toInt(), bounds.top.toInt(), mitadX, bounds.bottom.toInt()))
         }
-        zonas["izquierda"] = Region().apply {
+        zones["izquierda"] = Region().apply {
             setPath(path, Region(mitadX, bounds.top.toInt(), bounds.right.toInt(), bounds.bottom.toInt()))
         }
         //Nervios perifericos
-        for ((name, path) in obtenerNerviosyRegionsFrente(context, escala)){
-            path.computeBounds(bounds, true)
-            zonas[name] = Region().apply {
-                setPath(path, Region(bounds.left.toInt(), bounds.top.toInt(), bounds.right.toInt(), bounds.bottom.toInt()))
+        for ((nameNerve, pathNerve) in getFrontNerves_Regions(context, escala)){
+            pathNerve.computeBounds(bounds, true)
+            zones[nameNerve] = Region().apply {
+                setPath(pathNerve, Region(bounds.left.toInt(), bounds.top.toInt(), bounds.right.toInt(), bounds.bottom.toInt()))
             }
         }
         //Dermatomas pendientes
-        return zonas
+        return zones
     }
 
-    private fun obtenerZonasEspalda(path:Path, context: Context, escala: Matrix): MutableMap<String, Region> {
-        val zonas = mutableMapOf<String, Region>()
+    private fun getBackZones(path:Path, context: Context, escala: Matrix): MutableMap<String, Region> {
+        val zones = mutableMapOf<String, Region>()
         val bounds = RectF()
         path.computeBounds(bounds, true)
         val mitadX = (bounds.right.toInt()+bounds.left.toInt())/2
-        zonas["total"] = Region().apply {
+        zones["total"] = Region().apply {
             setPath(path, Region(bounds.left.toInt(), bounds.top.toInt(), bounds.right.toInt(), bounds.bottom.toInt()))
         }
-        zonas["derecha"] = Region().apply {
+        zones["derecha"] = Region().apply {
             setPath(path, Region(mitadX, bounds.top.toInt(), bounds.right.toInt(), bounds.bottom.toInt()))
         }
-        zonas["izquierda"] = Region().apply {
+        zones["izquierda"] = Region().apply {
             setPath(path, Region(bounds.left.toInt(), bounds.top.toInt(), mitadX, bounds.bottom.toInt()))
         }
         //Dermatomas y nervios perifericos pendientes
-        return zonas
+        return zones
     }
 
 
-    fun calcularPixeles(context: Context, width: Int, height: Int, paths: List<Path>, bPaint: Paint, path: Path, optimization: Int = 5,
+    fun calculatePixels(context: Context, width: Int, height: Int, paths: List<Path>, bPaint: Paint, path: Path, optimization: Int = 5,
                         tipoMapa: String, escala: Matrix): Map<String, List<Float>> {
                            //Map es lo que sería un diccionario en python. En vez de acceder con indice se accede con clave
         /*Optimizacion porque si se revisan todos los pixels la aplicacion se bloque y tarda demasiado
@@ -148,27 +147,26 @@ object  InterpretationHelper {
         for (bpath in paths) { //trazos dibujados con las caracteristicas del pincel
             canvasCalculos.drawPath(bpath, bPaint)
         }
-        var zonas: Map<String, Region>
-        if (tipoMapa=="frente"){
-            zonas = obtenerZonasFrente(path, context, escala)
-        }
-        else {
-            zonas = obtenerZonasEspalda(path, context, escala)
+        val zones: Map<String, Region>
+        zones = if (tipoMapa=="frente"){
+            getFrontZones(path, context, escala)
+        } else {
+            getBackZones(path, context, escala)
         }
         val pixelsZona = mutableMapOf<String, Int>()
         val pintadosZona = mutableMapOf<String, Int>()
-        for ((name, path) in zonas){ //Se guardará en cada zona sus datos correspondientes en una sola lectura (código más adelante)
+        for ((name, _) in zones){ //Se guardará en cada zona sus datos correspondientes en una sola lectura (código más adelante)
             pixelsZona[name] = 0 //inicializa la cuenta de pixeles cuya clave recibe el string (first) del primer par (zona) que contiene zonas
             pintadosZona[name] = 0
         }
         for (x in 0 until bitmap.width step optimization) {
             for (y in 0 until bitmap.height step optimization) {
                 val pixel = bitmap.getPixel(x, y)
-                for ((name, path) in zonas) {
-                    if (path.contains(x, y)) {
-                        pixelsZona[name] = pixelsZona[name]!! + 1
+                for ((nameZona, pathZona) in zones) {
+                    if (pathZona.contains(x, y)) {
+                        pixelsZona[nameZona] = pixelsZona[nameZona]!! + 1
                         if (Color.alpha(pixel) != 0) {
-                            pintadosZona[name] = pintadosZona[name]!! + 1
+                            pintadosZona[nameZona] = pintadosZona[nameZona]!! + 1
                         }
                     }
                 }
@@ -176,16 +174,16 @@ object  InterpretationHelper {
         }
 
         val mapResults = mutableMapOf<String, List<Float>>()
-        for ((name, _) in zonas) {
+        for ((name, _) in zones) {
             val total = pixelsZona[name] ?: 1
             val pintado = pintadosZona[name] ?: 0
             mapResults[name] = listOf(total.toFloat(), pintado.toFloat())
         }
         return mapResults
     }
-    fun calcularPorcentaje(mapResultsFrente: Map<String, List<Float>>, mapResultsEspalda: Map<String, List<Float>>): Map<String, Float> {
-        var mapTotales = mutableMapOf<String, List<Float>>()
-        var resultadoPorcentajes = mutableMapOf<String, Float>()
+    fun calculatePercentage(mapResultsFrente: Map<String, List<Float>>, mapResultsEspalda: Map<String, List<Float>>): Map<String, Float> {
+        val mapTotales = mutableMapOf<String, List<Float>>()
+        val resultadoPorcentajes = mutableMapOf<String, Float>()
         for (name in mapResultsFrente.keys.intersect(mapResultsEspalda.keys)) { //claves en comun --> nervios en común, zonas en comun
             val resultadosFrente = mapResultsFrente[name]!!
             val resultadosEspalda = mapResultsEspalda[name]!!
@@ -211,7 +209,7 @@ object  InterpretationHelper {
         return resultadoPorcentajes
     }
 
-    fun calcularTotalPixeles(width: Int, height: Int, paths: List<Path>, bPaint: Paint, cPath: Path, optimization: Int = 5,
+    fun calculateTotalPixels(width: Int, height: Int, paths: List<Path>, bPaint: Paint, cPath: Path, optimization: Int = 5,
                              tipoMapa:String) : Map<String, List<Float>> {
         val mapResults = mutableMapOf<String, List<Float>>()
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
@@ -220,12 +218,12 @@ object  InterpretationHelper {
         for (bpath in paths) {
             canvasCalculos.drawPath(bpath, bPaint)
         }
-        var zonas = mutableMapOf<String, Region>()
+        val zones = mutableMapOf<String, Region>()
         if (tipoMapa == "frente") {
             val bounds = RectF()
             cPath.computeBounds(bounds, true)
             val mitadX = (bounds.right.toInt() + bounds.left.toInt()) / 2
-            zonas["total"] = Region().apply {
+            zones["total"] = Region().apply {
                 setPath(
                     cPath,
                     Region(
@@ -236,13 +234,13 @@ object  InterpretationHelper {
                     )
                 )
             }
-            zonas["derecha"] = Region().apply {
+            zones["derecha"] = Region().apply {
                 setPath(
                     cPath,
                     Region(bounds.left.toInt(), bounds.top.toInt(), mitadX, bounds.bottom.toInt())
                 )
             }
-            zonas["izquierda"] = Region().apply {
+            zones["izquierda"] = Region().apply {
                 setPath(
                     cPath,
                     Region(mitadX, bounds.top.toInt(), bounds.right.toInt(), bounds.bottom.toInt())
@@ -252,7 +250,7 @@ object  InterpretationHelper {
             val bounds = RectF()
             cPath.computeBounds(bounds, true)
             val mitadX = (bounds.right.toInt() + bounds.left.toInt()) / 2
-            zonas["total"] = Region().apply {
+            zones["total"] = Region().apply {
                 setPath(
                     cPath,
                     Region(
@@ -263,13 +261,13 @@ object  InterpretationHelper {
                     )
                 )
             }
-            zonas["derecha"] = Region().apply {
+            zones["derecha"] = Region().apply {
                 setPath(
                     cPath,
                     Region(mitadX, bounds.top.toInt(), bounds.right.toInt(), bounds.bottom.toInt())
                 )
             }
-            zonas["izquierda"] = Region().apply {
+            zones["izquierda"] = Region().apply {
                 setPath(
                     cPath,
                     Region(bounds.left.toInt(), bounds.top.toInt(), mitadX, bounds.bottom.toInt())
@@ -278,14 +276,14 @@ object  InterpretationHelper {
         }
         val pixelsZona = mutableMapOf<String, Int>()
         val pintadosZona = mutableMapOf<String, Int>()
-        for ((name, _) in zonas) {
+        for ((name, _) in zones) {
             pixelsZona[name] = 0
             pintadosZona[name] = 0
         }
         for (x in 0 until bitmap.width step optimization) {
             for (y in 0 until bitmap.height step optimization) {
                 val pixel = bitmap.getPixel(x, y)
-                for ((name, path) in zonas) {
+                for ((name, path) in zones) {
                     if (path.contains(x, y)) {
                         pixelsZona[name] = pixelsZona[name]!! + 1
                         if (Color.alpha(pixel) != 0) {
@@ -295,7 +293,7 @@ object  InterpretationHelper {
                 }
             }
         }
-        for ((name, _) in zonas) {
+        for ((name, _) in zones) {
             val total = pixelsZona[name] ?: 1
             val pintado = pintadosZona[name] ?: 0
             mapResults[name] = listOf(total.toFloat(), pintado.toFloat())

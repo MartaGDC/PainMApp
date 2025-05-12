@@ -7,6 +7,7 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.room.Room
+import com.mgd.painmapp.R
 import com.mgd.painmapp.databinding.ActivityMainBinding
 import com.mgd.painmapp.model.database.PatientDatabase
 import com.mgd.painmapp.model.storage.ColorBrush
@@ -46,8 +47,8 @@ class MainActivity : AppCompatActivity() {
             //Lo he visto necesario al introducir un paciente, rellenar el mapa, pero salir antes de completar los sintomas.
             //No se podrá acceder a ese paciente de nuevo a menos que se eliminen los registros incompletos
             //Se considera que si se sale de la aplicación y habiéndose añádido al menos un sintoma completo, la evaluacion de ese paciente esta completa.
-            database.getEvaluationDao().eliminarEvaluacionesSinMapa()
             database.getMapDao().eliminarMapasSinSintomas()
+            database.getEvaluationDao().eliminarEvaluacionesSinMapa()
         }
         initUI()
     }
@@ -62,13 +63,13 @@ class MainActivity : AppCompatActivity() {
         cvNext = binding.cvNext
         cvNext.setOnClickListener {
             if(patientName.text.isEmpty()){
-                patientName.error = "Debe completar este campo"
+                patientName.error = getString(R.string.empty_field)
             }
             else{
                 patientName.error = null
             }
             if (researcherName.text.isEmpty()){
-                researcherName.error = "Debe completar este campo"
+                researcherName.error = getString(R.string.empty_field)
             }
             else{
                 researcherName.error = null

@@ -2,7 +2,6 @@ package com.mgd.painmapp.controller.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -10,6 +9,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
 import com.google.android.material.navigation.NavigationView
+import com.mgd.painmapp.R
 import com.mgd.painmapp.controller.InterpretationHelper
 import com.mgd.painmapp.model.database.entities.toDatabase
 import com.mgd.painmapp.model.database.entities.toSymptom
@@ -34,7 +34,7 @@ class SensorialActivity : AppCompatActivity() {
     private lateinit var researcherName: String
     private lateinit var currentDate: String
     private lateinit var type: String
-    private var idGeneradoEvaluation: Long = -1
+    private var idGeneratedEvaluation: Long = -1
     private lateinit var database: PatientDatabase
     private var mvFrontReady: Boolean = false
     private var mvBackReady: Boolean = false
@@ -53,7 +53,7 @@ class SensorialActivity : AppCompatActivity() {
         researcherName = intent.getStringExtra("researcher_name").toString()
         currentDate = intent.getStringExtra("date").toString()
         type = intent.getStringExtra("type").toString()
-        idGeneradoEvaluation = intent.getLongExtra("idGeneradoEvaluation", -1)
+        idGeneratedEvaluation = intent.getLongExtra("idGeneratedEvaluation", -1)
 
         database = Room.databaseBuilder(
             this, PatientDatabase::class.java,
@@ -67,9 +67,9 @@ class SensorialActivity : AppCompatActivity() {
 
     private fun initComponents(){
         adapter = SymptomsAdapter(emptyList(), this)
-        if(idGeneradoEvaluation != (-1).toLong()){
+        if(idGeneratedEvaluation != (-1).toLong()){
             CoroutineScope(Dispatchers.IO).launch {
-                val symptomsList = database.getSymptomDao().getSymptomsByEvaluation(idGeneradoEvaluation)
+                val symptomsList = database.getSymptomDao().getSymptomsByEvaluation(idGeneratedEvaluation)
                 val symptoms = symptomsList.map { it.toSymptom() }
                 runOnUiThread {
                     adapter.updateList(symptoms)
@@ -112,7 +112,7 @@ class SensorialActivity : AppCompatActivity() {
             patientName,
             researcherName,
             currentDate,
-            idGeneradoEvaluation
+            idGeneratedEvaluation
         )
     }
 
@@ -124,7 +124,7 @@ class SensorialActivity : AppCompatActivity() {
             CoroutineScope(Dispatchers.IO).launch { //Creamos aqui la coroutine, llamando a una funcion suspend
                 fillDatabase()
                 val intent = Intent(this@SensorialActivity, LocationActivity::class.java).apply {
-                    putExtra("idGeneradoEvaluation", idGeneradoEvaluation)
+                    putExtra("idGeneratedEvaluation", idGeneratedEvaluation)
                 }
                 startActivity(intent)
             }
@@ -134,26 +134,26 @@ class SensorialActivity : AppCompatActivity() {
 
     private fun getFrontDrawings(): List<String> {
         val bPath: List<String>
-        if (idGeneradoEvaluation != (-1).toLong()) { //Hay registro de evaluación
-            bPath = database.getMapDao().getFrontPathsDrawnById(idGeneradoEvaluation)
+        if (idGeneratedEvaluation != (-1).toLong()) { //Hay registro de evaluación
+            bPath = database.getMapDao().getFrontPathsDrawnById(idGeneratedEvaluation)
             return bPath
         }
         return emptyList()
     }
     private fun getBackDrawings(): List<String> {
         val bPath: List<String>
-        if (idGeneradoEvaluation != (-1).toLong()) { //Hay registro de evaluación
-            bPath = database.getMapDao().getBackPathsDrawnById(idGeneradoEvaluation)
+        if (idGeneratedEvaluation != (-1).toLong()) { //Hay registro de evaluación
+            bPath = database.getMapDao().getBackPathsDrawnById(idGeneratedEvaluation)
             return bPath
         }
         return emptyList()
     }
 
     private fun fillDatabase() { //Suspend para que el hilo principal espere
-        if (idGeneradoEvaluation == (-1).toLong()) { //Si no hay registro de evaluación
+        if (idGeneratedEvaluation == (-1).toLong()) { //Si no hay registro de evaluación
             val evaluationEntity =
                 Evaluation(patientName, researcherName, currentDate, type).toDatabase()
-                idGeneradoEvaluation = database.getEvaluationDao().insertEvaluation(evaluationEntity) //Se elimina la coroutine, porque se lanza desde el listener
+            idGeneratedEvaluation = database.getEvaluationDao().insertEvaluation(evaluationEntity) //Se elimina la coroutine, porque se lanza desde el listener
         }
         else { //Si ya se ha registrado
             return
@@ -161,15 +161,15 @@ class SensorialActivity : AppCompatActivity() {
     }
 
     private fun calcularTotales() {
-        if (mvFrontReady && mvBackReady && idGeneradoEvaluation != (-1).toLong()) { //Hay registro de evaluación, y mapas disponibles
-            var resultFront = mvFront.calcularTotalPixeles("frente")
-            var resultBack = mvBack.calcularTotalPixeles("espalda")
-            var results = InterpretationHelper.calcularPorcentaje(resultFront, resultBack)
-            var porcentajeTotal = results["total"] ?: 0f
-            var porcentajedchaTotal = results["derecha"] ?: 0f
-            var porcentajeizdaTotal = results["izquierda"] ?: 0f
+        if (mvFrontReady && mvBackReady && idGeneratedEvaluation != (-1).toLong()) { //Hay registro de evaluación, y mapas disponibles
+            val resultFront = mvFront.calculateTotalPixels("frente")
+            val resultBack = mvBack.calculateTotalPixels("espalda")
+            val results = InterpretationHelper.calculatePercentage(resultFront, resultBack)
+            val totalPercentage = results["total"] ?: 0f
+            val totalRightPercentage = results["derecha"] ?: 0f
+            val totalLeftPercentage = results["izquierda"] ?: 0f
             CoroutineScope(Dispatchers.IO).launch {
-                database.getMapDao().updatePatientPercentages(idGeneradoEvaluation, porcentajeTotal, porcentajedchaTotal, porcentajeizdaTotal)
+                database.getMapDao().updatePatientPercentages(idGeneratedEvaluation, totalPercentage, totalRightPercentage, totalLeftPercentage)
             }
 
         }
@@ -177,8 +177,8 @@ class SensorialActivity : AppCompatActivity() {
 
     @Suppress("MissingSuperCall")
     override fun onBackPressed(){
-        if(idGeneradoEvaluation != (-1).toLong()) {
-            Toast.makeText(this, "Resgistro finalizado", Toast.LENGTH_SHORT).show()
+        if(idGeneratedEvaluation != (-1).toLong()) {
+            Toast.makeText(this, getString(R.string.leaving_registry), Toast.LENGTH_SHORT).show()
             NavigationHelper.navigateToNewPatient(this)
         }
         else{

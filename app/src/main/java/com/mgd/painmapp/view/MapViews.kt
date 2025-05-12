@@ -14,7 +14,7 @@ import com.mgd.painmapp.model.storage.ColorBrush
 
 class MapViews(context: Context, attrs: AttributeSet) : MapResponsiveViews(context, attrs) {
     lateinit var paths: List<String>
-    val listLimpio = mutableListOf<Path>()
+    private val listClean = mutableListOf<Path>()
     override fun onDraw(canvas: Canvas) {
         if (isInEditMode) return //Añadido porque onDraw no sabía gestionar que los paths no estuvieran inicializados,
                                  // antes de la ejecución de la app, dado que se inician desde SensorialActivity.
@@ -29,12 +29,12 @@ class MapViews(context: Context, attrs: AttributeSet) : MapResponsiveViews(conte
 
         val matrix =Matrix()
 
-        if (!paths.isEmpty()){
-            var rectanguloEscala = PathParser.createPathFromPathData(paths[0])
+        if (paths.isNotEmpty()){
+            val rectanguloEscala = PathParser.createPathFromPathData(paths[0])
             val boundsRectangulo = RectF()
             rectanguloEscala.computeBounds(boundsRectangulo, true)
-            val scaleX = (bounds.width()+276) / boundsRectangulo.width()
-            val scaleY = (bounds.height()+276) / boundsRectangulo.height()
+            val scaleX = (bounds.width()+270) / boundsRectangulo.width()
+            val scaleY = (bounds.height()+270) / boundsRectangulo.height()
             val scaleFactor = minOf(scaleX, scaleY)
             matrix.setScale(scaleFactor, scaleFactor, boundsRectangulo.centerX(), boundsRectangulo.centerY())
             rectanguloEscala.computeBounds(boundsRectangulo, true)
@@ -45,9 +45,9 @@ class MapViews(context: Context, attrs: AttributeSet) : MapResponsiveViews(conte
 
         var count = 0
         for (path in paths){
-            var dibujos = PathParser.createPathFromPathData(path)
+            val dibujos = PathParser.createPathFromPathData(path)
             dibujos.transform(matrix)
-            listLimpio.add(dibujos)
+            listClean.add(dibujos)
             var color = ColorBrush.colorList[count]
             color = ColorUtils.setAlphaComponent(color, (0.8f * 255).toInt())
             bPaint.color = color
@@ -59,7 +59,7 @@ class MapViews(context: Context, attrs: AttributeSet) : MapResponsiveViews(conte
 
         matrix.reset()
     }
-    fun calcularTotalPixeles(tipoMapa:String): Map<String, List<Float>> {
-        return InterpretationHelper.calcularTotalPixeles(width, height, listLimpio, bPaint, cPath, optimization=5, tipoMapa=tipoMapa)
+    fun calculateTotalPixels(mapType:String): Map<String, List<Float>> {
+        return InterpretationHelper.calculateTotalPixels(width, height, listClean, bPaint, cPath, optimization=5, tipoMapa=mapType)
     }
 }

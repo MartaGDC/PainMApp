@@ -47,7 +47,9 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/patientName"
                     style="@style/Median"
-                    android:textStyle="normal"
+                    android:textColorHint="@color/dark_blue_hint"
+                    android:fontFamily = "sans-serif"
+                    android:importantForAutofill="no"
                     android:inputType="textCapWords"
                     android:layout_margin="30dp"
                     android:imeOptions="actionNext"/>
@@ -57,7 +59,9 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/researcherName"
                     style="@style/Median"
-                    android:textStyle="normal"
+                    android:textColorHint="@color/dark_blue_hint"
+                    android:fontFamily = "sans-serif"
+                    android:importantForAutofill="no"
                     android:inputType="textCapWords"
                     android:layout_margin="30dp"
                     android:imeOptions="actionDone"/>

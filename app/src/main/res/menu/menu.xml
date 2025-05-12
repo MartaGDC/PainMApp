@@ -4,12 +4,12 @@
         android:title="@string/sensorySymptoms"/>
     <item android:id="@+id/item_motor"
         android:title="@string/motorSymptoms" />
-    <item android:id="@+id/item_psicosocial"
+    <item android:id="@+id/item_psychosocial"
         android:title="@string/psychosocial"/>
-    <item android:id="@+id/item_resumen"
+    <item android:id="@+id/item_summary"
         android:title="@string/summary"/>
-    <item android:id="@+id/vacio"
+    <item android:id="@+id/none"
         android:title=""/>
-    <item android:id="@+id/item_nuevo"
+    <item android:id="@+id/item_new"
         android:title="@string/newPatient"/>
 </menu>

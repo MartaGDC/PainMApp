@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.widget.CheckBox
 import android.widget.EditText
@@ -16,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.room.Room
 import com.google.android.material.slider.Slider
+import com.mgd.painmapp.R
 import com.mgd.painmapp.model.database.entities.toDatabase
 import com.mgd.painmapp.model.database.PatientDatabase
 import com.mgd.painmapp.model.database.Symptom
@@ -41,23 +41,23 @@ class SensorialSurveyActivity : AppCompatActivity() {
     private lateinit var cbPiercing : CheckBox
     private lateinit var cbUnbearable : CheckBox
     private lateinit var cbFatiguing : CheckBox
-    private lateinit var cbOtherCharact : CheckBox
-    private lateinit var etOtherCharact : EditText
+    private lateinit var cbOtherChar : CheckBox
+    private lateinit var etOtherChar : EditText
     private lateinit var rgTime : RadioGroup
     private lateinit var rbContinuous : RadioButton
     private lateinit var tvWhen : TextView
     private lateinit var etWhen : EditText
     private lateinit var database: PatientDatabase
-    private var idGeneradoMap: Long = -1
-    private var idGeneradoEvaluation: Long = -1
+    private var idGeneratedMap: Long = -1
+    private var idGeneratedEvaluation: Long = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySensorialSurveyBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        idGeneradoEvaluation = intent.getLongExtra("idGeneradoEvaluation", -1)
-        idGeneradoMap = intent.getLongExtra("idGeneradoMap", -1)
+        idGeneratedEvaluation = intent.getLongExtra("idGeneratedEvaluation", -1)
+        idGeneratedMap = intent.getLongExtra("idGeneratedMap", -1)
         database = Room.databaseBuilder(
             this, PatientDatabase::class.java,
             "patient_database"
@@ -82,8 +82,8 @@ class SensorialSurveyActivity : AppCompatActivity() {
         cbPiercing = binding.cbPiercing
         cbUnbearable = binding.cbUnbearable
         cbAnnoying = binding.cbAnnoying
-        cbOtherCharact = binding.cbOtherCharact
-        etOtherCharact = binding.etOtherCharact
+        cbOtherChar = binding.cbOtherCharact
+        etOtherChar = binding.etOtherCharact
         rgTime = binding.rgTime
         rbContinuous = binding.rbContinuous
         tvWhen = binding.tvWhen
@@ -93,10 +93,10 @@ class SensorialSurveyActivity : AppCompatActivity() {
     private fun initListeners() {
         //Guardado
         cvSave.setOnClickListener {
-            if (validarCampos()) {
+            if (validateFields()) {
                 fillDatabase()
                 val intent = Intent(this, SensorialActivity::class.java).apply {
-                    putExtra("idGeneradoEvaluation", idGeneradoEvaluation)
+                    putExtra("idGeneratedEvaluation", idGeneratedEvaluation)
                 }
                 startActivity(intent)
             }
@@ -148,22 +148,22 @@ class SensorialSurveyActivity : AppCompatActivity() {
             }
         })
 
-        etOtherCharact.addTextChangedListener (object : TextWatcher {
+        etOtherChar.addTextChangedListener (object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 if (!s.isNullOrEmpty()) {
-                    cbOtherCharact.isChecked = true
-                    etOtherCharact.error = null
+                    cbOtherChar.isChecked = true
+                    etOtherChar.error = null
                 }
             }
         })
 
         //Si se deselecciona el checkboxOtro, se borra el texto
-        cbOtherCharact.setOnCheckedChangeListener { _, _ ->
-            if (!cbOtherCharact.isChecked) {
-                etOtherCharact.text.clear()
-                etOtherCharact.error = null
+        cbOtherChar.setOnCheckedChangeListener { _, _ ->
+            if (!cbOtherChar.isChecked) {
+                etOtherChar.text.clear()
+                etOtherChar.error = null
             }
         }
         //Radiobuttons que hacen visible otro componente
@@ -191,9 +191,9 @@ class SensorialSurveyActivity : AppCompatActivity() {
         cbPiercing.isChecked = false
         cbUnbearable.isChecked = false
         cbAnnoying.isChecked = false
-        cbOtherCharact.isChecked = false
+        cbOtherChar.isChecked = false
         etOtherSymptom.text.clear()
-        etOtherCharact.text.clear()
+        etOtherChar.text.clear()
         tvWhen.visibility = View.INVISIBLE
         etWhen.text.clear()
         etWhen.visibility = View.INVISIBLE
@@ -205,7 +205,7 @@ class SensorialSurveyActivity : AppCompatActivity() {
         val selectedTime = rgTime.checkedRadioButtonId
         val selectedTimeRB : RadioButton = findViewById(selectedTime)
         val symptomEntity = Symptom(
-            idGeneradoMap,
+            idGeneratedMap,
             cvSlider.value,
             selectedSymptomRB.text.toString(),
             etOtherSymptom.text.toString(),
@@ -215,8 +215,8 @@ class SensorialSurveyActivity : AppCompatActivity() {
             cbUnbearable.isChecked,
             cbFatiguing.isChecked,
             cbPiercing.isChecked,
-            cbOtherCharact.isChecked,
-            etOtherCharact.text.toString(),
+            cbOtherChar.isChecked,
+            etOtherChar.text.toString(),
             selectedTimeRB.text.toString(),
             etWhen.text.toString()).toDatabase()
         CoroutineScope(Dispatchers.IO).launch {
@@ -224,26 +224,35 @@ class SensorialSurveyActivity : AppCompatActivity() {
         }
     }
 
-    private fun validarCampos(): Boolean {
-        var validado = true
+    private fun validateFields(): Boolean {
+        var valid = true
         if (rbOtherSymptom.isChecked && etOtherSymptom.text.isNullOrBlank()) {
-            etOtherSymptom.error = "Debe completar este campo"
-            validado = false
+            etOtherSymptom.error = getString(R.string.empty_field)
+            valid = false
         }
         if (!cbAgitating.isChecked && !cbMiserable.isChecked && !cbAnnoying.isChecked && !cbPiercing.isChecked &&
-            !cbUnbearable.isChecked && !cbFatiguing.isChecked && !cbOtherCharact.isChecked) {
-            Toast.makeText(this, "Seleccione al menos una característica", Toast.LENGTH_SHORT).show()
-            validado = false
+            !cbUnbearable.isChecked && !cbFatiguing.isChecked && !cbOtherChar.isChecked && cvSlider.value == 0.0f) {
+            Toast.makeText(this, getString(R.string.intensity_over0) + "\n" + getString(R.string.select_characteristics), Toast.LENGTH_SHORT).show()
+            valid = false
         }
-        if (cbOtherCharact.isChecked && etOtherCharact.text.isNullOrBlank()) {
-            etOtherCharact.error = "Debe completar este campo"
-            validado = false
+        else if (!cbAgitating.isChecked && !cbMiserable.isChecked && !cbAnnoying.isChecked && !cbPiercing.isChecked &&
+            !cbUnbearable.isChecked && !cbFatiguing.isChecked && !cbOtherChar.isChecked){
+            Toast.makeText(this, getString(R.string.select_characteristics), Toast.LENGTH_SHORT).show()
+            valid = false
+        }
+        else if (cvSlider.value == 0.0f) {
+            Toast.makeText(this, getString(R.string.intensity_over0), Toast.LENGTH_SHORT).show()
+            valid = false
+        }
+        if (cbOtherChar.isChecked && etOtherChar.text.isNullOrBlank()) {
+            etOtherChar.error = getString(R.string.empty_field)
+            valid = false
         }
         if (rgTime.checkedRadioButtonId != rbContinuous.id && etWhen.text.isNullOrBlank()) {
-            etWhen.error = "Debe completar este campo"
-            validado = false
+            etWhen.error = getString(R.string.empty_field)
+            valid = false
         }
-        return validado
+        return valid
     }
 
 }

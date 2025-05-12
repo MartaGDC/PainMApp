@@ -12,7 +12,8 @@
         android:layout_height="match_parent"
         android:gravity="center_vertical"
         style="@style/Small"
-        android:paddingEnd="10dp"/>
+        android:paddingEnd="10dp"
+        android:paddingStart="0dp"/>
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cvSymptom"
         app:strokeColor="@color/dark_blue"

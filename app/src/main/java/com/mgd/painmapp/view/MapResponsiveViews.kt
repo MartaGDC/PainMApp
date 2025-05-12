@@ -3,7 +3,6 @@ package com.mgd.painmapp.view
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.Path
@@ -15,7 +14,6 @@ import androidx.core.content.ContextCompat.*
 import androidx.core.graphics.PathParser
 import org.xmlpull.v1.XmlPullParser
 import android.graphics.PathMeasure
-import android.util.Log
 import com.mgd.painmapp.R
 import com.mgd.painmapp.controller.InterpretationHelper
 import com.mgd.painmapp.model.storage.ColorBrush
@@ -50,7 +48,7 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
         color = getColor(context, R.color.black)
         strokeWidth = 1f
     }
-    val scaleMatrix = Matrix()
+    private val scaleMatrix = Matrix()
 
     //Variables para respuesta tactil
     private var bX = 0f
@@ -187,7 +185,7 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
     }
     //Interpretación al guardar.
     fun calcularPixeles(tipoMapa:String): Map<String, List<Float>> {
-        return InterpretationHelper.calcularPixeles(context, width, height, bPaths, bPaint, cPath, tipoMapa=tipoMapa, escala=scaleMatrix)
+        return InterpretationHelper.calculatePixels(context, width, height, bPaths, bPaint, cPath, tipoMapa=tipoMapa, escala=scaleMatrix)
     }
 
     //SVG del dibujo
@@ -219,7 +217,7 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
         return sb.toString().trim()
     }
 
-    fun validarMapa(): Boolean {
+    fun validateMap(): Boolean {
         return bPaths.isNotEmpty()
     }
 }
