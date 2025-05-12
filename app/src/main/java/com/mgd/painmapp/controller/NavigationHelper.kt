@@ -42,10 +42,10 @@ object NavigationHelper {
         context.startActivity(intent)
     }
     fun navigateToMotor() {
-        TODO()
+
     }
     fun navigateToPsychosocial() {
-        TODO()
+
     }
     private fun navigateToSummary(context: Context, idGeneratedEvaluation: Long, alreadyExists:Boolean) {
         val intent = Intent(context, SummaryActivity::class.java).apply {
