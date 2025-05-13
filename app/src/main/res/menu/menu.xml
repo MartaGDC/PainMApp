@@ -10,6 +10,8 @@
         android:title="@string/summary"/>
     <item android:id="@+id/none"
         android:title=""/>
+    <item android:id="@+id/item_download"
+        android:title="@string/download_DB"/>
     <item android:id="@+id/item_new"
         android:title="@string/newPatient"/>
 </menu>

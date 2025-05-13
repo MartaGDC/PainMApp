@@ -7,6 +7,23 @@
     android:layout_height="match_parent"
     android:background="@color/grey"
     tools:context=".controller.activities.MainActivity">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvCSV"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:backgroundTint="@color/blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardCornerRadius="10dp"
+        android:layout_margin="30dp">
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/download"
+        android:layout_gravity="center"
+        android:contentDescription="@string/download"/>
+    </androidx.cardview.widget.CardView>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -45,12 +62,11 @@
                     android:id="@+id/etPatientName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="@string/patientName"
+                    android:hint="@string/patientCode"
                     style="@style/Median"
                     android:textColorHint="@color/dark_blue_hint"
                     android:fontFamily = "sans-serif"
                     android:importantForAutofill="no"
-                    android:inputType="textCapWords"
                     android:layout_margin="30dp"
                     android:imeOptions="actionNext"/>
                 <EditText

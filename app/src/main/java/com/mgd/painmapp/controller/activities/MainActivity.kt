@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.room.Room
 import com.mgd.painmapp.R
+import com.mgd.painmapp.controller.NavigationHelper
 import com.mgd.painmapp.databinding.ActivityMainBinding
 import com.mgd.painmapp.model.database.PatientDatabase
 import com.mgd.painmapp.model.storage.ColorBrush
@@ -21,6 +22,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var patientName : EditText
     private lateinit var researcherName : EditText
     private lateinit var cvNext : CardView
+    private lateinit var cvCSV : CardView
     private lateinit var database: PatientDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +53,7 @@ class MainActivity : AppCompatActivity() {
             database.getEvaluationDao().eliminarEvaluacionesSinMapa()
         }
         initUI()
+        initListeners()
     }
     @Suppress("MissingSuperCall")
     override fun onBackPressed(){
@@ -61,6 +64,9 @@ class MainActivity : AppCompatActivity() {
         patientName = binding.etPatientName
         researcherName = binding.etResearcherName
         cvNext = binding.cvNext
+        cvCSV = binding.cvCSV
+    }
+    private fun initListeners(){
         cvNext.setOnClickListener {
             if(patientName.text.isEmpty()){
                 patientName.error = getString(R.string.empty_field)
@@ -82,6 +88,8 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+        cvCSV.setOnClickListener {
+            NavigationHelper.downloadCSV(this)
+        }
     }
-
 }

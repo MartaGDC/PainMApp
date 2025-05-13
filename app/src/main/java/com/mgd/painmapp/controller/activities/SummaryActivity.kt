@@ -2,6 +2,7 @@ package com.mgd.painmapp.controller.activities
 
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import android.view.View
 import android.widget.TableRow
 import android.widget.TextView
@@ -107,13 +108,7 @@ class SummaryActivity : AppCompatActivity() {
             drawerLayout.open()
         }
         cvCSV.setOnClickListener {
-            Toast.makeText(this, getString(R.string.downloading_csv), Toast.LENGTH_SHORT).show()
-            CoroutineScope(Dispatchers.IO).launch {
-                val dataCSV = database.getEvaluationDao().getFullCSV()
-                runOnUiThread {
-                    exportCSV(dataCSV)
-                }
-            }
+            NavigationHelper.downloadCSV(this)
         }
     }
 
@@ -132,107 +127,6 @@ class SummaryActivity : AppCompatActivity() {
             return bPath
         }
         return emptyList()
-    }
-
-    private fun exportCSV(data: List<CSVTable>):File?{
-        val dateFormat = SimpleDateFormat("yyyyMMdd_HH.mm.ss", Locale.getDefault())
-        val formattedDate = dateFormat.format(Date())
-        val fileName = "PainMApp_${formattedDate}.csv"
-        val header = listOf(
-            "idEvaluation", "patient", "researcher", "date", "test",
-            "idMap", "pathsDrawnFront", "pathsDrawnBack", "totalPatientPercentage", "rightPatientPercentage", "leftPatientPercentage",
-            "totalPercentage", "rightPercentage", "leftPercentage",
-            "nervioMedianoDerecho", "nervioRadialSuperficialDerecho", "nervioCubitalDerecho", "nervioMusculoCutaneoDerecho",
-            "nerviosSupraclavicularesDerechos", "nervioFemoralDerecho", "nervioGenitalDerecho", "nervioIlioinguinoDerecho",
-            "nervioObturadoDerecho", "nervioFemoralAnteriorDerecho", "nervioSafenoDerecho", "nervioPeroneoDerecho", "nervioSuralDerecho",
-            "nervioBraquialDerecho", "nervioAntebrazoDerecho", "nervioRadialDerecho", "nervioAxilarDerecho",
-            "nervioMedianoIzquierdo", "nervioRadialSuperficialIzquierdo", "nervioCubitalIzquierdo", "nervioMusculoCutaneoIzquierdo",
-            "nerviosSupraclavicularesIzquierdos", "nervioFemoralIzquierdo", "nervioGenitalIzquierdo", "nervioIlioinguinoIzquierdo",
-            "nervioObturadoIzquierdo", "nervioFemoralAnteriorIzquierdo", "nervioSafenoIzquierdo", "nervioPeroneoIzquierdo", "nervioSuralIzquierdo",
-            "nervioBraquialIzquierdo", "nervioAntebrazoIzquierdo", "nervioRadialIzquierdo", "nervioAxilarIzquierdo",
-            "idSymptom", "intensity", "symptom", "symptomOtherText", "charactAgitating", "charactMiserable", "charactAnnoying", "charactUnbearable", "charactFatiguing",
-            "charactPiercing", "charactOther", "charactOtherText", "timeContinuous", "timeWhen"
-        )
-        val downloads = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-        val file = File(downloads, fileName)
-        return try {
-            val writer = file.bufferedWriter()
-            writer.write(header.joinToString(";"))
-            writer.newLine()
-            for (row in data) {
-                val csvRow = listOf(
-                    row.idEvaluation,
-                    row.patient,
-                    row.researcher,
-                    row.date,
-                    row.test,
-                    row.idMap,
-                    row.pathsDrawnFront.replace(Regex("M[\\d.,\\s]+L[\\d.,\\s]+L[\\d.,\\s]+L[\\d.,\\s]+Z"), ""),
-                    row.pathsDrawnBack.replace(Regex("M[\\d.,\\s]+L[\\d.,\\s]+L[\\d.,\\s]+L[\\d.,\\s]+Z"), ""),
-                    row.totalPatientPercentage.toString().replace('.', ','),
-                    row.rightPatientPercentage.toString().replace('.', ','),
-                    row.leftPatientPercentage.toString().replace('.', ','),
-                    row.totalPercentage.toString().replace('.', ','),
-                    row.rightPercentage.toString().replace('.', ','),
-                    row.leftPercentage.toString().replace('.', ','),
-                    row.nervioMedianoDerecho.toString().replace('.', ','),
-                    row.nervioRadialSuperficialDerecho.toString().replace('.', ','),
-                    row.nervioCubitalDerecho.toString().replace('.', ','),
-                    row.nervioMusculoCutaneoDerecho.toString().replace('.', ','),
-                    row.nerviosSupraclavicularesDerechos.toString().replace('.', ','),
-                    row.nervioFemoralDerecho.toString().replace('.', ','),
-                    row.nervioGenitalDerecho.toString().replace('.', ','),
-                    row.nervioIlioinguinoDerecho.toString().replace('.', ','),
-                    row.nervioObturadoDerecho.toString().replace('.', ','),
-                    row.nervioFemoralAnteriorDerecho.toString().replace('.', ','),
-                    row.nervioSafenoDerecho.toString().replace('.', ','),
-                    row.nervioPeroneoDerecho.toString().replace('.', ','),
-                    row.nervioSuralDerecho.toString().replace('.', ','),
-                    row.nervioBraquialDerecho.toString().replace('.', ','),
-                    row.nervioAntebrazoDerecho.toString().replace('.', ','),
-                    row.nervioRadialDerecho.toString().replace('.', ','),
-                    row.nervioAxilarDerecho.toString().replace('.', ','),
-                    row.nervioMedianoIzquierdo.toString().replace('.', ','),
-                    row.nervioRadialSuperficialIzquierdo.toString().replace('.', ','),
-                    row.nervioCubitalIzquierdo.toString().replace('.', ','),
-                    row.nervioMusculoCutaneoIzquierdo.toString().replace('.', ','),
-                    row.nerviosSupraclavicularesIzquierdos.toString().replace('.', ','),
-                    row.nervioFemoralIzquierdo.toString().replace('.', ','),
-                    row.nervioGenitalIzquierdo.toString().replace('.', ','),
-                    row.nervioIlioinguinoIzquierdo.toString().replace('.', ','),
-                    row.nervioObturadoIzquierdo.toString().replace('.', ','),
-                    row.nervioFemoralAnteriorIzquierdo.toString().replace('.', ','),
-                    row.nervioSafenoIzquierdo.toString().replace('.', ','),
-                    row.nervioPeroneoIzquierdo.toString().replace('.', ','),
-                    row.nervioSuralIzquierdo.toString().replace('.', ','),
-                    row.nervioBraquialIzquierdo.toString().replace('.', ','),
-                    row.nervioAntebrazoIzquierdo.toString().replace('.', ','),
-                    row.nervioRadialIzquierdo.toString().replace('.', ','),
-                    row.nervioAxilarIzquierdo.toString().replace('.', ','),
-                    row.idSymptom,
-                    row.intensity.toString().replace('.', ','),
-                    row.symptom,
-                    row.symptomOtherText,
-                    row.charactAgitating,
-                    row.charactMiserable,
-                    row.charactAnnoying,
-                    row.charactUnbearable,
-                    row.charactFatiguing,
-                    row.charactPiercing,
-                    row.charactOther,
-                    row.charactOtherText,
-                    row.timeContinuous,
-                    row.timeWhen
-                ).joinToString(";") { it.toString() }
-                writer.write(csvRow)
-                writer.newLine()
-            }
-            writer.close()
-            file
-        } catch (e: IOException) {
-            e.printStackTrace()
-            null
-        }
     }
 
     private fun tableSymptoms(symptomsTable: List<SymptomTable>){
@@ -258,8 +152,14 @@ class SummaryActivity : AppCompatActivity() {
         for (symptom in symptomsTable){
             if (firstSymptom) {
                 val row = TableRow(this).apply {
-                    insertCell("Por síntomas",  true, 0)
-                    insertCell(symptom.symptom,  false, 0)
+                    insertCell("Por síntomas", true, 0)
+                    Log.d("symptom", symptom.symptomOtherText)
+                    if(symptom.symptomOtherText.isNotEmpty()){
+                        insertCell(symptom.symptomOtherText, false,0)
+                    }
+                    else{
+                        insertCell(symptom.symptom, false, 0)
+                    }
                     insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.totalPercentage), false, 1)
                     insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.rightPercentage), false, 1)
                     insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.leftPercentage),  false, 1)
@@ -285,7 +185,12 @@ class SummaryActivity : AppCompatActivity() {
         table.removeAllViews()
         for (symptom in nervesTable){
             var row = TableRow(this).apply {
-                insertCell(symptom.symptom, true, 1)
+                if(symptom.symptomOtherText.isNotEmpty()){
+                    insertCell(symptom.symptomOtherText, false,0)
+                }
+                else{
+                    insertCell(symptom.symptom, true, 1)
+                }
                 insertCell("", false, 0)
             }
             var count = 0

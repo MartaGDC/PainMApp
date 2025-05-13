@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">PainMApp</string>
-    <string name="patientName">Nombre del paciente</string>
+    <string name="patientCode">Código del paciente</string>
     <string name="researcherName">Nombre del investigador</string>
     <string name="sensorySymptoms">Síntomas sensitivos</string>
     <string name="psychosocial">Evaluación psicosocial</string>
@@ -78,4 +78,5 @@
     <string name="back_main_menu">Volver al menú principal</string>
     <string name="no_symptom">No hay ningún síntoma que mostrar</string>
     <string name="intensity_over0">La intensidad debe ser superior a 0</string>
+    <string name="download_DB">Descargar CSV</string>
 </resources>

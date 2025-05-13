@@ -7,8 +7,6 @@ data class CSVTable (
     val date: String,
     val test: String,
     val idMap: Long,
-    val pathsDrawnFront: String,
-    val pathsDrawnBack: String,
     val totalPatientPercentage: Float,
     val rightPatientPercentage: Float,
     val leftPatientPercentage: Float,

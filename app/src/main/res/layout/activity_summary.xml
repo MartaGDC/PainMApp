@@ -154,6 +154,6 @@
         app:subheaderTextAppearance="@style/Menu"
         android:background="@color/dark_blue"
         app:itemTextColor="@color/yellow"
-        app:itemVerticalPadding="20dp"
+        app:itemVerticalPadding="15dp"
         android:fitsSystemWindows="true"/>
 </androidx.drawerlayout.widget.DrawerLayout>

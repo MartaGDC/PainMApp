@@ -32,7 +32,7 @@ interface MapDao {
     @Query("SELECT pathsDrawnBack FROM map_table")
     fun getBackPathsDrawn(): List<String>
 
-    @Query("SELECT symptoms_table.symptom, nervioMedianoDerecho, nervioRadialSuperficialDerecho, nervioCubitalDerecho, nervioMusculoCutaneoDerecho, nerviosSupraclavicularesDerechos, " +
+    @Query("SELECT symptoms_table.symptom, symptoms_table.symptomOtherText, nervioMedianoDerecho, nervioRadialSuperficialDerecho, nervioCubitalDerecho, nervioMusculoCutaneoDerecho, nerviosSupraclavicularesDerechos, " +
             "nervioFemoralDerecho, nervioGenitalDerecho, nervioIlioinguinoDerecho, nervioObturadoDerecho, nervioFemoralAnteriorDerecho, nervioSafenoDerecho, nervioPeroneoDerecho, " +
             "nervioSuralDerecho, nervioBraquialDerecho, nervioAntebrazoDerecho, nervioRadialDerecho, nervioAxilarDerecho, nervioMedianoIzquierdo, " +
             "nervioRadialSuperficialIzquierdo, nervioCubitalIzquierdo, nervioMusculoCutaneoIzquierdo,nerviosSupraclavicularesIzquierdos, nervioFemoralIzquierdo, nervioGenitalIzquierdo, " +

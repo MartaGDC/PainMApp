@@ -1,7 +1,8 @@
 package com.mgd.painmapp.controller
 
-import android.content.Context
+import android.app.Activity
 import android.content.Intent
+import android.os.Environment
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -11,27 +12,34 @@ import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.room.Room
 import com.google.android.material.navigation.NavigationView
 import com.mgd.painmapp.R
 import com.mgd.painmapp.controller.activities.ChooseActivity
 import com.mgd.painmapp.controller.activities.MainActivity
 import com.mgd.painmapp.controller.activities.SensorialActivity
 import com.mgd.painmapp.controller.activities.SummaryActivity
+import com.mgd.painmapp.model.database.CSVTable
 import com.mgd.painmapp.model.database.PatientDatabase
 import com.mgd.painmapp.model.database.entities.EvaluationEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 object NavigationHelper {
-    fun navigateToChoose(context: Context, patientName: String, researcherName: String){ //solo ocurre desde summary view si el paciente ya ha sido registrado y cerrado
+    fun navigateToChoose(context: Activity, patientName: String, researcherName: String){ //solo ocurre desde summary view si el paciente ya ha sido registrado y cerrado
         val intent = Intent(context, ChooseActivity::class.java).apply {
             putExtra("patient_name", patientName)
             putExtra("researcher_name", researcherName)
         }
         context.startActivity(intent)
     }
-    fun navigateToSensorial(context: Context, patientName: String, researcherName: String, currentDate: String, idGeneratedEvaluation: Long) {
+    fun navigateToSensorial(context: Activity, patientName: String, researcherName: String, currentDate: String, idGeneratedEvaluation: Long) {
         val intent = Intent(context, SensorialActivity::class.java).apply {
             putExtra("patient_name", patientName)
             putExtra("researcher_name", researcherName)
@@ -47,21 +55,34 @@ object NavigationHelper {
     fun navigateToPsychosocial() {
 
     }
-    private fun navigateToSummary(context: Context, idGeneratedEvaluation: Long, alreadyExists:Boolean) {
+    private fun navigateToSummary(context: Activity, idGeneratedEvaluation: Long, alreadyExists:Boolean) {
         val intent = Intent(context, SummaryActivity::class.java).apply {
             putExtra("idGeneratedEvaluation", idGeneratedEvaluation)
             putExtra("alreadyExists", alreadyExists)
         }
         context.startActivity(intent)
     }
-    fun navigateToNewPatient(context:Context) {
+    fun downloadCSV(context: Activity){
+        Toast.makeText(context, context.getString(R.string.downloading_csv), Toast.LENGTH_SHORT).show()
+        val database = Room.databaseBuilder(
+            context, PatientDatabase::class.java,
+            "patient_database"
+        ).build()
+        CoroutineScope(Dispatchers.IO).launch {
+            val csvTable = database.getEvaluationDao().getFullCSV()
+            context.runOnUiThread {
+                exportCSV(csvTable)
+            }
+        }
+    }
+    fun navigateToNewPatient(context:Activity) {
         val intent = Intent(context, MainActivity::class.java)
         context.startActivity(intent)
     }
 
 
     //Menu
-    fun setupMenu(navView: NavigationView, drawerLayout: DrawerLayout, context: Context, patientName: String,
+    fun setupMenu(navView: NavigationView, drawerLayout: DrawerLayout, context: Activity, patientName: String,
                   researcherName: String, currentDate: String, idGeneratedEvaluation: Long,
                   listEntities: List<EvaluationEntity>?=null, dialogView: View?=null, database: PatientDatabase?=null,
                   activity:String?=null, alreadyExists: Boolean=false) {
@@ -72,7 +93,7 @@ object NavigationHelper {
         }
     }
 
-    private fun handleItemClick(menuItem: MenuItem, drawerLayout: DrawerLayout, context: Context,
+    private fun handleItemClick(menuItem: MenuItem, drawerLayout: DrawerLayout, context: Activity,
                                 patientName: String, researcherName: String, currentDate: String,
                                 idGeneratedEvaluation: Long, listEntities: List<EvaluationEntity>?=null,
                                 dialogView: View?=null, database: PatientDatabase?=null, actividad:String?=null, alreadyExists: Boolean) {
@@ -119,13 +140,17 @@ object NavigationHelper {
             R.id.item_new -> {
                 navigateToNewPatient(context)
             }
+            R.id.item_download -> {
+                downloadCSV(context)
+            }
             else -> {
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
     }
+
     fun validateUser(test: String, listEntities: List<EvaluationEntity>, patientName: String,
-                     dialogView: View, context: Context, database: PatientDatabase, researcherName: String,
+                     dialogView: View, context: Activity, database: PatientDatabase, researcherName: String,
                      currentDate: String, activity:String?=null):Boolean {
         if (listEntities.any {it.patientName == patientName && it.test == test}) { //Al iterar sobre cada entity de la lista, buscar el item con ese nombre y ese test
             val idEvaluation = listEntities.first {it.patientName == patientName && it.test == test}.idEvaluation //Solo debe haber un registro. Elegimos first porque será el unico
@@ -157,7 +182,7 @@ object NavigationHelper {
         }
         return true
     }
-    private fun overwrite(test: String, database: PatientDatabase, context: Context, patientName: String, researcherName: String, currentDate: String){
+    private fun overwrite(test: String, database: PatientDatabase, context: Activity, patientName: String, researcherName: String, currentDate: String){
         CoroutineScope(Dispatchers.IO).launch {
             database.getEvaluationDao().deleteEvaluationByPatientAndTest(patientName, test) //No es necesario eliminar en symptom table por las inner joins.
         }
@@ -181,4 +206,104 @@ object NavigationHelper {
             }
         }
     }
+
+    private fun exportCSV(csvTable: List<CSVTable>):File?{
+        val dateFormat = SimpleDateFormat("yyyyMMdd_HH.mm.ss", Locale.getDefault())
+        val formattedDate = dateFormat.format(Date())
+        val fileName = "PainMApp_${formattedDate}.csv"
+        val header = listOf(
+            "idEvaluation", "patient", "researcher", "date", "test",
+            "idMap", "totalPatientPercentage", "rightPatientPercentage", "leftPatientPercentage",
+            "totalPercentage", "rightPercentage", "leftPercentage",
+            "nervioMedianoDerecho", "nervioRadialSuperficialDerecho", "nervioCubitalDerecho", "nervioMusculoCutaneoDerecho",
+            "nerviosSupraclavicularesDerechos", "nervioFemoralDerecho", "nervioGenitalDerecho", "nervioIlioinguinoDerecho",
+            "nervioObturadoDerecho", "nervioFemoralAnteriorDerecho", "nervioSafenoDerecho", "nervioPeroneoDerecho", "nervioSuralDerecho",
+            "nervioBraquialDerecho", "nervioAntebrazoDerecho", "nervioRadialDerecho", "nervioAxilarDerecho",
+            "nervioMedianoIzquierdo", "nervioRadialSuperficialIzquierdo", "nervioCubitalIzquierdo", "nervioMusculoCutaneoIzquierdo",
+            "nerviosSupraclavicularesIzquierdos", "nervioFemoralIzquierdo", "nervioGenitalIzquierdo", "nervioIlioinguinoIzquierdo",
+            "nervioObturadoIzquierdo", "nervioFemoralAnteriorIzquierdo", "nervioSafenoIzquierdo", "nervioPeroneoIzquierdo", "nervioSuralIzquierdo",
+            "nervioBraquialIzquierdo", "nervioAntebrazoIzquierdo", "nervioRadialIzquierdo", "nervioAxilarIzquierdo",
+            "idSymptom", "intensity", "symptom", "symptomOtherText", "charactAgitating", "charactMiserable", "charactAnnoying", "charactUnbearable", "charactFatiguing",
+            "charactPiercing", "charactOther", "charactOtherText", "timeContinuous", "timeWhen"
+        )
+        val downloads = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        val file = File(downloads, fileName)
+        return try {
+            val writer = file.bufferedWriter()
+            writer.write(header.joinToString(";"))
+            writer.newLine()
+            for (row in csvTable) {
+                val csvRow = listOf(
+                    row.idEvaluation,
+                    row.patient,
+                    row.researcher,
+                    row.date,
+                    row.test,
+                    row.idMap,
+                    row.totalPatientPercentage.toString().replace('.', ','),
+                    row.rightPatientPercentage.toString().replace('.', ','),
+                    row.leftPatientPercentage.toString().replace('.', ','),
+                    row.totalPercentage.toString().replace('.', ','),
+                    row.rightPercentage.toString().replace('.', ','),
+                    row.leftPercentage.toString().replace('.', ','),
+                    row.nervioMedianoDerecho.toString().replace('.', ','),
+                    row.nervioRadialSuperficialDerecho.toString().replace('.', ','),
+                    row.nervioCubitalDerecho.toString().replace('.', ','),
+                    row.nervioMusculoCutaneoDerecho.toString().replace('.', ','),
+                    row.nerviosSupraclavicularesDerechos.toString().replace('.', ','),
+                    row.nervioFemoralDerecho.toString().replace('.', ','),
+                    row.nervioGenitalDerecho.toString().replace('.', ','),
+                    row.nervioIlioinguinoDerecho.toString().replace('.', ','),
+                    row.nervioObturadoDerecho.toString().replace('.', ','),
+                    row.nervioFemoralAnteriorDerecho.toString().replace('.', ','),
+                    row.nervioSafenoDerecho.toString().replace('.', ','),
+                    row.nervioPeroneoDerecho.toString().replace('.', ','),
+                    row.nervioSuralDerecho.toString().replace('.', ','),
+                    row.nervioBraquialDerecho.toString().replace('.', ','),
+                    row.nervioAntebrazoDerecho.toString().replace('.', ','),
+                    row.nervioRadialDerecho.toString().replace('.', ','),
+                    row.nervioAxilarDerecho.toString().replace('.', ','),
+                    row.nervioMedianoIzquierdo.toString().replace('.', ','),
+                    row.nervioRadialSuperficialIzquierdo.toString().replace('.', ','),
+                    row.nervioCubitalIzquierdo.toString().replace('.', ','),
+                    row.nervioMusculoCutaneoIzquierdo.toString().replace('.', ','),
+                    row.nerviosSupraclavicularesIzquierdos.toString().replace('.', ','),
+                    row.nervioFemoralIzquierdo.toString().replace('.', ','),
+                    row.nervioGenitalIzquierdo.toString().replace('.', ','),
+                    row.nervioIlioinguinoIzquierdo.toString().replace('.', ','),
+                    row.nervioObturadoIzquierdo.toString().replace('.', ','),
+                    row.nervioFemoralAnteriorIzquierdo.toString().replace('.', ','),
+                    row.nervioSafenoIzquierdo.toString().replace('.', ','),
+                    row.nervioPeroneoIzquierdo.toString().replace('.', ','),
+                    row.nervioSuralIzquierdo.toString().replace('.', ','),
+                    row.nervioBraquialIzquierdo.toString().replace('.', ','),
+                    row.nervioAntebrazoIzquierdo.toString().replace('.', ','),
+                    row.nervioRadialIzquierdo.toString().replace('.', ','),
+                    row.nervioAxilarIzquierdo.toString().replace('.', ','),
+                    row.idSymptom,
+                    row.intensity.toString().replace('.', ','),
+                    row.symptom,
+                    row.symptomOtherText,
+                    row.charactAgitating,
+                    row.charactMiserable,
+                    row.charactAnnoying,
+                    row.charactUnbearable,
+                    row.charactFatiguing,
+                    row.charactPiercing,
+                    row.charactOther,
+                    row.charactOtherText,
+                    row.timeContinuous,
+                    row.timeWhen
+                ).joinToString(";") { it.toString() }
+                writer.write(csvRow)
+                writer.newLine()
+            }
+            writer.close()
+            file
+        } catch (e: IOException) {
+            e.printStackTrace()
+            null
+        }
+    }
+
 }

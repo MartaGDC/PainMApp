@@ -2,6 +2,7 @@ package com.mgd.painmapp.model.database
 
 data class NervesTable (
     val symptom: String, //para mostrar la afectación nerviosa por síntoma
+    val symptomOtherText: String,
     val nervioMedianoDerecho : Float,
     val nervioRadialSuperficialDerecho : Float,
     val nervioCubitalDerecho : Float,
