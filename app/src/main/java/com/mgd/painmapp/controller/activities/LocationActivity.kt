@@ -51,7 +51,10 @@ class LocationActivity : AppCompatActivity() {
             "patient_database"
         ).build()
 
-        nerveNames = InterpretationHelper.getFrontPeripheralNerves(this)
+        val nerveNamesFront = InterpretationHelper.getFrontPeripheralNerves(this)
+        val nerveNamesBack = InterpretationHelper.getBackPeripheralNerves(this)
+        nerveNames = (nerveNamesFront + nerveNamesBack).toSet().toList() //To set elimina elementos duplicados.
+        Log.d("nerveNames", nerveNames.toString())
         dermatomeNames = InterpretationHelper.getFrontDermatomes(this)
         initComponents()
         initListeners()
@@ -170,6 +173,32 @@ class LocationActivity : AppCompatActivity() {
             nerves[nerveNames[65]] ?: 0f,
             nerves[nerveNames[66]] ?: 0f,
             nerves[nerveNames[67]] ?: 0f,
+            nerves[nerveNames[68]] ?: 0f,
+            nerves[nerveNames[69]] ?: 0f,
+            nerves[nerveNames[70]] ?: 0f,
+            nerves[nerveNames[71]] ?: 0f,
+            nerves[nerveNames[72]] ?: 0f,
+            nerves[nerveNames[73]] ?: 0f,
+            nerves[nerveNames[74]] ?: 0f,
+            nerves[nerveNames[75]] ?: 0f,
+            nerves[nerveNames[76]] ?: 0f,
+            nerves[nerveNames[77]] ?: 0f,
+            nerves[nerveNames[78]] ?: 0f,
+            nerves[nerveNames[79]] ?: 0f,
+            nerves[nerveNames[80]] ?: 0f,
+            nerves[nerveNames[81]] ?: 0f,
+            nerves[nerveNames[82]] ?: 0f,
+            nerves[nerveNames[83]] ?: 0f,
+            nerves[nerveNames[84]] ?: 0f,
+            nerves[nerveNames[85]] ?: 0f,
+            nerves[nerveNames[86]] ?: 0f,
+            nerves[nerveNames[87]] ?: 0f,
+            nerves[nerveNames[88]] ?: 0f,
+            nerves[nerveNames[89]] ?: 0f,
+            nerves[nerveNames[90]] ?: 0f,
+            nerves[nerveNames[91]] ?: 0f,
+            nerves[nerveNames[92]] ?: 0f,
+            nerves[nerveNames[93]] ?: 0f,
             nerves[dermatomeNames[0]] ?: 0f,
             nerves[dermatomeNames[1]] ?: 0f,
             nerves[dermatomeNames[2]] ?: 0f,
@@ -213,14 +242,14 @@ class LocationActivity : AppCompatActivity() {
             nerves[dermatomeNames[40]] ?: 0f,
             nerves[dermatomeNames[41]] ?: 0f,
             nerves[dermatomeNames[42]] ?: 0f,
-            nerves[dermatomeNames[43]] ?: 0f,
-            nerves[dermatomeNames[44]] ?: 0f,
+            nerves[dermatomeNames[43]]?:0f,
+            nerves[dermatomeNames[44]]?:0f,
             nerves[dermatomeNames[45]]?:0f,
             nerves[dermatomeNames[46]]?:0f,
             nerves[dermatomeNames[47]]?:0f,
             nerves[dermatomeNames[48]]?:0f,
             nerves[dermatomeNames[49]]?:0f
-            ).toDatabase()
+        ).toDatabase()
         idGeneratedMap = database.getMapDao().insertMap(mapEntity)
     }
 

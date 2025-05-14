@@ -49,6 +49,14 @@ interface MapDao {
             "nervioTrigeminoIIzquierdo, nervioTrigeminoIIIzquierdo, nervioTrigeminoIIIIzquierdo, " +
             "T1Izquierdo, T2Izquierdo, T3Izquierdo, T4Izquierdo, T5Izquierdo, T6Izquierdo, T7Izquierdo, " +
             "T8Izquierdo, T9Izquierdo, T10Izquierdo, T11Izquierdo, T12Izquierdo, " +
+            "nervioCutAnteroBraqPostDerecho, nervioCutAnteroBraqPostIzquierdo, nervioCalcaneoDerecho, " +
+            "nervioCalcaneoIzquierdo, nervioPlantarLateralDerecho, nervioPlantarLateralIzquierdo, " +
+            "nervioCutFemoralPostDerecho, nervioCutFemoralPostIzquierdo, nervioCluneosDerecho, " +
+            "nervioCluneosIzquierdo, L1Derecho, L1Izquierdo, L2Derecho, L2Izquierdo, SacrosDerecho, " +
+            "SacrosIzquierdo, nervioOccipitalMayorDerecho, nervioOccipitalMayorIzquierdo, " +
+            "nervioOccipitalMenorDerecho, nervioOccipitalMenorIzquierdo, nervioAuricularMayorDerecho, " +
+            "nervioAuricularMayorIzquierdo, nervioTransversoDerecho, nervioTransversoIzquierdo, " +
+            "nervioPlatarMedialDerecho, nervioPlatarMedialIzquierdo, " +
             "RC3Derecha, RC4Derecha, RC5Derecha, RC6Derecha, RC7Derecha, RC8Derecha, RT1Derecha, RT2Derecha, " +
             "RT3Derecha, RT4Derecha, RT5Derecha, RT6Derecha, RT7Derecha, RT8Derecha, RT9Derecha, RT10Derecha, " +
             "RT11Derecha, RT12Derecha, RL1Derecha, RL2Derecha, RL3Derecha, RL4Derecha, RL5Derecha, RS1Derecha, " +

@@ -67,7 +67,7 @@ object  InterpretationHelper {
     }
 
         /*___Back___*/
-    /*@SuppressLint("ResourceType")
+    @SuppressLint("ResourceType")
     fun getBackPeripheralNerves(context:Context) : List<String> {
         val nerveNames = mutableListOf<String>()
         val imgSource:Int = R.drawable.back_nerves
@@ -87,8 +87,8 @@ object  InterpretationHelper {
             eventType = parser.next()
         }
         return nerveNames
-    }*/
-        /*@SuppressLint("ResourceType")
+    }
+        @SuppressLint("ResourceType")
         fun getBackNerves_Regions(context: Context, scale: Matrix):List<Pair<String,Path>>{
             val nerves = mutableListOf<Pair<String, Path>>()
             val imgSource:Int = R.drawable.back_nerves
@@ -114,7 +114,7 @@ object  InterpretationHelper {
                 eventType = parser.next()
             }
             return nerves
-        } */
+        }
 
 
     /*__________DERMATOMES__________*/
@@ -263,8 +263,13 @@ object  InterpretationHelper {
         zones["izquierda"] = Region().apply {
             setPath(path, Region(bounds.left.toInt(), bounds.top.toInt(), mitadX, bounds.bottom.toInt()))
         }
-        //Nervios perifericos pendientes
-
+        //Nervios perifericos
+        for ((nameNerve, pathNerve) in getBackNerves_Regions(context, escala)){
+            pathNerve.computeBounds(bounds, true)
+            zones[nameNerve] = Region().apply {
+                setPath(pathNerve, Region(bounds.left.toInt(), bounds.top.toInt(), bounds.right.toInt(), bounds.bottom.toInt()))
+            }
+        }
         //Dermatomas
         for ((nameDermatome, pathDermatome) in getBackDermatomes_Regions(context, escala)){
             pathDermatome.computeBounds(bounds, true)
@@ -334,13 +339,13 @@ object  InterpretationHelper {
             resultPercentages[name] =  pintado / total * 100f
         }
 
-        for (name in mapResultsFront.keys - mapResultsBack.keys) {
+        for (name in mapResultsFront.keys - mapResultsBack.keys) { //claves (zonas y nervios) que solo existen en el mapa frontal
             val frontResults = mapResultsFront[name]!!
             val total = frontResults[0]
             val pintado = frontResults[1]
             resultPercentages[name] =  pintado / total * 100f
         }
-        for (name in mapResultsBack.keys - mapResultsFront.keys) {
+        for (name in mapResultsBack.keys - mapResultsFront.keys) { //claves (zonas y nervios) que solo existen en el mapa de espalda
             val backResults = mapResultsBack[name]!!
             val total = backResults[0]
             val pintado = backResults[1]
