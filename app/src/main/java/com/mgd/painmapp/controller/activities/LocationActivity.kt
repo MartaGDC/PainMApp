@@ -35,6 +35,7 @@ class LocationActivity : AppCompatActivity() {
     private var totalRightPercentage: Float = 0f
     private var totalLeftPercentage: Float = 0f
     private lateinit var nerveNames: List<String>
+    private lateinit var dermatomeNames: List<String>
     private val nerves: MutableMap<String, Float> = mutableMapOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +52,7 @@ class LocationActivity : AppCompatActivity() {
         ).build()
 
         nerveNames = InterpretationHelper.getFrontPeripheralNerves(this)
+        dermatomeNames = InterpretationHelper.getFrontDermatomes(this)
         initComponents()
         initListeners()
     }
@@ -167,8 +169,58 @@ class LocationActivity : AppCompatActivity() {
             nerves[nerveNames[64]] ?: 0f,
             nerves[nerveNames[65]] ?: 0f,
             nerves[nerveNames[66]] ?: 0f,
-            nerves[nerveNames[67]] ?: 0f
-        ).toDatabase()
+            nerves[nerveNames[67]] ?: 0f,
+            nerves[dermatomeNames[0]] ?: 0f,
+            nerves[dermatomeNames[1]] ?: 0f,
+            nerves[dermatomeNames[2]] ?: 0f,
+            nerves[dermatomeNames[3]] ?: 0f,
+            nerves[dermatomeNames[4]] ?: 0f,
+            nerves[dermatomeNames[5]] ?: 0f,
+            nerves[dermatomeNames[6]] ?: 0f,
+            nerves[dermatomeNames[7]] ?: 0f,
+            nerves[dermatomeNames[8]] ?: 0f,
+            nerves[dermatomeNames[9]] ?: 0f,
+            nerves[dermatomeNames[10]] ?: 0f,
+            nerves[dermatomeNames[11]] ?: 0f,
+            nerves[dermatomeNames[12]] ?: 0f,
+            nerves[dermatomeNames[13]] ?: 0f,
+            nerves[dermatomeNames[14]] ?: 0f,
+            nerves[dermatomeNames[15]] ?: 0f,
+            nerves[dermatomeNames[16]] ?: 0f,
+            nerves[dermatomeNames[17]] ?: 0f,
+            nerves[dermatomeNames[18]] ?: 0f,
+            nerves[dermatomeNames[19]] ?: 0f,
+            nerves[dermatomeNames[20]] ?: 0f,
+            nerves[dermatomeNames[21]] ?: 0f,
+            nerves[dermatomeNames[22]] ?: 0f,
+            nerves[dermatomeNames[23]] ?: 0f,
+            nerves[dermatomeNames[24]] ?: 0f,
+            nerves[dermatomeNames[25]] ?: 0f,
+            nerves[dermatomeNames[26]] ?: 0f,
+            nerves[dermatomeNames[27]] ?: 0f,
+            nerves[dermatomeNames[28]] ?: 0f,
+            nerves[dermatomeNames[29]] ?: 0f,
+            nerves[dermatomeNames[30]] ?: 0f,
+            nerves[dermatomeNames[31]] ?: 0f,
+            nerves[dermatomeNames[32]] ?: 0f,
+            nerves[dermatomeNames[33]] ?: 0f,
+            nerves[dermatomeNames[34]] ?: 0f,
+            nerves[dermatomeNames[35]] ?: 0f,
+            nerves[dermatomeNames[36]] ?: 0f,
+            nerves[dermatomeNames[37]] ?: 0f,
+            nerves[dermatomeNames[38]] ?: 0f,
+            nerves[dermatomeNames[39]] ?: 0f,
+            nerves[dermatomeNames[40]] ?: 0f,
+            nerves[dermatomeNames[41]] ?: 0f,
+            nerves[dermatomeNames[42]] ?: 0f,
+            nerves[dermatomeNames[43]] ?: 0f,
+            nerves[dermatomeNames[44]] ?: 0f,
+            nerves[dermatomeNames[45]]?:0f,
+            nerves[dermatomeNames[46]]?:0f,
+            nerves[dermatomeNames[47]]?:0f,
+            nerves[dermatomeNames[48]]?:0f,
+            nerves[dermatomeNames[49]]?:0f
+            ).toDatabase()
         idGeneratedMap = database.getMapDao().insertMap(mapEntity)
     }
 
@@ -181,7 +233,7 @@ class LocationActivity : AppCompatActivity() {
         totalLeftPercentage = results["izquierda"] ?: 0f
 
         //Nervios (solo parte frontal):
-        for (name in nerveNames) {
+        for (name in (nerveNames+dermatomeNames)) {
             nerves[name] = results[name] ?: 0f
         }
     }

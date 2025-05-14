@@ -24,6 +24,12 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">22sp</item>
     </style>
+    <style name="Small_table">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/dark_blue</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">22sp</item>
+    </style>
     <style name="Slider">
         <item name="android:fontFamily">sans-serif-black</item>
         <item name="android:textColor">@color/dark_blue</item>

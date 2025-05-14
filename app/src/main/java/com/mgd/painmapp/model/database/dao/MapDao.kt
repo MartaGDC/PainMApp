@@ -48,7 +48,15 @@ interface MapDao {
             "nervioAntebrazoIzquierdo, nervioRadialIzquierdo, nervioAxilarIzquierdo, nerviosCervicalesIzquierdo, " +
             "nervioTrigeminoIIzquierdo, nervioTrigeminoIIIzquierdo, nervioTrigeminoIIIIzquierdo, " +
             "T1Izquierdo, T2Izquierdo, T3Izquierdo, T4Izquierdo, T5Izquierdo, T6Izquierdo, T7Izquierdo, " +
-            "T8Izquierdo, T9Izquierdo, T10Izquierdo, T11Izquierdo, T12Izquierdo " +
+            "T8Izquierdo, T9Izquierdo, T10Izquierdo, T11Izquierdo, T12Izquierdo, " +
+            "RC3Derecha, RC4Derecha, RC5Derecha, RC6Derecha, RC7Derecha, RC8Derecha, RT1Derecha, RT2Derecha, " +
+            "RT3Derecha, RT4Derecha, RT5Derecha, RT6Derecha, RT7Derecha, RT8Derecha, RT9Derecha, RT10Derecha, " +
+            "RT11Derecha, RT12Derecha, RL1Derecha, RL2Derecha, RL3Derecha, RL4Derecha, RL5Derecha, RS1Derecha, " +
+            "RS2Derecha, " +
+            "RC3Izquierda, RC4Izquierda, RC5Izquierda, RC6Izquierda, RC7Izquierda, RC8Izquierda, RT1Izquierda, " +
+            "RT2Izquierda, RT3Izquierda, RT4Izquierda, RT5Izquierda, RT6Izquierda, RT7Izquierda, RT8Izquierda, " +
+            "RT9Izquierda, RT10Izquierda, RT11Izquierda, RT12Izquierda, RL1Izquierda, RL2Izquierda, RL3Izquierda, " +
+            "RL4Izquierda, RL5Izquierda, RS1Izquierda, RS2Izquierda " +
             "FROM map_table " +
             "INNER JOIN symptoms_table ON map_table.idMap = symptoms_table.idMap " +
             "WHERE map_table.idEvaluation = :idEvaluation")

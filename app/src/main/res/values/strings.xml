@@ -52,7 +52,7 @@
     <string name="when">¿Cuándo?</string>
     <string name="download">Descargar</string>
     <string name="percentage">Porcentaje de afectación</string>
-    <string name="nerves">Afectación por nervios periféricos</string>
+    <string name="nerves">Nervios periféricos</string>
     <string name="menu">Menú</string>
     <string name="_8">8</string>
     <string name="_9">9</string>
@@ -79,4 +79,5 @@
     <string name="no_symptom">No hay ningún síntoma que mostrar</string>
     <string name="intensity_over0">La intensidad debe ser superior a 0</string>
     <string name="download_DB">Descargar CSV</string>
+    <string name="dermatomes">Raíces nerviosas</string>
 </resources>
