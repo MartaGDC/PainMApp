@@ -3,6 +3,7 @@ package com.mgd.painmapp.view
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.Path
@@ -122,7 +123,7 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
         cDrawable?.draw(canvas)
         drawPathsOnCanvas(canvas)
         canvas.restore()
-        /*for ((_, path) in InterpretationHelper.obtenerNerviosyRegionsFrente(context, scaleMatrix)) {
+       /*for ((_, path) in InterpretationHelper.getFrontNerves_Regions(context, scaleMatrix)) {
             canvas.drawPath(path, Paint().apply {
                 color = Color.RED
                 style = Paint.Style.STROKE

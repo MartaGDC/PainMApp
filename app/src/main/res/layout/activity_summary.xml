@@ -135,11 +135,21 @@
                         android:textAllCaps="true"
                         android:textColor="@color/yellow" />
                 </androidx.cardview.widget.CardView>
-                <TableLayout
-                    android:id="@+id/tlNerves"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </TableLayout>
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TableLayout
+                        android:id="@+id/tlNerves"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                    </TableLayout>
+                    <TableLayout
+                        android:id="@+id/tlDermatomes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                    </TableLayout>
+                </LinearLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

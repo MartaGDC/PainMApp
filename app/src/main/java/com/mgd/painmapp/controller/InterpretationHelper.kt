@@ -10,6 +10,7 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.RectF
 import android.graphics.Region
+import android.util.Log
 import androidx.core.graphics.PathParser
 import com.mgd.painmapp.R
 import org.xmlpull.v1.XmlPullParser
@@ -36,6 +37,29 @@ object  InterpretationHelper {
         }
         return nerveNames
     }
+    
+    @SuppressLint("ResourceType")
+    fun getFrontDermatomes(context:Context): List<String>{
+        val dermatomeNames = mutableListOf<String>()
+        val imgSource:Int = R.drawable.front_dermatomes
+        val resources = context.resources
+        val parser = resources.getXml(imgSource)
+        var eventType = parser.eventType
+        while (eventType != XmlPullParser.END_DOCUMENT) {
+            if (eventType == XmlPullParser.START_TAG && parser.name == "path") {
+                val dermatome = parser.getAttributeValue(
+                    "http://schemas.android.com/apk/res/android",
+                    "name"
+                )
+                if (!dermatome.isNullOrEmpty()) {
+                    dermatomeNames.add(dermatome)
+                }
+            }
+            eventType = parser.next()
+        }
+        return dermatomeNames
+    }
+    
     @SuppressLint("ResourceType")
     fun getFrontNerves_Regions(context: Context, scale: Matrix):MutableMap<String,Path>{
         val nerves = mutableMapOf<String, Path>()
@@ -48,7 +72,7 @@ object  InterpretationHelper {
                 val nameAttr = parser.getAttributeValue(
                     "http://schemas.android.com/apk/res/android",
                     "name"
-                ) // XML con el atributo nombre --> pertenece a nervio
+                )
                 val pathData = parser.getAttributeValue(
                     "http://schemas.android.com/apk/res/android",
                     "pathData"
@@ -63,6 +87,35 @@ object  InterpretationHelper {
         }
         return nerves
     }
+    
+    @SuppressLint("ResourceType")
+    fun getFrontDermatomes_Regions(context: Context, scale: Matrix): MutableMap<String, Path>{
+        val dermatomes = mutableMapOf<String, Path>()
+        val imgSource:Int = R.drawable.front_dermatomes
+        val resources = context.resources
+        val parser = resources.getXml(imgSource)
+        var eventType = parser.eventType
+        while (eventType != XmlPullParser.END_DOCUMENT) {
+            if (eventType == XmlPullParser.START_TAG && parser.name == "path") {
+                val nameAttr = parser.getAttributeValue(
+                    "http://schemas.android.com/apk/res/android",
+                    "name"
+                )
+                val pathData = parser.getAttributeValue(
+                    "http://schemas.android.com/apk/res/android",
+                    "pathData"
+                )
+                if (!nameAttr.isNullOrEmpty()) {
+                    val path = PathParser.createPathFromPathData(pathData)
+                    dermatomes[nameAttr] = path
+                    path.transform(scale)
+                }
+            }
+            eventType = parser.next()
+        }
+        return dermatomes
+    }
+    
     @SuppressLint("ResourceType")
     /* fun obtenerNerviosyRegionsEspalda(context: Context, escala: Matrix):List<Pair<String,Path>>{
         val nervios = mutableListOf<Pair<String, Path>>()
@@ -91,6 +144,7 @@ object  InterpretationHelper {
         return nervios
     } */
 
+
     private fun getFrontZones(path:Path, context: Context, escala: Matrix): Map<String, Region> {
         val zones = mutableMapOf<String, Region>()
         val bounds = RectF()
@@ -112,7 +166,13 @@ object  InterpretationHelper {
                 setPath(pathNerve, Region(bounds.left.toInt(), bounds.top.toInt(), bounds.right.toInt(), bounds.bottom.toInt()))
             }
         }
-        //Dermatomas pendientes
+        //Dermatomas
+        for ((nameDermatome, pathDermatome) in getFrontDermatomes_Regions(context, escala)){
+            pathDermatome.computeBounds(bounds, true)
+            zones[nameDermatome] = Region().apply {
+                setPath(pathDermatome, Region(bounds.left.toInt(), bounds.top.toInt(), bounds.right.toInt(), bounds.bottom.toInt()))
+            }
+        }
         return zones
     }
 

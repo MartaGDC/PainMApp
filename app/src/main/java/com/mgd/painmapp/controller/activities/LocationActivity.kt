@@ -3,6 +3,7 @@ package com.mgd.painmapp.controller.activities
 import android.content.Intent
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -132,7 +133,41 @@ class LocationActivity : AppCompatActivity() {
             nerves[nerveNames[30]] ?: 0f,
             nerves[nerveNames[31]] ?: 0f,
             nerves[nerveNames[32]] ?: 0f,
-            nerves[nerveNames[33]] ?: 0f
+            nerves[nerveNames[33]] ?: 0f,
+            nerves[nerveNames[34]] ?: 0f,
+            nerves[nerveNames[35]] ?: 0f,
+            nerves[nerveNames[36]] ?: 0f,
+            nerves[nerveNames[37]] ?: 0f,
+            nerves[nerveNames[38]] ?: 0f,
+            nerves[nerveNames[39]] ?: 0f,
+            nerves[nerveNames[40]] ?: 0f,
+            nerves[nerveNames[41]] ?: 0f,
+            nerves[nerveNames[42]] ?: 0f,
+            nerves[nerveNames[43]] ?: 0f,
+            nerves[nerveNames[44]] ?: 0f,
+            nerves[nerveNames[45]] ?: 0f,
+            nerves[nerveNames[46]] ?: 0f,
+            nerves[nerveNames[47]] ?: 0f,
+            nerves[nerveNames[48]] ?: 0f,
+            nerves[nerveNames[49]] ?: 0f,
+            nerves[nerveNames[50]] ?: 0f,
+            nerves[nerveNames[51]] ?: 0f,
+            nerves[nerveNames[52]] ?: 0f,
+            nerves[nerveNames[53]] ?: 0f,
+            nerves[nerveNames[54]] ?: 0f,
+            nerves[nerveNames[55]] ?: 0f,
+            nerves[nerveNames[56]] ?: 0f,
+            nerves[nerveNames[57]] ?: 0f,
+            nerves[nerveNames[58]] ?: 0f,
+            nerves[nerveNames[59]] ?: 0f,
+            nerves[nerveNames[60]] ?: 0f,
+            nerves[nerveNames[61]] ?: 0f,
+            nerves[nerveNames[62]] ?: 0f,
+            nerves[nerveNames[63]] ?: 0f,
+            nerves[nerveNames[64]] ?: 0f,
+            nerves[nerveNames[65]] ?: 0f,
+            nerves[nerveNames[66]] ?: 0f,
+            nerves[nerveNames[67]] ?: 0f
         ).toDatabase()
         idGeneratedMap = database.getMapDao().insertMap(mapEntity)
     }

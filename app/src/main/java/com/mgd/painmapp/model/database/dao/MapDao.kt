@@ -4,9 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Update
 import com.mgd.painmapp.model.database.NervesTable
-import com.mgd.painmapp.model.database.SymptomTable
 import com.mgd.painmapp.model.database.entities.MapEntity
 
 @Dao
@@ -32,12 +30,26 @@ interface MapDao {
     @Query("SELECT pathsDrawnBack FROM map_table")
     fun getBackPathsDrawn(): List<String>
 
-    @Query("SELECT symptoms_table.symptom, symptoms_table.symptomOtherText, nervioMedianoDerecho, nervioRadialSuperficialDerecho, nervioCubitalDerecho, nervioMusculoCutaneoDerecho, nerviosSupraclavicularesDerechos, " +
-            "nervioFemoralDerecho, nervioGenitalDerecho, nervioIlioinguinoDerecho, nervioObturadoDerecho, nervioFemoralAnteriorDerecho, nervioSafenoDerecho, nervioPeroneoDerecho, " +
-            "nervioSuralDerecho, nervioBraquialDerecho, nervioAntebrazoDerecho, nervioRadialDerecho, nervioAxilarDerecho, nervioMedianoIzquierdo, " +
-            "nervioRadialSuperficialIzquierdo, nervioCubitalIzquierdo, nervioMusculoCutaneoIzquierdo,nerviosSupraclavicularesIzquierdos, nervioFemoralIzquierdo, nervioGenitalIzquierdo, " +
-            "nervioIlioinguinoIzquierdo, nervioObturadoIzquierdo, nervioFemoralAnteriorIzquierdo, nervioSafenoIzquierdo, nervioPeroneoIzquierdo, nervioSuralIzquierdo, nervioBraquialIzquierdo, " +
-            "nervioAntebrazoIzquierdo, nervioRadialIzquierdo, nervioAxilarIzquierdo FROM map_table " +
+    @Query("SELECT symptoms_table.symptom, symptoms_table.symptomOtherText, " +
+            "nervioMedianoDerecho, nervioRadialSuperficialDerecho, nervioCubitalDerecho, " +
+            "nervioMusculocutaneoDerecho, nerviosSupraclavicularesDerechos, nervioFemorocutaneoLatDerecho, " +
+            "nervioGenitofemoralDerecho, nervioIlioinguinalDerecho, nervioIliohipogastricoDerecho, " +
+            "nervioObturadoDerecho, nervioCutaneofemoralAntDerecho, nervioSafenoDerecho, " +
+            "nervioPeroneoSuperfDerecho, nervioSuralDerecho, nervioBraquialDerecho, " +
+            "nervioAntebrazoDerecho, nervioRadialDerecho, nervioAxilarDerecho, nerviosCervicalesDerechos, " +
+            "nervioTrigeminoIDerecho, nervioTrigeminoIIDerecho, nervioTrigeminoIIIDerecho, " +
+            "T1Derecho, T2Derecho, T3Derecho, T4Derecho, T5Derecho, T6Derecho, T7Derecho, T8Derecho, " +
+            "T9Derecho, T10Derecho, T11Derecho, T12Derecho, " +
+            "nervioMedianoIzquierdo, nervioRadialSuperficialIzquierdo, nervioCubitalIzquierdo, " +
+            "nervioMusculocutaneoIzquierdo, nerviosSupraclavicularesIzquierdos, nervioFemorocutaneoLatIzquierdo, " +
+            "nervioGenitofemoralIzquierdo, nervioIlioinguinalIzquierdo, nervioIliohipogastricoIzquierdo, " +
+            "nervioObturadoIzquierdo, nervioCutaneofemoralAntIzquierdo, nervioSafenoIzquierdo, " +
+            "nervioPeroneoSuperfIzquierdo, nervioSuralIzquierdo, nervioBraquialIzquierdo, " +
+            "nervioAntebrazoIzquierdo, nervioRadialIzquierdo, nervioAxilarIzquierdo, nerviosCervicalesIzquierdo, " +
+            "nervioTrigeminoIIzquierdo, nervioTrigeminoIIIzquierdo, nervioTrigeminoIIIIzquierdo, " +
+            "T1Izquierdo, T2Izquierdo, T3Izquierdo, T4Izquierdo, T5Izquierdo, T6Izquierdo, T7Izquierdo, " +
+            "T8Izquierdo, T9Izquierdo, T10Izquierdo, T11Izquierdo, T12Izquierdo " +
+            "FROM map_table " +
             "INNER JOIN symptoms_table ON map_table.idMap = symptoms_table.idMap " +
             "WHERE map_table.idEvaluation = :idEvaluation")
     fun getNervesTableByEvaluation(idEvaluation: Long): List<NervesTable>

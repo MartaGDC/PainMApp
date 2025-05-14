@@ -1,12 +1,9 @@
 package com.mgd.painmapp.controller.activities
 
 import android.os.Bundle
-import android.os.Environment
-import android.util.Log
 import android.view.View
 import android.widget.TableRow
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.drawerlayout.widget.DrawerLayout
@@ -16,7 +13,6 @@ import com.mgd.painmapp.R
 import com.mgd.painmapp.controller.InterpretationHelper
 import com.mgd.painmapp.controller.NavigationHelper
 import com.mgd.painmapp.databinding.ActivitySummaryBinding
-import com.mgd.painmapp.model.database.CSVTable
 import com.mgd.painmapp.model.database.NervesTable
 import com.mgd.painmapp.model.database.PatientDatabase
 import com.mgd.painmapp.model.database.SymptomTable
@@ -25,10 +21,6 @@ import com.mgd.painmapp.view.MapViews
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.io.File
-import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.Date
 import java.util.Locale
 
 class SummaryActivity : AppCompatActivity() {
@@ -81,6 +73,7 @@ class SummaryActivity : AppCompatActivity() {
                 )
                 tableSymptoms(symptomsTable)
                 tableNerves(nervesTable)
+                tableDermatomes(nervesTable)
             }
         }
     }
@@ -153,7 +146,6 @@ class SummaryActivity : AppCompatActivity() {
             if (firstSymptom) {
                 val row = TableRow(this).apply {
                     insertCell("Por síntomas", true, 0)
-                    Log.d("symptom", symptom.symptomOtherText)
                     if(symptom.symptomOtherText.isNotEmpty()){
                         insertCell(symptom.symptomOtherText, false,0)
                     }
@@ -169,7 +161,12 @@ class SummaryActivity : AppCompatActivity() {
             } else {
                 val row = TableRow(this).apply {
                     insertCell("",  true, 0)
-                    insertCell(symptom.symptom, false, 0)
+                    if (symptom.symptomOtherText.isNotEmpty()) {
+                        insertCell(symptom.symptomOtherText, false, 0)
+                    }
+                    else{
+                        insertCell(symptom.symptom, false, 0)
+                    }
                     insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.totalPercentage), false, 1)
                     insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.rightPercentage), false, 1)
                     insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.leftPercentage), false, 1)
@@ -186,7 +183,7 @@ class SummaryActivity : AppCompatActivity() {
         for (symptom in nervesTable){
             var row = TableRow(this).apply {
                 if(symptom.symptomOtherText.isNotEmpty()){
-                    insertCell(symptom.symptomOtherText, false,0)
+                    insertCell(symptom.symptomOtherText, true,1)
                 }
                 else{
                     insertCell(symptom.symptom, true, 1)
@@ -218,9 +215,9 @@ class SummaryActivity : AppCompatActivity() {
             }
             row = TableRow(this).apply {
                 insertCell(nerves[count++], false, 0)
-                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioMusculoCutaneoDerecho), false, 1)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioMusculocutaneoDerecho), false, 1)
             }
-            if(symptom.nervioMusculoCutaneoDerecho!=0f){
+            if(symptom.nervioMusculocutaneoDerecho!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
@@ -232,23 +229,30 @@ class SummaryActivity : AppCompatActivity() {
             }
             row = TableRow(this).apply {
                 insertCell(nerves[count++], false, 0)
-                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioFemoralDerecho), false, 1)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioFemorocutaneoLatDerecho), false, 1)
             }
-            if(symptom.nervioFemoralDerecho!=0f){
+            if(symptom.nervioFemorocutaneoLatDerecho!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
                 insertCell(nerves[count++], false, 0)
-                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioGenitalDerecho), false, 1)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioGenitofemoralDerecho), false, 1)
             }
-            if(symptom.nervioGenitalDerecho!=0f){
+            if(symptom.nervioGenitofemoralDerecho!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
                 insertCell(nerves[count++], false, 0)
-                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioIlioinguinoDerecho), false, 1)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioIlioinguinalDerecho), false, 1)
             }
-            if(symptom.nervioIlioinguinoDerecho!=0f){
+            if(symptom.nervioIlioinguinalDerecho!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioIliohipogastricoDerecho), false, 1)
+            }
+            if(symptom.nervioIliohipogastricoDerecho!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
@@ -260,9 +264,9 @@ class SummaryActivity : AppCompatActivity() {
             }
             row = TableRow(this).apply {
                 insertCell(nerves[count++], false, 0)
-                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioFemoralAnteriorDerecho), false, 1)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioCutaneofemoralAntDerecho), false, 1)
             }
-            if(symptom.nervioFemoralAnteriorDerecho!=0f){
+            if(symptom.nervioCutaneofemoralAntDerecho!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
@@ -274,9 +278,9 @@ class SummaryActivity : AppCompatActivity() {
             }
             row = TableRow(this).apply {
                 insertCell(nerves[count++], false, 0)
-                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioPeroneoDerecho), false, 1)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioPeroneoSuperfDerecho), false, 1)
             }
-            if(symptom.nervioPeroneoDerecho!=0f){
+            if(symptom.nervioPeroneoSuperfDerecho!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
@@ -316,6 +320,135 @@ class SummaryActivity : AppCompatActivity() {
             }
             row = TableRow(this).apply {
                 insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nerviosCervicalesDerechos), false, 1)
+            }
+            if(symptom.nerviosCervicalesDerechos!=0f){
+                table.addView(row)
+
+            }
+            row = TableRow(this).apply {
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioTrigeminoIDerecho), false, 1)
+            }
+            if(symptom.nervioTrigeminoIDerecho!=0f){
+                table.addView(row)
+
+            }
+            row = TableRow(this).apply {
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioTrigeminoIIDerecho), false, 1)
+            }
+            if(symptom.nervioTrigeminoIIDerecho!=0f){
+                table.addView(row)
+
+            }
+            row = TableRow(this).apply {
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioTrigeminoIIIDerecho), false, 1)
+            }
+            if(symptom.nervioTrigeminoIIIDerecho!=0f){
+                table.addView(row)
+
+            }
+            row = TableRow(this).apply {
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T1Derecho), false, 1)
+            }
+            if(symptom.T1Derecho!=0f){
+                table.addView(row)
+
+            }
+            row = TableRow(this).apply {
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T2Derecho), false, 1)
+            }
+            if(symptom.T2Derecho!=0f){
+                table.addView(row)
+
+            }
+            row = TableRow(this).apply {
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T3Derecho), false, 1)
+            }
+            if(symptom.T3Derecho!=0f){
+                table.addView(row)
+
+            }
+            row = TableRow(this).apply {
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T4Derecho), false, 1)
+            }
+            if(symptom.T4Derecho!=0f){
+                table.addView(row)
+
+            }
+            row = TableRow(this).apply {
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T5Derecho), false, 1)
+            }
+            if(symptom.T5Derecho!=0f){
+                table.addView(row)
+
+            }
+            row = TableRow(this).apply {
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T6Derecho), false, 1)
+            }
+            if(symptom.T6Derecho!=0f){
+                table.addView(row)
+
+            }
+            row = TableRow(this).apply {
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T7Derecho), false, 1)
+            }
+            if(symptom.T7Derecho!=0f){
+                table.addView(row)
+
+            }
+            row = TableRow(this).apply {
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T8Derecho), false, 1)
+            }
+            if(symptom.T8Derecho!=0f){
+                table.addView(row)
+
+            }
+            row = TableRow(this).apply {
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T9Derecho), false, 1)
+            }
+            if(symptom.T9Derecho!=0f){
+                table.addView(row)
+
+            }
+            row = TableRow(this).apply {
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T10Derecho), false, 1)
+            }
+            if(symptom.T10Derecho!=0f){
+                table.addView(row)
+
+            }
+            row = TableRow(this).apply {
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T11Derecho), false, 1)
+            }
+            if(symptom.T11Derecho!=0f){
+                table.addView(row)
+
+            }
+            row = TableRow(this).apply {
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T12Derecho), false, 1)
+            }
+            if(symptom.T12Derecho!=0f){
+                table.addView(row)
+
+            }
+
+            row = TableRow(this).apply {
+                insertCell(nerves[count++], false, 0)
                 insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioMedianoIzquierdo), false, 1)
             }
             if(symptom.nervioMedianoIzquierdo!=0f){
@@ -337,9 +470,9 @@ class SummaryActivity : AppCompatActivity() {
             }
             row = TableRow(this).apply {
                 insertCell(nerves[count++], false, 0)
-                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioMusculoCutaneoIzquierdo), false, 1)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioMusculocutaneoIzquierdo), false, 1)
             }
-            if(symptom.nervioMusculoCutaneoIzquierdo!=0f){
+            if(symptom.nervioMusculocutaneoIzquierdo!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
@@ -351,23 +484,30 @@ class SummaryActivity : AppCompatActivity() {
             }
             row = TableRow(this).apply {
                 insertCell(nerves[count++], false, 0)
-                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioFemoralIzquierdo), false, 1)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioFemorocutaneoLatIzquierdo), false, 1)
             }
-            if(symptom.nervioFemoralIzquierdo!=0f){
+            if(symptom.nervioFemorocutaneoLatIzquierdo!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
                 insertCell(nerves[count++], false, 0)
-                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioGenitalIzquierdo), false, 1)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioGenitofemoralIzquierdo), false, 1)
             }
-            if(symptom.nervioGenitalIzquierdo!=0f){
+            if(symptom.nervioGenitofemoralIzquierdo!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
                 insertCell(nerves[count++], false, 0)
-                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioIlioinguinoIzquierdo), false, 1)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioIlioinguinalIzquierdo), false, 1)
             }
-            if(symptom.nervioIlioinguinoIzquierdo!=0f){
+            if(symptom.nervioIlioinguinalIzquierdo!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioIliohipogastricoIzquierdo), false, 1)
+            }
+            if(symptom.nervioIliohipogastricoIzquierdo!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
@@ -379,9 +519,9 @@ class SummaryActivity : AppCompatActivity() {
             }
             row = TableRow(this).apply {
                 insertCell(nerves[count++], false, 0)
-                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioFemoralAnteriorIzquierdo), false, 1)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioCutaneofemoralAntIzquierdo), false, 1)
             }
-            if(symptom.nervioFemoralAnteriorIzquierdo!=0f){
+            if(symptom.nervioCutaneofemoralAntIzquierdo!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
@@ -393,9 +533,9 @@ class SummaryActivity : AppCompatActivity() {
             }
             row = TableRow(this).apply {
                 insertCell(nerves[count++], false, 0)
-                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioPeroneoIzquierdo), false, 1)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioPeroneoSuperfIzquierdo), false, 1)
             }
-            if(symptom.nervioPeroneoIzquierdo!=0f){
+            if(symptom.nervioPeroneoSuperfIzquierdo!=0f){
                 table.addView(row)
             }
             row = TableRow(this).apply {
@@ -427,15 +567,522 @@ class SummaryActivity : AppCompatActivity() {
                 table.addView(row)
             }
             row = TableRow(this).apply {
-                insertCell(nerves[count], false, 0)
+                insertCell(nerves[count++], false, 0)
                 insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioAxilarIzquierdo), false, 1)
             }
             if(symptom.nervioAxilarIzquierdo!=0f){
                 table.addView(row)
             }
+            row = TableRow(this).apply {
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nerviosCervicalesIzquierdo), false, 1)
+            }
+            if(symptom.nerviosCervicalesIzquierdo!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioTrigeminoIIzquierdo), false, 1)
+            }
+            if(symptom.nervioTrigeminoIIzquierdo!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioTrigeminoIIIzquierdo), false, 1)
+            }
+            if(symptom.nervioTrigeminoIIIzquierdo!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.nervioTrigeminoIIIIzquierdo), false, 1)
+            }
+            if(symptom.nervioTrigeminoIIIIzquierdo!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T1Izquierdo), false, 1)
+            }
+            if(symptom.T1Izquierdo!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T2Izquierdo), false, 1)
+            }
+            if(symptom.T2Izquierdo!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T3Izquierdo), false, 1)
+            }
+            if(symptom.T3Izquierdo!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T4Izquierdo), false, 1)
+            }
+            if(symptom.T4Izquierdo!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T5Izquierdo), false, 1)
+            }
+            if(symptom.T5Izquierdo!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T6Izquierdo), false, 1)
+            }
+            if(symptom.T6Izquierdo!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T7Izquierdo), false, 1)
+            }
+            if(symptom.T7Izquierdo!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T8Izquierdo), false, 1)
+            }
+            if(symptom.T8Izquierdo!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T9Izquierdo), false, 1)
+            }
+            if(symptom.T9Izquierdo!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T10Izquierdo), false, 1)
+            }
+            if(symptom.T10Izquierdo!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nerves[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T11Izquierdo), false, 1)
+            }
+            if(symptom.T11Izquierdo!=0f){
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(nerves[count], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T12Izquierdo), false, 1)
+            }
+            if(symptom.T12Izquierdo!=0f){
+                table.addView(row)
+            }
         }
     }
 
+    private fun tableDermatomes(nervesTable: List<NervesTable>) {
+        val dermatomes = InterpretationHelper.getFrontDermatomes(this)
+        val table = binding.tlDermatomes
+        table.removeAllViews()
+        for (symptom in nervesTable) {
+            var row = TableRow(this).apply {
+                if (symptom.symptomOtherText.isNotEmpty()) {
+                    insertCell(symptom.symptomOtherText, true, 1)
+                } else {
+                    insertCell(symptom.symptom, true, 1)
+                }
+                insertCell("", false, 0)
+            }
+            var count = 0
+            table.addView(row)
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.C1rootDerecha), false, 1)
+            }
+            if (symptom.C1rootDerecha != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.C2rootDerecha), false, 1)
+            }
+            if (symptom.C2rootDerecha != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.C3rootDerecha), false, 1)
+            }
+            if (symptom.C3rootDerecha != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.C4rootDerecha), false, 1)
+            }
+            if (symptom.C4rootDerecha != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.C5rootDerecha), false, 1)
+            }
+            if (symptom.C5rootDerecha != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.C6rootDerecha), false, 1)
+            }
+            if (symptom.C6rootDerecha != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.C7rootDerecha), false, 1)
+            }
+            if (symptom.C7rootDerecha != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.C8rootDerecha), false, 1)
+            }
+            if (symptom.C8rootDerecha != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T1rootDerecha), false, 1)
+            }
+            if (symptom.T1rootDerecha != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(), "%.1f%%", symptom.T2rootDerecha),false,1)
+            }
+            if (symptom.T2rootDerecha != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T3rootDerecha), false, 1)
+            }
+            if (symptom.T3rootDerecha != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T4rootDerecha), false, 1)
+            }
+            if (symptom.T4rootDerecha != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T5rootDerecha), false, 1)
+            }
+            if (symptom.T5rootDerecha != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T6rootDerecha), false, 1)
+            }
+            if (symptom.T6rootDerecha != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T7rootDerecha), false, 1)
+            }
+            if (symptom.T7rootDerecha != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T8rootDerecha), false, 1)
+            }
+            if (symptom.T8rootDerecha != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T9rootDerecha), false, 1)
+            }
+            if (symptom.T9rootDerecha != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T10rootDerecha), false, 1)
+            }
+            if (symptom.T10rootDerecha != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T11rootDerecha), false, 1)
+            }
+            if (symptom.T11rootDerecha != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T12rootDerecha), false, 1)
+            }
+            if (symptom.T12rootDerecha != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.L1rootDerecha), false, 1)
+            }
+            if (symptom.L1rootDerecha != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.L2rootDerecha), false, 1)
+            }
+            if (symptom.L2rootDerecha != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.L3rootDerecha), false, 1)
+            }
+            if (symptom.L3rootDerecha != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.L4rootDerecha), false, 1)
+            }
+            if (symptom.L4rootDerecha != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.L5rootDerecha), false, 1)
+            }
+            if (symptom.L5rootDerecha != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.S1rootDerecha), false, 1)
+            }
+            if (symptom.S1rootDerecha != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.S2rootDerecha), false, 1)
+            }
+            if (symptom.S2rootDerecha != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.C1rootIzquierda), false, 1)
+            }
+            if (symptom.C1rootIzquierda != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.C2rootIzquierda), false, 1)
+            }
+            if (symptom.C2rootIzquierda != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.C3rootIzquierda), false, 1)
+            }
+            if (symptom.C3rootIzquierda != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.C4rootIzquierda), false, 1)
+            }
+            if (symptom.C4rootIzquierda != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.C5rootIzquierda), false, 1)
+            }
+            if (symptom.C5rootIzquierda != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.C6rootIzquierda), false, 1)
+            }
+            if (symptom.C6rootIzquierda != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.C7rootIzquierda), false, 1)
+            }
+            if (symptom.C7rootIzquierda != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.C8rootIzquierda), false, 1)
+            }
+            if (symptom.C8rootIzquierda != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T1rootIzquierda), false, 1)
+            }
+            if (symptom.T1rootIzquierda != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T2rootIzquierda), false, 1)
+            }
+            if (symptom.T2rootIzquierda != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T3rootIzquierda), false, 1)
+            }
+            if (symptom.T3rootIzquierda != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T4rootIzquierda), false, 1)
+            }
+            if (symptom.T4rootIzquierda != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T5rootIzquierda), false, 1)
+            }
+            if (symptom.T5rootIzquierda != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T6rootIzquierda), false, 1)
+            }
+            if (symptom.T6rootIzquierda != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T7rootIzquierda), false, 1)
+            }
+            if (symptom.T7rootIzquierda != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T8rootIzquierda), false, 1)
+            }
+            if (symptom.T8rootIzquierda != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T9rootIzquierda), false, 1)
+            }
+            if (symptom.T9rootIzquierda != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T10rootIzquierda), false, 1)
+            }
+            if (symptom.T10rootIzquierda != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T11rootIzquierda), false, 1)
+            }
+            if (symptom.T11rootIzquierda != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.T12rootIzquierda), false, 1)
+            }
+            if (symptom.T12rootIzquierda != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.L1rootIzquierda), false, 1)
+            }
+            if (symptom.L1rootIzquierda != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.L2rootIzquierda), false, 1)
+            }
+            if (symptom.L2rootIzquierda != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.L3rootIzquierda), false, 1)
+            }
+            if (symptom.L3rootIzquierda != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.L4rootIzquierda), false, 1)
+            }
+            if (symptom.L4rootIzquierda != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.L5rootIzquierda), false, 1)
+            }
+            if (symptom.L5rootIzquierda != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.S1rootIzquierda), false, 1)
+            }
+            if (symptom.S1rootIzquierda != 0f) {
+                table.addView(row)
+            }
+            row = TableRow(this).apply {
+                insertCell(dermatomes[count++], false, 0)
+                insertCell(String.format(Locale.getDefault(),"%.1f%%", symptom.S2rootIzquierda), false, 1)
+            }
+            if (symptom.S2rootIzquierda != 0f) {
+                table.addView(row)
+            }
+        }
+    }
 
     private fun TableRow.insertCell(text: String, caps: Boolean, gravity: Int){
         val cell = TextView(context).apply{

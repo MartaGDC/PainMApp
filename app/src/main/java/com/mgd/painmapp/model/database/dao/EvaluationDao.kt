@@ -18,14 +18,25 @@ interface EvaluationDao {
 
     @Query("SELECT evaluations_table.idEvaluation, patient, researcher, date, test, " +
             "map_table.idMap, totalPatientPercentage, rightPatientPercentage, leftPatientPercentage, " +
-            "totalPercentage, rightPercentage, leftPercentage, nervioMedianoDerecho, " +
-            "nervioRadialSuperficialDerecho, nervioCubitalDerecho, nervioMusculoCutaneoDerecho, nerviosSupraclavicularesDerechos, " +
-            "nervioFemoralDerecho, nervioGenitalDerecho, nervioIlioinguinoDerecho, nervioObturadoDerecho, nervioFemoralAnteriorDerecho, " +
-            "nervioSafenoDerecho, nervioPeroneoDerecho, nervioSuralDerecho, nervioBraquialDerecho, nervioAntebrazoDerecho, nervioRadialDerecho, " +
-            "nervioAxilarDerecho, nervioMedianoIzquierdo, nervioRadialSuperficialIzquierdo, nervioCubitalIzquierdo, nervioMusculoCutaneoIzquierdo, " +
-            "nerviosSupraclavicularesIzquierdos, nervioFemoralIzquierdo, nervioGenitalIzquierdo, nervioIlioinguinoIzquierdo, " +
-            "nervioObturadoIzquierdo, nervioFemoralAnteriorIzquierdo, nervioSafenoIzquierdo, nervioPeroneoIzquierdo, nervioSuralIzquierdo, " +
-            "nervioBraquialIzquierdo, nervioAntebrazoIzquierdo, nervioRadialIzquierdo, nervioAxilarIzquierdo, " +
+            "totalPercentage, rightPercentage, leftPercentage, " +
+            "nervioMedianoDerecho, nervioRadialSuperficialDerecho, nervioCubitalDerecho, " +
+            "nervioMusculocutaneoDerecho, nerviosSupraclavicularesDerechos, nervioFemorocutaneoLatDerecho, " +
+            "nervioGenitofemoralDerecho, nervioIlioinguinalDerecho, nervioIliohipogastricoDerecho, " +
+            "nervioObturadoDerecho, nervioCutaneofemoralAntDerecho, nervioSafenoDerecho, " +
+            "nervioPeroneoSuperfDerecho, nervioSuralDerecho, nervioBraquialDerecho, " +
+            "nervioAntebrazoDerecho, nervioRadialDerecho, nervioAxilarDerecho, nerviosCervicalesDerechos, " +
+            "nervioTrigeminoIDerecho, nervioTrigeminoIIDerecho, nervioTrigeminoIIIDerecho, " +
+            "T1Derecho, T2Derecho, T3Derecho, T4Derecho, T5Derecho, T6Derecho, T7Derecho, T8Derecho, " +
+            "T9Derecho, T10Derecho, T11Derecho, T12Derecho, " +
+            "nervioMedianoIzquierdo, nervioRadialSuperficialIzquierdo, nervioCubitalIzquierdo, " +
+            "nervioMusculocutaneoIzquierdo, nerviosSupraclavicularesIzquierdos, nervioFemorocutaneoLatIzquierdo, " +
+            "nervioGenitofemoralIzquierdo, nervioIlioinguinalIzquierdo, nervioIliohipogastricoIzquierdo, " +
+            "nervioObturadoIzquierdo, nervioCutaneofemoralAntIzquierdo, nervioSafenoIzquierdo, " +
+            "nervioPeroneoSuperfIzquierdo, nervioSuralIzquierdo, nervioBraquialIzquierdo, " +
+            "nervioAntebrazoIzquierdo, nervioRadialIzquierdo, nervioAxilarIzquierdo, nerviosCervicalesIzquierdo, " +
+            "nervioTrigeminoIIzquierdo, nervioTrigeminoIIIzquierdo, nervioTrigeminoIIIIzquierdo, " +
+            "T1Izquierdo, T2Izquierdo, T3Izquierdo, T4Izquierdo, T5Izquierdo, T6Izquierdo, T7Izquierdo, " +
+            "T8Izquierdo, T9Izquierdo, T10Izquierdo, T11Izquierdo, T12Izquierdo, " +
             "idSymptom, intensity, symptom, symptomOtherText, charactAgitating, charactMiserable, charactAnnoying, charactUnbearable, charactFatiguing, " +
             "charactPiercing, charactOther, charactOtherText, timeContinuous, timeWhen " +
             "FROM evaluations_table " +
