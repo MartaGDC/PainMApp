@@ -15,4 +15,4 @@ data class EvaluationEntity (
 )
 
 fun Evaluation.toDatabase() = EvaluationEntity(patientName = name, researcherName = researcher, date = date, test = test)
-//fun EvaluationEntity.toEvaluation() = Evaluation(name = patientName, researcher = researcherName, date = date, test = test )
+//fun EvaluationEntity.toEvaluation() = Evaluation(idEvaluation = idEvaluation, name = patientName, researcher = researcherName, date = date, test = test )

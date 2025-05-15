@@ -16,206 +16,68 @@ import com.mgd.painmapp.R
 import org.xmlpull.v1.XmlPullParser
 
 object  InterpretationHelper {
-    /*__________NERVES__________*/
-        /*___Front___*/
     @SuppressLint("ResourceType")
-    fun getFrontPeripheralNerves(context:Context) : List<String> {
-        val nerveNames = mutableListOf<String>()
-        val imgSource:Int = R.drawable.front_nerves
+    private fun getElements(context: Context, imgSource:Int):MutableMap<String,String>{
+        val xml_zone = mutableMapOf<String, String>()
         val resources = context.resources
         val parser = resources.getXml(imgSource)
         var eventType = parser.eventType
         while (eventType != XmlPullParser.END_DOCUMENT) {
             if (eventType == XmlPullParser.START_TAG && parser.name == "path") {
-                val nerve = parser.getAttributeValue(
-                    "http://schemas.android.com/apk/res/android",
-                    "name"
+                val name = parser.getAttributeValue(
+                    "http://schemas.android.com/apk/res/android","name"
                 )
-                if (!nerve.isNullOrEmpty()){
-                    nerveNames.add(nerve)
+                val pathData = parser.getAttributeValue(
+                    "http://schemas.android.com/apk/res/android","pathData")
+                if (!name.isNullOrEmpty()) {
+                    xml_zone[name] = pathData
                 }
             }
             eventType = parser.next()
         }
-        return nerveNames
+        return xml_zone
     }
     @SuppressLint("ResourceType")
-    fun getFrontNerves_Regions(context: Context, scale: Matrix):MutableMap<String,Path>{
+    fun getRegions(context: Context, scale: Matrix, imgSource: Int):MutableMap<String,Path> {
         val nerves = mutableMapOf<String, Path>()
-        val imgSource:Int = R.drawable.front_nerves
-        val resources = context.resources
-        val parser = resources.getXml(imgSource)
-        var eventType = parser.eventType
-        while (eventType != XmlPullParser.END_DOCUMENT) {
-            if (eventType == XmlPullParser.START_TAG && parser.name == "path") {
-                val nameAttr = parser.getAttributeValue(
-                    "http://schemas.android.com/apk/res/android",
-                    "name"
-                )
-                val pathData = parser.getAttributeValue(
-                    "http://schemas.android.com/apk/res/android",
-                    "pathData"
-                )
-                if (!nameAttr.isNullOrEmpty()) {
-                    val path = PathParser.createPathFromPathData(pathData)
-                    nerves[nameAttr] = path
-                    path.transform(scale)
-                }
+        val elementos = getElements(context, imgSource)
+        for ((name, pathData) in elementos) {
+            if (!pathData.isNullOrEmpty()) {
+                val path = PathParser.createPathFromPathData(pathData)
+                path.transform(scale)
+                nerves[name] = path
             }
-            eventType = parser.next()
         }
         return nerves
     }
 
-        /*___Back___*/
     @SuppressLint("ResourceType")
-    fun getBackPeripheralNerves(context:Context) : List<String> {
-        val nerveNames = mutableListOf<String>()
+    private fun getFrontPeripheralNerves(context:Context) : List<String> {
+        val imgSource:Int = R.drawable.front_nerves
+        return getElements(context, imgSource).keys.toList()
+    }
+    @SuppressLint("ResourceType")
+    private fun getBackPeripheralNerves(context:Context) : List<String> {
         val imgSource:Int = R.drawable.back_nerves
-        val resources = context.resources
-        val parser = resources.getXml(imgSource)
-        var eventType = parser.eventType
-        while (eventType != XmlPullParser.END_DOCUMENT) {
-            if (eventType == XmlPullParser.START_TAG && parser.name == "path") {
-                val nerve = parser.getAttributeValue(
-                    "http://schemas.android.com/apk/res/android",
-                    "name"
-                )
-                if (!nerve.isNullOrEmpty()){
-                    nerveNames.add(nerve)
-                }
-            }
-            eventType = parser.next()
-        }
+        return getElements(context, imgSource).keys.toList()
+    }
+    fun getPeripheralNerves(context:Context): List<String> {
+        val nerveNames = (getFrontPeripheralNerves(context) + getBackPeripheralNerves(context)).toSet().toList() //To set elimina elementos duplicados.
         return nerveNames
     }
-        @SuppressLint("ResourceType")
-        fun getBackNerves_Regions(context: Context, scale: Matrix):List<Pair<String,Path>>{
-            val nerves = mutableListOf<Pair<String, Path>>()
-            val imgSource:Int = R.drawable.back_nerves
-            val resources = context.resources
-            val parser = resources.getXml(imgSource)
-            var eventType = parser.eventType
-            while (eventType != XmlPullParser.END_DOCUMENT) {
-                if (eventType == XmlPullParser.START_TAG && parser.name == "path") {
-                    val nameAttr = parser.getAttributeValue(
-                        "http://schemas.android.com/apk/res/android",
-                        "name"
-                    )
-                    val pathData = parser.getAttributeValue(
-                        "http://schemas.android.com/apk/res/android",
-                        "pathData"
-                    )
-                    if (!nameAttr.isNullOrEmpty()) {
-                        val path = PathParser.createPathFromPathData(pathData)
-                        nerves.add(Pair(nameAttr, path))
-                        path.transform(scale)
-                    }
-                }
-                eventType = parser.next()
-            }
-            return nerves
-        }
 
-
-    /*__________DERMATOMES__________*/
-        /*___Front___*/
     @SuppressLint("ResourceType")
-    fun getFrontDermatomes(context:Context): List<String>{
-        val dermatomeNames = mutableListOf<String>()
+    private fun getFrontDermatomes(context: Context): List<String>{
         val imgSource:Int = R.drawable.front_dermatomes
-        val resources = context.resources
-        val parser = resources.getXml(imgSource)
-        var eventType = parser.eventType
-        while (eventType != XmlPullParser.END_DOCUMENT) {
-            if (eventType == XmlPullParser.START_TAG && parser.name == "path") {
-                val dermatome = parser.getAttributeValue(
-                    "http://schemas.android.com/apk/res/android",
-                    "name"
-                )
-                if (!dermatome.isNullOrEmpty()) {
-                    dermatomeNames.add(dermatome)
-                }
-            }
-            eventType = parser.next()
-        }
-        return dermatomeNames
+        return getElements(context, imgSource).keys.toList()
     }
-    @SuppressLint("ResourceType")
-    fun getFrontDermatomes_Regions(context: Context, scale: Matrix): MutableMap<String, Path>{
-        val dermatomes = mutableMapOf<String, Path>()
-        val imgSource:Int = R.drawable.front_dermatomes
-        val resources = context.resources
-        val parser = resources.getXml(imgSource)
-        var eventType = parser.eventType
-        while (eventType != XmlPullParser.END_DOCUMENT) {
-            if (eventType == XmlPullParser.START_TAG && parser.name == "path") {
-                val nameAttr = parser.getAttributeValue(
-                    "http://schemas.android.com/apk/res/android",
-                    "name"
-                )
-                val pathData = parser.getAttributeValue(
-                    "http://schemas.android.com/apk/res/android",
-                    "pathData"
-                )
-                if (!nameAttr.isNullOrEmpty()) {
-                    val path = PathParser.createPathFromPathData(pathData)
-                    dermatomes[nameAttr] = path
-                    path.transform(scale)
-                }
-            }
-            eventType = parser.next()
-        }
-        return dermatomes
-    }
-        /*___Back___*/
-    @SuppressLint("ResourceType")
-    fun getBackDermatomes(context:Context): List<String>{
-        val dermatomeNames = mutableListOf<String>()
+    private fun getBackDermatomes(context:Context): List<String>{
         val imgSource:Int = R.drawable.back_dermatomes
-        val resources = context.resources
-        val parser = resources.getXml(imgSource)
-        var eventType = parser.eventType
-        while (eventType != XmlPullParser.END_DOCUMENT) {
-            if (eventType == XmlPullParser.START_TAG && parser.name == "path") {
-                val dermatome = parser.getAttributeValue(
-                    "http://schemas.android.com/apk/res/android",
-                    "name"
-                )
-                if (!dermatome.isNullOrEmpty()) {
-                    dermatomeNames.add(dermatome)
-                }
-            }
-            eventType = parser.next()
-        }
-        return dermatomeNames
+        return getElements(context, imgSource).keys.toList()
     }
-    @SuppressLint("ResourceType")
-    fun getBackDermatomes_Regions(context: Context, scale: Matrix): MutableMap<String, Path>{
-        val dermatomes = mutableMapOf<String, Path>()
-        val imgSource:Int = R.drawable.back_dermatomes
-        val resources = context.resources
-        val parser = resources.getXml(imgSource)
-        var eventType = parser.eventType
-        while (eventType != XmlPullParser.END_DOCUMENT) {
-            if (eventType == XmlPullParser.START_TAG && parser.name == "path") {
-                val nameAttr = parser.getAttributeValue(
-                    "http://schemas.android.com/apk/res/android",
-                    "name"
-                )
-                val pathData = parser.getAttributeValue(
-                    "http://schemas.android.com/apk/res/android",
-                    "pathData"
-                )
-                if (!nameAttr.isNullOrEmpty()) {
-                    val path = PathParser.createPathFromPathData(pathData)
-                    dermatomes[nameAttr] = path
-                    path.transform(scale)
-                }
-            }
-            eventType = parser.next()
-        }
-        return dermatomes
+    fun getDermatomes(context:Context): List<String> {
+        val dermatomeNames = (getFrontDermatomes(context) + getBackDermatomes(context)).toSet().toList() //To set elimina elementos duplicados.
+        return dermatomeNames
     }
 
 
@@ -223,6 +85,9 @@ object  InterpretationHelper {
         val zones = mutableMapOf<String, Region>()
         val bounds = RectF()
         path.computeBounds(bounds, true)
+        val imgFrontNerves = R.drawable.front_nerves
+        val imgFrontDermatomes = R.drawable.front_dermatomes
+
         val mitadX = (bounds.right.toInt()+bounds.left.toInt())/2
         zones["total"] = Region().apply {
             setPath(path, Region(bounds.left.toInt(), bounds.top.toInt(), bounds.right.toInt(), bounds.bottom.toInt()))
@@ -234,14 +99,14 @@ object  InterpretationHelper {
             setPath(path, Region(mitadX, bounds.top.toInt(), bounds.right.toInt(), bounds.bottom.toInt()))
         }
         //Nervios perifericos
-        for ((nameNerve, pathNerve) in getFrontNerves_Regions(context, escala)){
+        for ((nameNerve, pathNerve) in getRegions(context, escala, imgFrontNerves)){
             pathNerve.computeBounds(bounds, true)
             zones[nameNerve] = Region().apply {
                 setPath(pathNerve, Region(bounds.left.toInt(), bounds.top.toInt(), bounds.right.toInt(), bounds.bottom.toInt()))
             }
         }
         //Dermatomas
-        for ((nameDermatome, pathDermatome) in getFrontDermatomes_Regions(context, escala)){
+        for ((nameDermatome, pathDermatome) in getRegions(context, escala, imgFrontDermatomes)){
             pathDermatome.computeBounds(bounds, true)
             zones[nameDermatome] = Region().apply {
                 setPath(pathDermatome, Region(bounds.left.toInt(), bounds.top.toInt(), bounds.right.toInt(), bounds.bottom.toInt()))
@@ -254,6 +119,8 @@ object  InterpretationHelper {
         val zones = mutableMapOf<String, Region>()
         val bounds = RectF()
         path.computeBounds(bounds, true)
+        val imgBackNerves = R.drawable.back_nerves
+        val imgBackDermatomes = R.drawable.back_dermatomes
         val mitadX = (bounds.right.toInt()+bounds.left.toInt())/2
         zones["total"] = Region().apply {
             setPath(path, Region(bounds.left.toInt(), bounds.top.toInt(), bounds.right.toInt(), bounds.bottom.toInt()))
@@ -265,14 +132,14 @@ object  InterpretationHelper {
             setPath(path, Region(bounds.left.toInt(), bounds.top.toInt(), mitadX, bounds.bottom.toInt()))
         }
         //Nervios perifericos
-        for ((nameNerve, pathNerve) in getBackNerves_Regions(context, escala)){
+        for ((nameNerve, pathNerve) in getRegions(context, escala, imgBackNerves)){
             pathNerve.computeBounds(bounds, true)
             zones[nameNerve] = Region().apply {
                 setPath(pathNerve, Region(bounds.left.toInt(), bounds.top.toInt(), bounds.right.toInt(), bounds.bottom.toInt()))
             }
         }
         //Dermatomas
-        for ((nameDermatome, pathDermatome) in getBackDermatomes_Regions(context, escala)){
+        for ((nameDermatome, pathDermatome) in getRegions(context, escala, imgBackDermatomes)){
             pathDermatome.computeBounds(bounds, true)
             zones[nameDermatome] = Region().apply {
                 setPath(pathDermatome, Region(bounds.left.toInt(), bounds.top.toInt(), bounds.right.toInt(), bounds.bottom.toInt()))
@@ -284,10 +151,9 @@ object  InterpretationHelper {
 
     fun calculatePixels(context: Context, width: Int, height: Int, paths: List<Path>, bPaint: Paint, path: Path, optimization: Int = 5,
                         tipoMapa: String, escala: Matrix): Map<String, List<Float>> {
-                           //Map es lo que sería un diccionario en python. En vez de acceder con indice se accede con clave
-        /*Optimizacion porque si se revisan todos los pixels la aplicacion se bloque y tarda demasiado
-        Sigue detectando el trazo de un punto del pincel, si se perdiera precisión, elegiría hacerlo en un hilo o coroutine
-         */
+        /*Map es lo que sería un diccionario en python. En vez de acceder con indice se accede con clave
+        Optimizacion porque si se revisan todos los pixels la aplicacion se bloque y tarda demasiado*/
+
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvasCalculos = Canvas(bitmap) //Lo que se haga en canvasCalculos se estará haciendo también en el bitmap
         canvasCalculos.clipPath(path) //mascara para darle forma humana
@@ -352,7 +218,6 @@ object  InterpretationHelper {
             val pintado = backResults[1]
             resultPercentages[name] =  pintado / total * 100f
         }
-        Log.d("resultPercentages", resultPercentages.keys.toString())
         return resultPercentages
     }
 

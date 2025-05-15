@@ -123,13 +123,13 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
         cDrawable?.draw(canvas)
         drawPathsOnCanvas(canvas)
         canvas.restore()
-       for ((_, path) in InterpretationHelper.getFrontDermatomes_Regions(context, scaleMatrix)) {
+        /*for ((_, path) in InterpretationHelper.getRegions(context, scaleMatrix, imgSource)) {
             canvas.drawPath(path, Paint().apply {
                 color = Color.RED
                 style = Paint.Style.STROKE
                 strokeWidth = 1f
             })
-        }
+        }*/
         canvas.drawPath(cPath, cPaint)
     }
 

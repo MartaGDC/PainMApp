@@ -30,11 +30,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        database = Room.databaseBuilder(
+        /*database = Room.databaseBuilder(
             this, PatientDatabase::class.java,
             "patient_database"
         ).build()
-        this.deleteDatabase("patient_database")
+        this.deleteDatabase("patient_database")*/
 
         //Establecer en settings el color del pincel
         ColorBrush.initialize(this)

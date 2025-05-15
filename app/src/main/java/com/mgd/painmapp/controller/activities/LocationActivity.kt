@@ -51,14 +51,8 @@ class LocationActivity : AppCompatActivity() {
             "patient_database"
         ).build()
 
-        val nerveNamesFront = InterpretationHelper.getFrontPeripheralNerves(this)
-        val nerveNamesBack = InterpretationHelper.getBackPeripheralNerves(this)
-        nerveNames = (nerveNamesFront + nerveNamesBack).toSet().toList() //To set elimina elementos duplicados.
-        Log.d("nerveNames", nerveNames.toString())
-        val dermatomeNamesFront = InterpretationHelper.getFrontDermatomes(this)
-        val dermatomeNamesBack = InterpretationHelper.getBackDermatomes(this)
-        dermatomeNames = (dermatomeNamesFront + dermatomeNamesBack).toSet().toList()
-        Log.d("dermatomeNames", dermatomeNames.toString())
+        nerveNames = InterpretationHelper.getPeripheralNerves(this)
+        dermatomeNames = InterpretationHelper.getDermatomes(this)
 
         initComponents()
         initListeners()
@@ -272,8 +266,6 @@ class LocationActivity : AppCompatActivity() {
         totalPercentage = results["total"] ?: 0f
         totalRightPercentage = results["derecha"] ?: 0f
         totalLeftPercentage = results["izquierda"] ?: 0f
-
-        //Nervios (solo parte frontal):
         for (name in (nerveNames+dermatomeNames)) {
             nerves[name] = results[name] ?: 0f
         }
