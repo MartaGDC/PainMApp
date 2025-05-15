@@ -64,8 +64,9 @@ interface MapDao {
             "RC3Izquierda, RC4Izquierda, RC5Izquierda, RC6Izquierda, RC7Izquierda, RC8Izquierda, RT1Izquierda, " +
             "RT2Izquierda, RT3Izquierda, RT4Izquierda, RT5Izquierda, RT6Izquierda, RT7Izquierda, RT8Izquierda, " +
             "RT9Izquierda, RT10Izquierda, RT11Izquierda, RT12Izquierda, RL1Izquierda, RL2Izquierda, RL3Izquierda, " +
-            "RL4Izquierda, RL5Izquierda, RS1Izquierda, RS2Izquierda " +
-            "FROM map_table " +
+            "RL4Izquierda, RL5Izquierda, RS1Izquierda, RS2Izquierda, " +
+            "RC2Derecha, RS3Derecha, RS4Derecha, RS5Derecha, RC2Izquierda, RS3Izquierda, RS4Izquierda, " +
+            "RS5Izquierda FROM map_table " +
             "INNER JOIN symptoms_table ON map_table.idMap = symptoms_table.idMap " +
             "WHERE map_table.idEvaluation = :idEvaluation")
     fun getNervesTableByEvaluation(idEvaluation: Long): List<NervesTable>

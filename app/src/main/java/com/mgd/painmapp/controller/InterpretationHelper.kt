@@ -10,6 +10,7 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.RectF
 import android.graphics.Region
+import android.util.Log
 import androidx.core.graphics.PathParser
 import com.mgd.painmapp.R
 import org.xmlpull.v1.XmlPullParser
@@ -351,6 +352,7 @@ object  InterpretationHelper {
             val pintado = backResults[1]
             resultPercentages[name] =  pintado / total * 100f
         }
+        Log.d("resultPercentages", resultPercentages.keys.toString())
         return resultPercentages
     }
 

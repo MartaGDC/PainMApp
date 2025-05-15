@@ -53,6 +53,8 @@ interface EvaluationDao {
             "RT2Izquierda, RT3Izquierda, RT4Izquierda, RT5Izquierda, RT6Izquierda, RT7Izquierda, RT8Izquierda, " +
             "RT9Izquierda, RT10Izquierda, RT11Izquierda, RT12Izquierda, RL1Izquierda, RL2Izquierda, RL3Izquierda, " +
             "RL4Izquierda, RL5Izquierda, RS1Izquierda, RS2Izquierda, " +
+            "RC2Derecha, RS3Derecha, RS4Derecha, RS5Derecha, RC2Izquierda, RS3Izquierda, RS4Izquierda, " +
+            "RS5Izquierda, " +
             "idSymptom, intensity, symptom, symptomOtherText, charactAgitating, charactMiserable, charactAnnoying, charactUnbearable, charactFatiguing, " +
             "charactPiercing, charactOther, charactOtherText, timeContinuous, timeWhen " +
             "FROM evaluations_table " +

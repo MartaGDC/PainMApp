@@ -162,7 +162,16 @@ data class MapEntity (
     @ColumnInfo(name="RL4Izquierda") val RL4Izquierda:Float,
     @ColumnInfo(name="RL5Izquierda") val RL5Izquierda:Float,
     @ColumnInfo(name="RS1Izquierda") val RS1Izquierda:Float,
-    @ColumnInfo(name="RS2Izquierda") val RS2Izquierda:Float
+    @ColumnInfo(name="RS2Izquierda") val RS2Izquierda:Float,
+
+    @ColumnInfo(name="RC2Derecha") val RC2Derecha:Float, //Dermatomas solo presentes en mapa posterior
+    @ColumnInfo(name="RS3Derecha") val RS3Derecha:Float,
+    @ColumnInfo(name="RS4Derecha") val RS4Derecha:Float,
+    @ColumnInfo(name="RS5Derecha") val RS5Derecha: Float,
+    @ColumnInfo(name="RC2Izquierda") val RC2Izquierda:Float,
+    @ColumnInfo(name="RS3Izquierda") val RS3Izquierda:Float,
+    @ColumnInfo(name="RS4Izquierda") val RS4Izquierda:Float,
+    @ColumnInfo(name="RS5Izquierda") val RS5Izquierda: Float
 )
 
 fun MapInterpretation.toDatabase() = MapEntity(
@@ -319,7 +328,16 @@ fun MapInterpretation.toDatabase() = MapEntity(
     RL4Izquierda = RL4Izquierda,
     RL5Izquierda = RL5Izquierda,
     RS1Izquierda = RS1Izquierda,
-    RS2Izquierda = RS2Izquierda
+    RS2Izquierda = RS2Izquierda,
+
+    RC2Derecha =RC2Derecha, //Dermatomas solo presentes en mapa posterior
+    RS3Derecha = RS3Derecha,
+    RS4Derecha = RS4Derecha,
+    RS5Derecha = RS5Derecha,
+    RC2Izquierda = RC2Izquierda,
+    RS3Izquierda = RS3Izquierda,
+    RS4Izquierda = RS4Izquierda,
+    RS5Izquierda = RS5Izquierda
 )
 fun MapEntity.toMapInterpretation() = MapInterpretation(
     idEvaluation = idEvaluation,
@@ -475,5 +493,14 @@ fun MapEntity.toMapInterpretation() = MapInterpretation(
     RL4Izquierda = RL4Izquierda,
     RL5Izquierda = RL5Izquierda,
     RS1Izquierda = RS1Izquierda,
-    RS2Izquierda = RS2Izquierda
+    RS2Izquierda = RS2Izquierda,
+
+    RC2Derecha =RC2Derecha, //Dermatomas solo presentes en mapa posterior
+    RS3Derecha = RS3Derecha,
+    RS4Derecha = RS4Derecha,
+    RS5Derecha = RS5Derecha,
+    RC2Izquierda = RC2Izquierda,
+    RS3Izquierda = RS3Izquierda,
+    RS4Izquierda = RS4Izquierda,
+    RS5Izquierda = RS5Izquierda
 )

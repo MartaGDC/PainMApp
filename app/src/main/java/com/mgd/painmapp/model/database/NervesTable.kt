@@ -147,5 +147,14 @@ data class NervesTable (
     var RL4Izquierda : Float,
     var RL5Izquierda : Float,
     var RS1Izquierda : Float,
-    var RS2Izquierda : Float
+    var RS2Izquierda : Float,
+
+    var RC2Derecha:Float, //Dermatomas solo presentes en mapa posterior
+    var RS3Derecha:Float,
+    var RS4Derecha:Float,
+    var RS5Derecha: Float,
+    var RC2Izquierda:Float,
+    var RS3Izquierda:Float,
+    var RS4Izquierda:Float,
+    var RS5Izquierda: Float
 )

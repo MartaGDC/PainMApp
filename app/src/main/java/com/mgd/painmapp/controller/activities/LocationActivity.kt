@@ -55,7 +55,11 @@ class LocationActivity : AppCompatActivity() {
         val nerveNamesBack = InterpretationHelper.getBackPeripheralNerves(this)
         nerveNames = (nerveNamesFront + nerveNamesBack).toSet().toList() //To set elimina elementos duplicados.
         Log.d("nerveNames", nerveNames.toString())
-        dermatomeNames = InterpretationHelper.getFrontDermatomes(this)
+        val dermatomeNamesFront = InterpretationHelper.getFrontDermatomes(this)
+        val dermatomeNamesBack = InterpretationHelper.getBackDermatomes(this)
+        dermatomeNames = (dermatomeNamesFront + dermatomeNamesBack).toSet().toList()
+        Log.d("dermatomeNames", dermatomeNames.toString())
+
         initComponents()
         initListeners()
     }
@@ -248,7 +252,15 @@ class LocationActivity : AppCompatActivity() {
             nerves[dermatomeNames[46]]?:0f,
             nerves[dermatomeNames[47]]?:0f,
             nerves[dermatomeNames[48]]?:0f,
-            nerves[dermatomeNames[49]]?:0f
+            nerves[dermatomeNames[49]]?:0f,
+            nerves[dermatomeNames[50]]?:0f,
+            nerves[dermatomeNames[51]]?:0f,
+            nerves[dermatomeNames[52]]?:0f,
+            nerves[dermatomeNames[53]]?:0f,
+            nerves[dermatomeNames[54]]?:0f,
+            nerves[dermatomeNames[55]]?:0f,
+            nerves[dermatomeNames[56]]?:0f,
+            nerves[dermatomeNames[57]]?:0f
         ).toDatabase()
         idGeneratedMap = database.getMapDao().insertMap(mapEntity)
     }

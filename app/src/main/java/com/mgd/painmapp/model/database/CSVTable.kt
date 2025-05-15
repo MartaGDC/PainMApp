@@ -159,6 +159,15 @@ data class CSVTable (
     var RS1Izquierda : Float,
     var RS2Izquierda : Float,
 
+    var RC2Derecha:Float, //Dermatomas solo presentes en mapa posterior
+    var RS3Derecha:Float,
+    var RS4Derecha:Float,
+    var RS5Derecha: Float,
+    var RC2Izquierda:Float,
+    var RS3Izquierda:Float,
+    var RS4Izquierda:Float,
+    var RS5Izquierda: Float,
+
     val idSymptom: Long,
     val intensity: Float,
     val symptom: String,
