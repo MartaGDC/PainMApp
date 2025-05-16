@@ -61,7 +61,10 @@ class SummaryActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             listEntities = database.getEvaluationDao().getEvaluations()
             symptomsTable = database.getSymptomDao().getSymptomsTableByEvaluation(idGeneratedEvaluation)
+            val symptomFilas = TablesHelper.getSymptomsTable(symptomsTable)
             nervesTable = database.getMapDao().getNervesTableByEvaluation(idGeneratedEvaluation)
+            val nerveFilas = TablesHelper.prepareTableNerves(nervesTable, this@SummaryActivity)
+            val dermatomeFilas = TablesHelper.prepareTableDermatomes(nervesTable, this@SummaryActivity)
             val evaluationEntity = database.getEvaluationDao().getEvaluationById(idGeneratedEvaluation)
             runOnUiThread{
                 NavigationHelper.setupMenu(
@@ -74,9 +77,9 @@ class SummaryActivity : AppCompatActivity() {
                     idGeneratedEvaluation,
                     listEntities, dialogView, database, "summary",alreadyExists
                 )
-                TablesHelper.tableSymptoms(symptomsTable, tlPercentages, this@SummaryActivity)
-                TablesHelper.tableNerves(nervesTable, tlNerves, this@SummaryActivity)
-                TablesHelper.tableDermatomes(nervesTable, tlDermatomes, this@SummaryActivity)
+                TablesHelper.createSymptomsTable(symptomFilas, tlPercentages, this@SummaryActivity)
+                TablesHelper.createTables(nerveFilas, tlNerves, this@SummaryActivity)
+                TablesHelper.createTables(dermatomeFilas, tlDermatomes, this@SummaryActivity)
             }
         }
     }
