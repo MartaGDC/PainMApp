@@ -162,8 +162,8 @@ class SensorialActivity : AppCompatActivity() {
 
     private fun calcularTotales() {
         if (mvFrontReady && mvBackReady && idGeneratedEvaluation != (-1).toLong()) { //Hay registro de evaluación, y mapas disponibles
-            val resultFront = mvFront.calculateTotalPixels("frente")
-            val resultBack = mvBack.calculateTotalPixels("espalda")
+            val resultFront = mvFront.calculatePixels("frente")
+            val resultBack = mvBack.calculatePixels("espalda")
             val results = InterpretationHelper.calculatePercentage(resultFront, resultBack)
             val totalPercentage = results["total"] ?: 0f
             val totalRightPercentage = results["derecha"] ?: 0f

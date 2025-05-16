@@ -59,7 +59,7 @@ class MapViews(context: Context, attrs: AttributeSet) : MapResponsiveViews(conte
 
         matrix.reset()
     }
-    fun calculateTotalPixels(mapType:String): Map<String, List<Float>> {
-        return InterpretationHelper.calculateTotalPixels(width, height, listClean, bPaint, cPath, optimization=5, tipoMapa=mapType)
+    fun calculatePixels(mapType:String): Map<String, List<Float>> {
+        return InterpretationHelper.calculatePixels(context, width, height, listClean, bPaint, cPath, tipoMapa=mapType, escala=Matrix(), tipoCalculo="")
     }
 }

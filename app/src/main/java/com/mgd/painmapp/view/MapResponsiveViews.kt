@@ -186,7 +186,7 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
     }
     //Interpretación al guardar.
     fun calcularPixeles(tipoMapa:String): Map<String, List<Float>> {
-        return InterpretationHelper.calculatePixels(context, width, height, bPaths, bPaint, cPath, tipoMapa=tipoMapa, escala=scaleMatrix)
+        return InterpretationHelper.calculatePixels(context, width, height, bPaths, bPaint, cPath, tipoMapa=tipoMapa, escala=scaleMatrix, tipoCalculo="zonas")
     }
 
     //SVG del dibujo
