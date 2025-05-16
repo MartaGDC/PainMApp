@@ -2,6 +2,7 @@ package com.mgd.painmapp.view
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Matrix
@@ -219,6 +220,20 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
     }
 
     fun validateMap(): Boolean {
-        return bPaths.isNotEmpty()
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        canvas.clipPath(cPath)
+        for (bpath in bPaths) {
+            canvas.drawPath(bpath, bPaint) //lo dibuja sobre el canvas ya delimitado
+        }
+        for (x in 0 until bitmap.width step 10) {
+            for (y in 0 until bitmap.height step 10) {
+                val pixel = bitmap.getPixel(x, y)
+                if (Color.alpha(pixel) != 0) {
+                    return true
+                }
+            }
+        }
+        return false
     }
 }
