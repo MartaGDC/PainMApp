@@ -72,7 +72,7 @@ object NavigationHelper {
         CoroutineScope(Dispatchers.IO).launch {
             val csvTable = database.getMapDao().getFullCSV()
             context.runOnUiThread {
-                TablesHelper.exportCSV(csvTable)
+                TablesHelper.exportCSV(csvTable, context)
             }
         }
     }

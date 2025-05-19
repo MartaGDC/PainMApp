@@ -58,6 +58,7 @@ dependencies {
     implementation(libs.androidx.drawerlayout)
     //Preferences
     implementation (libs.androidx.datastore.preferences)
-
+    //JSon
+    implementation(libs.gson)
 
 }
