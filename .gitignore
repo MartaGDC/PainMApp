@@ -40,7 +40,6 @@ app/build/
 proguard-rules.pro
 
 # Miscellaneous
-*.apk
 *.ap_
 *.dex
 *.class
