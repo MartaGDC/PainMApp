@@ -74,8 +74,10 @@ object TablesHelper {
         val nerves = InterpretationHelper.getPeripheralNerves(context)
         val valoresFila = mutableListOf<List<String>>()
         for (symptom in nervesTable){
-            val symptomName = symptom.symptomOtherText.ifEmpty {
-                symptom.symptom
+            val symptomName = if(symptom.symptomOtherText.isEmpty()){
+                symptom.symptom.uppercase()
+            } else{
+                symptom.symptomOtherText.uppercase()
             }
             valoresFila.add(listOf(symptomName, "")) //nombre + celda vacia
             val typeToken = object : TypeToken<Map<String, Float>>() {}.type
@@ -95,8 +97,10 @@ object TablesHelper {
         val dermatomes = InterpretationHelper.getDermatomes(context)
         val valoresFila = mutableListOf<List<String>>()
         for (symptom in nervesTable){
-            val symptomName = symptom.symptomOtherText.ifEmpty {
-                symptom.symptom
+            val symptomName = if(symptom.symptomOtherText.isEmpty()){
+                symptom.symptom.uppercase()
+            } else{
+                symptom.symptomOtherText.uppercase()
             }
             valoresFila.add(listOf(symptomName, ""))
             val typeToken = object : TypeToken<Map<String, Float>>() {}.type

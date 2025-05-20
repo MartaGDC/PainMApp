@@ -22,6 +22,7 @@ interface EvaluationDao {
     @Query("DELETE FROM evaluations_table WHERE patient = :patient AND test = :test")
     fun deleteEvaluationByPatientAndTest(patient: String, test: String)
 
-    @Query("DELETE FROM evaluations_table WHERE idEvaluation NOT IN (SELECT idEvaluation FROM map_table)")
+    @Query("DELETE FROM evaluations_table WHERE idEvaluation NOT IN " +
+            "(SELECT idEvaluation FROM map_table)")
     fun eliminarEvaluacionesSinMapa()
 }

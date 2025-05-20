@@ -15,5 +15,4 @@ abstract class PatientDatabase : RoomDatabase() {
     abstract fun getEvaluationDao(): EvaluationDao
     abstract fun getSymptomDao(): SymptomDao
     abstract fun getMapDao(): MapDao
-
 }
