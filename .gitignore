@@ -32,10 +32,6 @@ local.properties
 .DS_Store
 Thumbs.db
 
-# Build directories
-app/build/
-*/build/
-
 # Proguard configuration files
 proguard-rules.pro
 
