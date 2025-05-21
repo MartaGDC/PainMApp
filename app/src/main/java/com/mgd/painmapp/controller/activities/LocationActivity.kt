@@ -93,9 +93,8 @@ class LocationActivity : AppCompatActivity() {
         }
     }
 
-    private suspend fun fillDatabase() {
+    private fun fillDatabase() {
         mapCalculate()
-
         val mapEntity = MapInterpretation(
             idGeneratedEvaluation,
             mrvFront.pathToSVGString(),

@@ -24,11 +24,10 @@ class MapViews(context: Context, attrs: AttributeSet) : MapResponsiveViews(conte
         val cDrawable = getDrawable(context, imgFuente)
         canvas.clipPath(cPath)
         cPath.computeBounds(bounds, true)
-        cDrawable?.setBounds(bounds.left.toInt(), bounds.top.toInt(), bounds.right.toInt(), bounds.bottom.toInt())
+        cDrawable?.setBounds(bounds.left.toInt()-1, bounds.top.toInt(), bounds.right.toInt(), bounds.bottom.toInt())
         cDrawable?.draw(canvas)
 
         val matrix =Matrix()
-
         if (paths.isNotEmpty()){
             val rectanguloEscala = PathParser.createPathFromPathData(paths[0])
             val boundsRectangulo = RectF()

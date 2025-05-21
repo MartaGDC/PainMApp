@@ -148,8 +148,7 @@ object  InterpretationHelper {
         return zones
     }
 
-
-    fun calculatePixels(context: Context, width: Int, height: Int, paths: List<Path>, bPaint: Paint, path: Path, optimization: Int = 10,
+    fun calculatePixels(context: Context, width: Int, height: Int, paths: List<Path>, bPaint: Paint, path: Path, optimization: Int = 20,
                         tipoMapa: String, escala: Matrix, tipoCalculo:String): Map<String, List<Float>> {
         /*Map es lo que sería un diccionario en python. En vez de acceder con indice se accede con clave
         Optimizacion porque si se revisan todos los pixels la aplicacion se bloque y tarda demasiado*/
@@ -167,6 +166,11 @@ object  InterpretationHelper {
         }
         val pixelsZona = mutableMapOf<String, Int>()
         val pintadosZona = mutableMapOf<String, Int>()
+        val region = Region()
+        val pathBounds = RectF()
+        path.computeBounds(pathBounds, true)
+        region.setPath(path, Region(pathBounds.left.toInt(), pathBounds.top.toInt(), pathBounds.right.toInt(), pathBounds.bottom.toInt()))
+
 
         if(tipoCalculo!="zonas"){ //Calculo de todos los sintomas a la vez, solo se calcularán afectaciones generales no por zonas
             zones = zones.entries
@@ -182,9 +186,26 @@ object  InterpretationHelper {
                 val pixel = bitmap.getPixel(x, y)
                 for ((nameZona, regionZona) in zones) {
                     if (regionZona.contains(x, y)) {
-                        pixelsZona[nameZona] = pixelsZona[nameZona]!! + 1
-                        if (Color.alpha(pixel) != 0) {
-                            pintadosZona[nameZona] = pintadosZona[nameZona]!! + 1
+                        if (region.contains(x, y)) {
+                            pixelsZona[nameZona] = pixelsZona[nameZona]!! + 1
+                            if (Color.alpha(pixel) != 0) {
+                                pintadosZona[nameZona] = pintadosZona[nameZona]!! + 1
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        for ((name, pixels) in pixelsZona) {
+            if (pixels==0){
+                for(x in 0 until bitmap.width step 10) {
+                    for (y in 0 until bitmap.height step 10) {
+                        val pixel = bitmap.getPixel(x, y)
+                        if((zones[name]?.contains(x,y) == true) && region.contains(x, y)) {
+                            pixelsZona[name] = pixelsZona[name]!! + 1
+                            if (Color.alpha(pixel) != 0) {
+                                pintadosZona[name] = pintadosZona[name]!! + 1
+                            }
                         }
                     }
                 }
@@ -195,7 +216,7 @@ object  InterpretationHelper {
                 for(x in 0 until bitmap.width step 5) {
                     for (y in 0 until bitmap.height step 5) {
                         val pixel = bitmap.getPixel(x, y)
-                        if(zones[name]?.contains(x,y) == true){
+                        if((zones[name]?.contains(x,y) == true) && region.contains(x, y)) {
                             pixelsZona[name] = pixelsZona[name]!! + 1
                             if (Color.alpha(pixel) != 0) {
                                 pintadosZona[name] = pintadosZona[name]!! + 1
@@ -205,8 +226,11 @@ object  InterpretationHelper {
                 }
             }
         }
-
-
+        /*for ((name, pixels) in pixelsZona) {
+            if (pixels == 0) {
+                pixelsZona[name] = 1
+            }
+        }*/
         val mapResults = mutableMapOf<String, List<Float>>()
         for ((name, _) in zones) {
             val total = pixelsZona[name] ?: 1 //para hacer toFloat hay que hacer tratamiento de nulos

@@ -72,7 +72,7 @@ class ChooseActivity : AppCompatActivity() {
             patientName,
             researcherName,
             currentDate,
-            idGeneratedEvaluation = -1,
+            idEval = -1,
             listEntities, dialogView, database
         )
     }
@@ -88,7 +88,7 @@ class ChooseActivity : AppCompatActivity() {
                     patientName,
                     researcherName,
                     currentDate,
-                    idGeneratedEvaluation = -1
+                    idEval = -1
                 )
             }
         }

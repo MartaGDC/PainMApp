@@ -7,11 +7,9 @@
     <string name="motorSymptoms">Síntomas motores</string>
     <string name="summary">Resumen</string>
     <string name="newPatient">Nuevo paciente</string>
-    <string name="openDrawerContentDescRes">openDrawer</string>
-    <string name="closeDrawerContentDescRes">closeDrawer</string>
     <string name="patient">Paciente</string>
     <string name="researcher">Investigador/a</string>
-    <string name="next">Siguente</string>
+    <string name="next">Siguiente</string>
     <string name="front_body">Cuerpo de frente</string>
     <string name="front">frente</string>
     <string name="back_body">Cuerpo de espaldas</string>
@@ -20,7 +18,6 @@
     <string name="symptom">Síntoma</string>
     <string name="score">intensidad</string>
     <string name="localization">Localización</string>
-    <string name="brush_width">Anchura del pincel</string>
     <string name="cancel">Cancelar</string>
     <string name="save">Guardar</string>
     <string name="right">Derecha</string>
@@ -66,7 +63,7 @@
     <string name="_7">7</string>
     <string name="_10">10</string>
     <string name="evaluation_already_done">Esta evaluación ya ha sido realizada en este paciente.</string>
-    <string name="what_to_do">¿Qué deseas hacer?</string>
+    <string name="what_to_do">¿Qué desea hacer?</string>
     <string name="see_patient_summary">Ver resumen del paciente</string>
     <string name="delete_overwrite">Borrar y sobrescribir evaluación</string>
     <string name="empty_field">Debe completar este campo</string>
@@ -76,7 +73,7 @@
     <string name="select_characteristics">Seleccione al menos una característica</string>
     <string name="downloading_csv">Descargando CSV...</string>
     <string name="back_main_menu">Volver al menú principal</string>
-    <string name="no_symptom">No hay ningún síntoma que mostrar</string>
+    <string name="no_evaluation">No se ha seleccionado ninguna evaluación</string>
     <string name="intensity_over0">La intensidad debe ser superior a 0</string>
     <string name="download_DB">Descargar CSV</string>
     <string name="dermatomes">Raíces nerviosas</string>

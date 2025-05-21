@@ -34,16 +34,3 @@ fun MapInterpretation.toDatabase() = MapEntity(
     nervios = nervios,
     dermatomas = dermatomas
 )
-fun MapEntity.toMapInterpretation() = MapInterpretation(
-    idEvaluation = idEvaluation,
-    pathsDrawnFront = pathsDrawnFront,
-    pathsDrawnBack = pathsDrawnBack,
-    totalPatientPercentage = totalPatientPercentage,
-    rightPatientPercentage = rightPatientPercentage,
-    leftPatientPercentage = leftPatientPercentage,
-    totalPercentage = totalPercentage,
-    rightPercentage = rightPercentage,
-    leftPercentage = leftPercentage,
-    nervios = nervios,
-    dermatomas = dermatomas
-)

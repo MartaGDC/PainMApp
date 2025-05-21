@@ -17,7 +17,7 @@ interface MapDao {
     fun getMapById(idMap: Long): MapEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertMap(map: MapEntity): Long //Para recuperar el id del registro insertado
+    fun insertMap(map: MapEntity): Long //Para recuperar el id del registro insertado
 
     @Query("SELECT pathsDrawnFront " +
             "FROM map_table " +

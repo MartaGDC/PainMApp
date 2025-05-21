@@ -120,8 +120,9 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
         canvas.save()
         canvas.clipPath(cPath)
         cPath.computeBounds(bounds, true)
-        cDrawable?.setBounds(bounds.left.toInt(), bounds.top.toInt(), bounds.right.toInt(), bounds.bottom.toInt())
+        cDrawable?.setBounds(bounds.left.toInt()-1, bounds.top.toInt(), bounds.right.toInt(), bounds.bottom.toInt())
         cDrawable?.draw(canvas)
+
         drawPathsOnCanvas(canvas)
         canvas.restore()
         /*for ((_, path) in InterpretationHelper.getRegions(context, scaleMatrix, imgSource)) {
@@ -132,6 +133,7 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
             })
         }*/
         canvas.drawPath(cPath, cPaint)
+
     }
 
 

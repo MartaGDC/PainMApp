@@ -2,7 +2,6 @@ package com.mgd.painmapp.controller
 
 import android.app.Activity
 import android.content.Intent
-import android.os.Environment
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -19,33 +18,27 @@ import com.mgd.painmapp.controller.activities.ChooseActivity
 import com.mgd.painmapp.controller.activities.MainActivity
 import com.mgd.painmapp.controller.activities.SensorialActivity
 import com.mgd.painmapp.controller.activities.SummaryActivity
-import com.mgd.painmapp.model.database.CSVTable
 import com.mgd.painmapp.model.database.PatientDatabase
 import com.mgd.painmapp.model.database.entities.EvaluationEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.io.File
-import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 object NavigationHelper {
-    fun navigateToChoose(context: Activity, patientName: String, researcherName: String){ //solo ocurre desde summary view si el paciente ya ha sido registrado y cerrado
+    fun navigateToChoose(context: Activity, patient: String, researcher: String){ //solo ocurre desde summary view si el paciente ya ha sido registrado y cerrado
         val intent = Intent(context, ChooseActivity::class.java).apply {
-            putExtra("patient_name", patientName)
-            putExtra("researcher_name", researcherName)
+            putExtra("patient_name", patient)
+            putExtra("researcher_name", researcher)
         }
         context.startActivity(intent)
     }
-    fun navigateToSensorial(context: Activity, patientName: String, researcherName: String, currentDate: String, idGeneratedEvaluation: Long) {
+    fun navigateToSensorial(context: Activity, patient: String, researcher: String, date: String, idEval: Long) {
         val intent = Intent(context, SensorialActivity::class.java).apply {
-            putExtra("patient_name", patientName)
-            putExtra("researcher_name", researcherName)
-            putExtra("date", currentDate)
+            putExtra("patient_name", patient)
+            putExtra("researcher_name", researcher)
+            putExtra("date", date)
             putExtra("type", "sensorial")
-            putExtra("idGeneratedEvaluation", idGeneratedEvaluation)
+            putExtra("idGeneratedEvaluation", idEval)
         }
         context.startActivity(intent)
     }
@@ -55,9 +48,9 @@ object NavigationHelper {
     fun navigateToPsychosocial() {
 
     }
-    private fun navigateToSummary(context: Activity, idGeneratedEvaluation: Long, alreadyExists:Boolean) {
+    private fun navigateToSummary(context: Activity, idEval: Long, alreadyExists:Boolean) {
         val intent = Intent(context, SummaryActivity::class.java).apply {
-            putExtra("idGeneratedEvaluation", idGeneratedEvaluation)
+            putExtra("idGeneratedEvaluation", idEval)
             putExtra("alreadyExists", alreadyExists)
         }
         context.startActivity(intent)
@@ -83,35 +76,36 @@ object NavigationHelper {
 
 
     //Menu
-    fun setupMenu(navView: NavigationView, drawerLayout: DrawerLayout, context: Activity, patientName: String,
-                  researcherName: String, currentDate: String, idGeneratedEvaluation: Long,
-                  listEntities: List<EvaluationEntity>?=null, dialogView: View?=null, database: PatientDatabase?=null,
-                  activity:String?=null, alreadyExists: Boolean=false) {
+    fun setupMenu(navView: NavigationView, drawerLayout: DrawerLayout, context: Activity, patient: String,
+                  researcher: String, date: String, idEval: Long, listEntities: List<EvaluationEntity>?=null,
+                  dialogView: View?=null, database: PatientDatabase?=null, activity:String?=null,
+                  alreadyExists: Boolean=false) {
         navView.setNavigationItemSelectedListener { menuItem ->
-            handleItemClick(menuItem, drawerLayout, context, patientName, researcherName, currentDate,
-                idGeneratedEvaluation, listEntities, dialogView, database, activity, alreadyExists)
+            handleItemClick(menuItem, drawerLayout, context, patient, researcher, date,
+                idEval, listEntities, dialogView, database, activity, alreadyExists)
             true
         }
     }
 
     private fun handleItemClick(menuItem: MenuItem, drawerLayout: DrawerLayout, context: Activity,
-                                patientName: String, researcherName: String, currentDate: String,
-                                idGeneratedEvaluation: Long, listEntities: List<EvaluationEntity>?=null,
-                                dialogView: View?=null, database: PatientDatabase?=null, actividad:String?=null, alreadyExists: Boolean) {
+                                patient: String, researcher: String, date: String, idEval: Long,
+                                listEntities: List<EvaluationEntity>?=null, dialogView: View?=null,
+                                database: PatientDatabase?=null, actividad:String?=null,
+                                alreadyExists: Boolean) {
         when (menuItem.itemId) {
             R.id.item_sensorial -> {
                 if(!listEntities.isNullOrEmpty() && dialogView!=null && database!=null) {
-                    if(validateUser("sensorial", listEntities, patientName, dialogView, context, database, researcherName, currentDate, actividad)){
-                        navigateToSensorial(context, patientName, researcherName, currentDate, idGeneratedEvaluation = -1)
+                    if(validateUser("sensorial", listEntities, patient, dialogView, context, database, researcher, date, actividad)){
+                        navigateToSensorial(context, patient, researcher, date, idEval = -1)
                     }
                 }
                 else{
-                    navigateToSensorial(context, patientName, researcherName, currentDate, idGeneratedEvaluation = idGeneratedEvaluation)
+                    navigateToSensorial(context, patient, researcher, date, idEval = idEval)
                 }
             }
             R.id.item_motor -> {
                 if(!listEntities.isNullOrEmpty() && dialogView!=null && database!=null) {
-                    if(validateUser("motor", listEntities, patientName, dialogView, context, database, researcherName, currentDate)){
+                    if(validateUser("motor", listEntities, patient, dialogView, context, database, researcher, date)){
                         navigateToMotor()
                     }
                 }
@@ -121,7 +115,7 @@ object NavigationHelper {
             }
             R.id.item_psychosocial -> {
                 if(!listEntities.isNullOrEmpty() && dialogView!=null && database!=null) {
-                    if(validateUser("psychosocial", listEntities, patientName, dialogView, context, database, researcherName, currentDate)){
+                    if(validateUser("psychosocial", listEntities, patient, dialogView, context, database, researcher, date)){
                         navigateToPsychosocial()
                     }
                 }
@@ -130,12 +124,12 @@ object NavigationHelper {
                 }
             }
             R.id.item_summary -> {
-                if (idGeneratedEvaluation ==(-1).toLong()) {
+                if (idEval ==(-1).toLong()) {
                     Toast.makeText(context,
-                        context.getString(R.string.no_symptom), Toast.LENGTH_SHORT).show()
+                        context.getString(R.string.no_evaluation), Toast.LENGTH_SHORT).show()
                 }
                 else{
-                    navigateToSummary(context, idGeneratedEvaluation, alreadyExists)
+                    navigateToSummary(context, idEval, alreadyExists)
                 }
             }
             R.id.item_new -> {
@@ -150,22 +144,22 @@ object NavigationHelper {
         drawerLayout.closeDrawer(GravityCompat.START)
     }
 
-    fun validateUser(test: String, listEntities: List<EvaluationEntity>, patientName: String,
-                     dialogView: View, context: Activity, database: PatientDatabase, researcherName: String,
-                     currentDate: String, activity:String?=null):Boolean {
-        if (listEntities.any {it.patientName == patientName && it.test == test}) { //Al iterar sobre cada entity de la lista, buscar el item con ese nombre y ese test
-            val idEvaluation = listEntities.first {it.patientName == patientName && it.test == test}.idEvaluation //Solo debe haber un registro. Elegimos first porque será el unico
+    fun validateUser(test: String, listEntities: List<EvaluationEntity>, patient: String, dialogView: View,
+                     context: Activity, database: PatientDatabase, researcher: String, date: String,
+                     activity:String?=null):Boolean {
+        if (listEntities.any {it.patientName == patient && it.test == test}) { //Al iterar sobre cada entity de la lista, buscar el item con ese nombre y ese test
+            val idEvaluation = listEntities.first {it.patientName == patient && it.test == test}.idEvaluation //Solo debe haber un registro. Elegimos first porque será el unico
             (dialogView.parent as? ViewGroup)?.removeView(dialogView) // Por si ha salido el dialogo y el usuario despues vuelto hacia atras a esta activity
             val dialog = AlertDialog.Builder(context).setView(dialogView).create()
             dialogView.findViewById<CardView>(R.id.btnOverwrite).setOnClickListener {
-                overwrite(test, database, context, patientName, researcherName, currentDate)
+                overwrite(test, database, context, patient, researcher, date)
                 dialog.dismiss()
             }
             if(activity=="summary"){
                 dialogView.findViewById<TextView>(R.id.seeSummary).text =
                     context.getString(R.string.back_main_menu)
                 dialogView.findViewById<CardView>(R.id.btnSummary).setOnClickListener {
-                    navigateToChoose(context, patientName, researcherName)
+                    navigateToChoose(context, patient, researcher)
                     dialog.dismiss()
                 }
             }
@@ -183,28 +177,15 @@ object NavigationHelper {
         }
         return true
     }
-    private fun overwrite(test: String, database: PatientDatabase, context: Activity, patientName: String, researcherName: String, currentDate: String){
+    private fun overwrite(test: String, database: PatientDatabase, context: Activity, patient: String,
+                          researcher: String, date: String){
         CoroutineScope(Dispatchers.IO).launch {
-            database.getEvaluationDao().deleteEvaluationByPatientAndTest(patientName, test) //No es necesario eliminar en symptom table por las inner joins.
+            database.getEvaluationDao().deleteEvaluationByPatientAndTest(patient, test) //No es necesario eliminar en symptom table por las inner joins.
         }
         when (test) {
-            "sensorial" -> {
-                navigateToSensorial(
-                    context,
-                    patientName,
-                    researcherName,
-                    currentDate,
-                    idGeneratedEvaluation = -1
-                )
-            }
-
-            "motor" -> {
-                navigateToMotor()
-            }
-
-            else -> {
-                navigateToPsychosocial()
-            }
+            "sensorial" -> { navigateToSensorial(context, patient, researcher, date, idEval = -1) }
+            "motor" -> { navigateToMotor() }
+            else -> { navigateToPsychosocial() }
         }
     }
 }

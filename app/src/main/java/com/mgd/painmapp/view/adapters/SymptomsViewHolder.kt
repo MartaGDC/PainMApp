@@ -22,9 +22,5 @@ class SymptomsViewHolder (view: View, private val context: Context):RecyclerView
         else{
             binding.tvSymptom.text = symptom.symptom
         }
-        /*binding.cvSymptom.setOnClickListener{  //_______________________________________
-            //Cambiar para incluir los intents necesarios
-            context.startActivity(Intent(context, LocationActivity::class.java))
-        }*/
     }
 }

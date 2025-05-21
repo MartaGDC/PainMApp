@@ -9,7 +9,6 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.room.Room
 import com.google.android.material.navigation.NavigationView
 import com.mgd.painmapp.R
-import com.mgd.painmapp.controller.InterpretationHelper
 import com.mgd.painmapp.controller.NavigationHelper
 import com.mgd.painmapp.controller.TablesHelper
 import com.mgd.painmapp.databinding.ActivitySummaryBinding

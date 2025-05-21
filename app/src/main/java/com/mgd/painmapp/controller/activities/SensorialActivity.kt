@@ -171,7 +171,6 @@ class SensorialActivity : AppCompatActivity() {
             CoroutineScope(Dispatchers.IO).launch {
                 database.getMapDao().updatePatientPercentages(idGeneratedEvaluation, totalPercentage, totalRightPercentage, totalLeftPercentage)
             }
-
         }
     }
 
