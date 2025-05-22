@@ -11,6 +11,7 @@ import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.PathParser
 import com.mgd.painmapp.controller.InterpretationHelper
 import com.mgd.painmapp.model.storage.ColorBrush
+import com.mgd.painmapp.model.storage.ColorBrush.colorList
 
 class MapViews(context: Context, attrs: AttributeSet) : MapResponsiveViews(context, attrs) {
     lateinit var paths: List<String>
@@ -47,11 +48,11 @@ class MapViews(context: Context, attrs: AttributeSet) : MapResponsiveViews(conte
             val dibujos = PathParser.createPathFromPathData(path)
             dibujos.transform(matrix)
             listClean.add(dibujos)
-            var color = ColorBrush.colorList[count]
+            var color = colorList[count]
             color = ColorUtils.setAlphaComponent(color, (0.8f * 255).toInt())
             bPaint.color = color
             bPaint.strokeWidth = 7.2f
-            count = (count + 1) % ColorBrush.colorList.size
+            count = (count + 1) % colorList.size
             canvas.drawPath(dibujos, bPaint)
         }
         canvas.drawPath(cPath, cPaint)

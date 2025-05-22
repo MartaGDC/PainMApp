@@ -3,18 +3,13 @@ package com.mgd.painmapp.controller
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import android.os.Environment
-import android.text.style.BackgroundColorSpan
 import android.view.Gravity
-import android.view.View
-import android.widget.LinearLayout
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
-import androidx.core.content.ContextCompat.getColor
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.mgd.painmapp.R
-import com.mgd.painmapp.controller.TablesHelper.insertCell
 import com.mgd.painmapp.model.database.CSVTable
 import com.mgd.painmapp.model.database.NervesTable
 import com.mgd.painmapp.model.database.SymptomTable
@@ -164,8 +159,6 @@ object TablesHelper {
         }
     }
 
-
-
     private fun TableRow.insertCell(userText: String, caps: Boolean, gravity: Int, color:Int?=null) {
         val cell = TextView(context).apply {
             text = userText
@@ -198,7 +191,7 @@ object TablesHelper {
             "totalPercentage", "rightPercentage", "leftPercentage") +
                 nerviosNames + dermatomasNames + listOf(
             "idSymptom", "intensity", "symptom", "symptomOtherText", "charactAgitating", "charactMiserable", "charactAnnoying", "charactUnbearable", "charactFatiguing",
-            "charactPiercing", "charactOther", "charactOtherText", "timeContinuous", "timeWhen"
+            "charactPiercing", "charactOther", "charactOtherText", "time", "timeWhen"
         )
         val downloads = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
         val file = File(downloads, fileName)
@@ -208,42 +201,44 @@ object TablesHelper {
             writer.newLine()
             for (row in csvTable) {
                 val typeToken = object : TypeToken<Map<String, Float>>() {}.type
-                val mapNervios = Gson().fromJson<Map<String, Float>>(row.nervios, typeToken)
+                val mapNervios = Gson().fromJson<Map<String, Float>>(row.map.nervios, typeToken)
                 val nerviosValues = nerviosNames.map { nerveName ->
                     mapNervios[nerveName].toString().replace('.', ',')
                 }
-                val mapDermatomas = Gson().fromJson<Map<String, Float>>(row.nervios, typeToken)
+                val mapDermatomas = Gson().fromJson<Map<String, Float>>(row.map.dermatomas, typeToken)
                 val dermatomasValues = dermatomasNames.map { dermatomeName ->
                     mapDermatomas[dermatomeName].toString().replace('.', ',')
                 }
                 val csvRow = (listOf(
                     row.idEvaluation,
-                    row.patient,
-                    row.researcher,
-                    row.date,
-                    row.test,
+                    row.evaluation.name,
+                    row.evaluation.researcher,
+                    row.evaluation.date,
+                    row.evaluation.test,
                     row.idMap,
-                    row.totalPatientPercentage.toString().replace('.', ','),
-                    row.rightPatientPercentage.toString().replace('.', ','),
-                    row.leftPatientPercentage.toString().replace('.', ','),
-                    row.totalPercentage.toString().replace('.', ','),
-                    row.rightPercentage.toString().replace('.', ','),
-                    row.leftPercentage.toString().replace('.', ',')) +
-                        nerviosValues + dermatomasValues + listOf(
+                    row.map.totalPatientPercentage.toString().replace('.', ','),
+                    row.map.rightPatientPercentage.toString().replace('.', ','),
+                    row.map.leftPatientPercentage.toString().replace('.', ','),
+                    row.map.totalPercentage.toString().replace('.', ','),
+                    row.map.rightPercentage.toString().replace('.', ','),
+                    row.map.leftPercentage.toString().replace('.', ',')) +
+                        nerviosValues +
+                        dermatomasValues +
+                        listOf(
                     row.idSymptom,
-                    row.intensity.toString().replace('.', ','),
-                    row.symptom,
-                    row.symptomOtherText,
-                    row.charactAgitating,
-                    row.charactMiserable,
-                    row.charactAnnoying,
-                    row.charactUnbearable,
-                    row.charactFatiguing,
-                    row.charactPiercing,
-                    row.charactOther,
-                    row.charactOtherText,
-                    row.timeContinuous,
-                    row.timeWhen)
+                    row.symptom.intensity.toString().replace('.', ','),
+                    row.symptom.symptom,
+                    row.symptom.symptomOtherText,
+                    row.symptom.charactAgitating,
+                    row.symptom.charactMiserable,
+                    row.symptom.charactAnnoying,
+                    row.symptom.charactUnbearable,
+                    row.symptom.charactFatiguing,
+                    row.symptom.charactPiercing,
+                    row.symptom.charactOther,
+                    row.symptom.charactOtherText,
+                    row.symptom.time,
+                    row.symptom.timeWhen)
                 ).joinToString(";") { it.toString() }
                 writer.write(csvRow)
                 writer.newLine()

@@ -19,6 +19,7 @@ import android.graphics.PathMeasure
 import com.mgd.painmapp.R
 import com.mgd.painmapp.controller.InterpretationHelper
 import com.mgd.painmapp.model.storage.ColorBrush
+import com.mgd.painmapp.model.storage.ColorBrush.colorList
 import com.mgd.painmapp.model.storage.ColorBrush.getColorIndex
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -38,7 +39,6 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
         strokeWidth = 8f // PENSAR LO DEL SLIDE PARA EL TAMAÑO DEL PICEL. Si no hago zoom sobre el canvas, este tamaño esta bien, y no lo cambiaria
     }
     private var colorIndex = 0
-    private val colorList = ColorBrush.colorList
     //Variables para crear el canva con forma humana
     private val bounds = RectF()
     val cPath = Path() //El trazo de la forma humana (en el xml del drawable seleccionado, será el primer path)
