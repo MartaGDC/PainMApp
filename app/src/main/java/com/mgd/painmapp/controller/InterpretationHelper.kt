@@ -10,7 +10,6 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.RectF
 import android.graphics.Region
-import android.util.Log
 import androidx.core.graphics.PathParser
 import com.mgd.painmapp.R
 import org.xmlpull.v1.XmlPullParser
@@ -148,11 +147,8 @@ object  InterpretationHelper {
         return zones
     }
 
-    fun calculatePixels(context: Context, width: Int, height: Int, paths: List<Path>, bPaint: Paint, path: Path, optimization: Int = 20,
+    fun calculatePixels(context: Context, width: Int, height: Int, paths: List<Path>, bPaint: Paint, path: Path,
                         tipoMapa: String, escala: Matrix, tipoCalculo:String): Map<String, List<Float>> {
-        /*Map es lo que sería un diccionario en python. En vez de acceder con indice se accede con clave
-        Optimizacion porque si se revisan todos los pixels la aplicacion se bloque y tarda demasiado*/
-
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvasCalculos = Canvas(bitmap) //Lo que se haga en canvasCalculos se estará haciendo también en el bitmap
         canvasCalculos.clipPath(path) //mascara para darle forma humana
@@ -181,56 +177,21 @@ object  InterpretationHelper {
             pixelsZona[name] = 0 //inicializa la cuenta de pixeles cuya clave recibe el string (first) del primer par (zona) que contiene zonas
             pintadosZona[name] = 0
         }
-        for (x in 0 until bitmap.width step optimization) {
-            for (y in 0 until bitmap.height step optimization) {
-                val pixel = bitmap.getPixel(x, y)
-                for ((nameZona, regionZona) in zones) {
-                    if (regionZona.contains(x, y)) {
-                        if (region.contains(x, y)) {
-                            pixelsZona[nameZona] = pixelsZona[nameZona]!! + 1
-                            if (Color.alpha(pixel) != 0) {
-                                pintadosZona[nameZona] = pintadosZona[nameZona]!! + 1
-                            }
+        for ((name, _) in pixelsZona) { //solucion de un bottleneck (R S5 izquierda), que además ha mejorado el rendimiento de la aplicacion
+            val bounds = zones[name]?.bounds
+            for(x in bounds?.left!! until bounds.right step 3) {
+                for (y in bounds.top until bounds.bottom step 3) {
+                    val pixel = bitmap.getPixel(x, y)
+                    if((zones[name]?.contains(x,y) == true) && region.contains(x, y)) {
+                        pixelsZona[name] = pixelsZona[name]!! + 1
+                        if (Color.alpha(pixel) != 0) {
+                            pintadosZona[name] = pintadosZona[name]!! + 1
                         }
                     }
                 }
             }
         }
-        for ((name, pixels) in pixelsZona) {
-            if (pixels==0){
-                for(x in 0 until bitmap.width step 10) {
-                    for (y in 0 until bitmap.height step 10) {
-                        val pixel = bitmap.getPixel(x, y)
-                        if((zones[name]?.contains(x,y) == true) && region.contains(x, y)) {
-                            pixelsZona[name] = pixelsZona[name]!! + 1
-                            if (Color.alpha(pixel) != 0) {
-                                pintadosZona[name] = pintadosZona[name]!! + 1
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        for ((name, pixels) in pixelsZona) {
-            if (pixels==0){
-                for(x in 0 until bitmap.width step 5) {
-                    for (y in 0 until bitmap.height step 5) {
-                        val pixel = bitmap.getPixel(x, y)
-                        if((zones[name]?.contains(x,y) == true) && region.contains(x, y)) {
-                            pixelsZona[name] = pixelsZona[name]!! + 1
-                            if (Color.alpha(pixel) != 0) {
-                                pintadosZona[name] = pintadosZona[name]!! + 1
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        /*for ((name, pixels) in pixelsZona) {
-            if (pixels == 0) {
-                pixelsZona[name] = 1
-            }
-        }*/
+
         val mapResults = mutableMapOf<String, List<Float>>()
         for ((name, _) in zones) {
             val total = pixelsZona[name] ?: 1 //para hacer toFloat hay que hacer tratamiento de nulos
