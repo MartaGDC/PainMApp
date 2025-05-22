@@ -1,17 +1,24 @@
 package com.mgd.painmapp.controller
 
 import android.content.Context
+import android.graphics.drawable.GradientDrawable
 import android.os.Environment
+import android.text.style.BackgroundColorSpan
 import android.view.Gravity
+import android.view.View
+import android.widget.LinearLayout
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
+import androidx.core.content.ContextCompat.getColor
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.mgd.painmapp.R
+import com.mgd.painmapp.controller.TablesHelper.insertCell
 import com.mgd.painmapp.model.database.CSVTable
 import com.mgd.painmapp.model.database.NervesTable
 import com.mgd.painmapp.model.database.SymptomTable
+import com.mgd.painmapp.model.storage.ColorBrush.colorList
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -19,12 +26,12 @@ import java.util.Date
 import java.util.Locale
 
 object TablesHelper {
-    fun getSymptomsTable(symptomsTable: List<SymptomTable>): List<List<String>> {
-        val valoresFila = mutableListOf<List<String>>()
-        valoresFila.add(listOf("", "", "% de área corporal", "% derecho", "% izquierdo"))
+    fun getSymptomsTable(symptomsTable: List<SymptomTable>): List<MutableList<String>> {
+        val valoresFila = mutableListOf<MutableList<String>>()
+        valoresFila.add(mutableListOf("", "", "% de área corporal", "% derecho", "% izquierdo"))
         val general = symptomsTable.first()
         valoresFila.add(
-            listOf(
+            mutableListOf(
                 "General",
                 "",
                 String.format(Locale.getDefault(), "%.1f%%", general.totalPatientPercentage),
@@ -33,9 +40,13 @@ object TablesHelper {
             )
         )
         var firstSymptom = true
+        var symptomName: String
         for (symptom in symptomsTable) {
-            val symptomName = symptom.symptomOtherText.ifEmpty {
-                symptom.symptom
+            if (symptom.symptomOtherText.isNotEmpty()){
+                symptomName = symptom.symptomOtherText +"_:_"
+            }
+            else {
+                symptomName = symptom.symptom + "_:_"
             }
             val valores = mutableListOf<String>()
             if(firstSymptom) {
@@ -54,8 +65,9 @@ object TablesHelper {
         return valoresFila
     }
 
-    fun createSymptomsTable(filas: List<List<String>>, table:TableLayout, context:Context) {
+    fun createSymptomsTable(filas: List<MutableList<String>>, table:TableLayout, context:Context) {
         table.removeAllViews()
+        var index = 0
         for (fila in filas) {
             val row = TableRow(context)
             for (x in fila.indices) {
@@ -64,74 +76,89 @@ object TablesHelper {
                     0 -> Gravity.START
                     else -> Gravity.CENTER
                 }
-                row.insertCell(fila[x], caps, gravity)
+                if(fila[x].contains("_:_")){
+                    var color = colorList[index++]
+                    fila[x] = fila[x].removeSuffix("_:_")
+                    row.insertCell(fila[x], caps, gravity, color)
+                }
+                else{
+                    row.insertCell(fila[x], caps, gravity)
+                }
             }
             table.addView(row)
         }
     }
 
-    fun prepareTableNerves(nervesTable: List<NervesTable>, context:Context): List<List<String>> {
+    fun prepareTableNerves(nervesTable: List<NervesTable>, context:Context): List<MutableList<String>> {
         val nerves = InterpretationHelper.getPeripheralNerves(context)
-        val valoresFila = mutableListOf<List<String>>()
+        val valoresFila = mutableListOf<MutableList<String>>()
+        var symptomName: String
         for (symptom in nervesTable){
-            val symptomName = if(symptom.symptomOtherText.isEmpty()){
-                symptom.symptom.uppercase()
-            } else{
-                symptom.symptomOtherText.uppercase()
+            if (symptom.symptomOtherText.isNotEmpty()){
+                symptomName = symptom.symptomOtherText +"_:_"
             }
-            valoresFila.add(listOf(symptomName, "")) //nombre + celda vacia
+            else {
+                symptomName = symptom.symptom + "_:_"
+            }
+            valoresFila.add(mutableListOf(symptomName, "")) //nombre + celda vacia
             val typeToken = object : TypeToken<Map<String, Float>>() {}.type
             val mapNervios = Gson().fromJson<Map<String, Float>>(symptom.map.nervios, typeToken)
             val valores = mapNervios.values.toList()
             for(x in valores.indices step 1){
                 if (valores[x] != 0f) {
                     val name = nerves[x]
-                    valoresFila.add(listOf(name, String.format(Locale.getDefault(), "%.1f%%", valores[x])))
+                    valoresFila.add(mutableListOf(name, String.format(Locale.getDefault(), "%.1f%%", valores[x])))
                 }
             }
         }
         return valoresFila
     }
 
-    fun prepareTableDermatomes(nervesTable: List<NervesTable>, context:Context): List<List<String>> {
+    fun prepareTableDermatomes(nervesTable: List<NervesTable>, context:Context): List<MutableList<String>> {
         val dermatomes = InterpretationHelper.getDermatomes(context)
-        val valoresFila = mutableListOf<List<String>>()
+        val valoresFila = mutableListOf<MutableList<String>>()
+        var symptomName: String
         for (symptom in nervesTable){
-            val symptomName = if(symptom.symptomOtherText.isEmpty()){
-                symptom.symptom.uppercase()
-            } else{
-                symptom.symptomOtherText.uppercase()
+            if (symptom.symptomOtherText.isNotEmpty()){
+                symptomName = symptom.symptomOtherText +"_:_"
             }
-            valoresFila.add(listOf(symptomName, ""))
+            else {
+                symptomName = symptom.symptom + "_:_"
+            }
+            valoresFila.add(mutableListOf(symptomName, ""))
             val typeToken = object : TypeToken<Map<String, Float>>() {}.type
             val mapDermatomas = Gson().fromJson<Map<String, Float>>(symptom.map.dermatomas, typeToken)
             val valores = mapDermatomas.values.toList()
             for(x in valores.indices step 1){
                 if (valores[x] != 0f) {
                     val name = dermatomes[x]
-                    valoresFila.add(listOf(name, String.format(Locale.getDefault(), "%.1f%%", valores[x])))
+                    valoresFila.add(mutableListOf(name, String.format(Locale.getDefault(), "%.1f%%", valores[x])))
                 }
             }
         }
         return valoresFila
     }
 
-    fun createTables(filas: List<List<String>>, table:TableLayout, context:Context) {
+    fun createTables(filas: List<MutableList<String>>, table:TableLayout, context:Context) {
+        var index = 0
         table.removeAllViews()
         for (fila in filas) {
             val row = TableRow(context)
             for (x in fila.indices) {
-                val cell = TextView(context).apply {
-                    text = fila[x]
-                    setTextAppearance(R.style.Small_table)
-                    setPadding(8, 8, 8, 8)
-                    gravity = if (x == 0) {
-                        Gravity.START
-                    } else {
-                        Gravity.CENTER
-                    }
+                var gravity = if (x == 0) {
+                    Gravity.START
+                } else {
+                    Gravity.CENTER
                 }
-                row.addView(cell)
+                if (fila[x].contains("_:_")) {
+                    val color = colorList[index++]
+                    fila[x] = fila[x].removeSuffix("_:_")
+                    gravity = Gravity.CENTER
+                    row.insertCell(fila[x], true, gravity, color)
+                }
+                else{
+                    row.insertCell(fila[x], false, gravity)
+                }
             }
             table.addView(row)
         }
@@ -139,18 +166,25 @@ object TablesHelper {
 
 
 
-    private fun TableRow.insertCell(userText: String, caps: Boolean, gravity: Int){
-        val cell = TextView(context).apply{
+    private fun TableRow.insertCell(userText: String, caps: Boolean, gravity: Int, color:Int?=null) {
+        val cell = TextView(context).apply {
             text = userText
             layoutParams = TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1f)
             setTextAppearance(R.style.Small_table)
             isAllCaps = caps
             setGravity(gravity)
             setPadding(8, 8, 8, 8)
+            if (color != null) {
+                background = GradientDrawable().apply {
+                    shape = GradientDrawable.RECTANGLE
+                    setStroke(5, color)
+                    cornerRadius = 8f
+                }
+            }
         }
         addView(cell)
     }
-    
+
     fun exportCSV(csvTable: List<CSVTable>, context: Context): File?{
         val dateFormat = SimpleDateFormat("yyyyMMdd_HH.mm.ss", Locale.getDefault())
         val formattedDate = dateFormat.format(Date())
