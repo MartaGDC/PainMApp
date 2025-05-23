@@ -10,7 +10,6 @@ import androidx.core.content.ContextCompat.*
 import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.PathParser
 import com.mgd.painmapp.controller.InterpretationHelper
-import com.mgd.painmapp.model.storage.ColorBrush
 import com.mgd.painmapp.model.storage.ColorBrush.colorList
 
 class MapViews(context: Context, attrs: AttributeSet) : MapResponsiveViews(context, attrs) {

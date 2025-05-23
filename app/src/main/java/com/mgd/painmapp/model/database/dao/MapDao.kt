@@ -62,7 +62,8 @@ interface MapDao {
 
     @Query("SELECT evaluations_table.*, map_table.*, symptoms_table.* " +
             "FROM evaluations_table " +
-            "JOIN map_table ON evaluations_table.idEvaluation =map_table.idEvaluation"+
-            " JOIN symptoms_table ON map_table.idMap = symptoms_table.idMap")
+            "INNER JOIN map_table ON evaluations_table.idEvaluation = " +
+            "map_table.idEvaluation "+
+            "INNER JOIN symptoms_table ON map_table.idMap = symptoms_table.idMap")
     fun getFullCSV(): List<CSVTable>
 }

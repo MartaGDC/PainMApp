@@ -1,12 +1,32 @@
 package com.mgd.painmapp.model.database
 
-import androidx.room.Embedded
-
 data class CSVTable (
     val idEvaluation: Long,
-    @Embedded val evaluation: Evaluation,
+    val patient: String,
+    val researcher: String,
+    val date: String,
+    val test: String,
     val idMap: Long,
-    @Embedded val map: MapInterpretation,
+    val totalPatientPercentage: Float,
+    val rightPatientPercentage: Float,
+    val leftPatientPercentage: Float,
+    val totalPercentage: Float,
+    val rightPercentage: Float,
+    val leftPercentage: Float,
+    val nervios: String,
+    val dermatomas: String,
     val idSymptom: Long,
-    @Embedded val symptom: Symptom
+    val intensity: Float,
+    val symptom: String,
+    val symptomOtherText: String,
+    val charactAgitating: Boolean,
+    val charactMiserable: Boolean,
+    val charactAnnoying: Boolean,
+    val charactUnbearable: Boolean,
+    val charactFatiguing: Boolean,
+    val charactPiercing: Boolean,
+    val charactOther: Boolean,
+    val charactOtherText: String,
+    val time: String,
+    val timeWhen: String
 )

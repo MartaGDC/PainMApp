@@ -18,7 +18,6 @@ import org.xmlpull.v1.XmlPullParser
 import android.graphics.PathMeasure
 import com.mgd.painmapp.R
 import com.mgd.painmapp.controller.InterpretationHelper
-import com.mgd.painmapp.model.storage.ColorBrush
 import com.mgd.painmapp.model.storage.ColorBrush.colorList
 import com.mgd.painmapp.model.storage.ColorBrush.getColorIndex
 import kotlinx.coroutines.CoroutineScope

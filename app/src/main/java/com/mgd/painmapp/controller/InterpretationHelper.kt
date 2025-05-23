@@ -61,7 +61,7 @@ object  InterpretationHelper {
         return getElements(context, imgSource).keys.toList()
     }
     fun getPeripheralNerves(context:Context): List<String> {
-        val nerveNames = (getFrontPeripheralNerves(context) + getBackPeripheralNerves(context)).toSet().toList() //To set elimina elementos duplicados.
+        val nerveNames = (getFrontPeripheralNerves(context) + getBackPeripheralNerves(context)).toSet().toList() //toSet elimina elementos duplicados.
         return nerveNames
     }
 

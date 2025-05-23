@@ -12,10 +12,7 @@ import com.mgd.painmapp.R
 import com.mgd.painmapp.controller.NavigationHelper
 import com.mgd.painmapp.controller.TablesHelper
 import com.mgd.painmapp.databinding.ActivitySummaryBinding
-import com.mgd.painmapp.model.database.NervesTable
 import com.mgd.painmapp.model.database.PatientDatabase
-import com.mgd.painmapp.model.database.SymptomTable
-import com.mgd.painmapp.model.database.entities.EvaluationEntity
 import com.mgd.painmapp.view.MapViews
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -36,9 +33,6 @@ class SummaryActivity : AppCompatActivity() {
     private var idGeneratedEvaluation: Long = -1
     private var alreadyExists: Boolean = false
     private lateinit var database: PatientDatabase
-    private lateinit var listEntities: List<EvaluationEntity>
-    private lateinit var symptomsTable: List<SymptomTable>
-    private lateinit var nervesTable: List<NervesTable>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,10 +49,10 @@ class SummaryActivity : AppCompatActivity() {
         initListeners()
 
         CoroutineScope(Dispatchers.IO).launch {
-            listEntities = database.getEvaluationDao().getEvaluations()
-            symptomsTable = database.getSymptomDao().getSymptomsTableByEvaluation(idGeneratedEvaluation)
+            val listEntities = database.getEvaluationDao().getEvaluations()
+            val symptomsTable = database.getSymptomDao().getSymptomsTableByEvaluation(idGeneratedEvaluation)
             val symptomFilas = TablesHelper.getSymptomsTable(symptomsTable)
-            nervesTable = database.getMapDao().getNervesTableByEvaluation(idGeneratedEvaluation)
+            val nervesTable = database.getMapDao().getNervesTableByEvaluation(idGeneratedEvaluation)
             val nerveFilas = TablesHelper.prepareTableNerves(nervesTable, this@SummaryActivity)
             val dermatomeFilas = TablesHelper.prepareTableDermatomes(nervesTable, this@SummaryActivity)
             val evaluationEntity = database.getEvaluationDao().getEvaluationById(idGeneratedEvaluation)

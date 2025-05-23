@@ -201,44 +201,44 @@ object TablesHelper {
             writer.newLine()
             for (row in csvTable) {
                 val typeToken = object : TypeToken<Map<String, Float>>() {}.type
-                val mapNervios = Gson().fromJson<Map<String, Float>>(row.map.nervios, typeToken)
+                val mapNervios = Gson().fromJson<Map<String, Float>>(row.nervios, typeToken)
                 val nerviosValues = nerviosNames.map { nerveName ->
                     mapNervios[nerveName].toString().replace('.', ',')
                 }
-                val mapDermatomas = Gson().fromJson<Map<String, Float>>(row.map.dermatomas, typeToken)
+                val mapDermatomas = Gson().fromJson<Map<String, Float>>(row.dermatomas, typeToken)
                 val dermatomasValues = dermatomasNames.map { dermatomeName ->
                     mapDermatomas[dermatomeName].toString().replace('.', ',')
                 }
                 val csvRow = (listOf(
                     row.idEvaluation,
-                    row.evaluation.name,
-                    row.evaluation.researcher,
-                    row.evaluation.date,
-                    row.evaluation.test,
+                    row.patient,
+                    row.researcher,
+                    row.date,
+                    row.test,
                     row.idMap,
-                    row.map.totalPatientPercentage.toString().replace('.', ','),
-                    row.map.rightPatientPercentage.toString().replace('.', ','),
-                    row.map.leftPatientPercentage.toString().replace('.', ','),
-                    row.map.totalPercentage.toString().replace('.', ','),
-                    row.map.rightPercentage.toString().replace('.', ','),
-                    row.map.leftPercentage.toString().replace('.', ',')) +
+                    row.totalPatientPercentage.toString().replace('.', ','),
+                    row.rightPatientPercentage.toString().replace('.', ','),
+                    row.leftPatientPercentage.toString().replace('.', ','),
+                    row.totalPercentage.toString().replace('.', ','),
+                    row.rightPercentage.toString().replace('.', ','),
+                    row.leftPercentage.toString().replace('.', ',')) +
                         nerviosValues +
                         dermatomasValues +
                         listOf(
                     row.idSymptom,
-                    row.symptom.intensity.toString().replace('.', ','),
-                    row.symptom.symptom,
-                    row.symptom.symptomOtherText,
-                    row.symptom.charactAgitating,
-                    row.symptom.charactMiserable,
-                    row.symptom.charactAnnoying,
-                    row.symptom.charactUnbearable,
-                    row.symptom.charactFatiguing,
-                    row.symptom.charactPiercing,
-                    row.symptom.charactOther,
-                    row.symptom.charactOtherText,
-                    row.symptom.time,
-                    row.symptom.timeWhen)
+                    row.intensity.toString().replace('.', ','),
+                    row.symptom,
+                    row.symptomOtherText,
+                    row.charactAgitating,
+                    row.charactMiserable,
+                    row.charactAnnoying,
+                    row.charactUnbearable,
+                    row.charactFatiguing,
+                    row.charactPiercing,
+                    row.charactOther,
+                    row.charactOtherText,
+                    row.time,
+                    row.timeWhen)
                 ).joinToString(";") { it.toString() }
                 writer.write(csvRow)
                 writer.newLine()

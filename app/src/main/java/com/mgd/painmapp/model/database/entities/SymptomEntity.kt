@@ -20,7 +20,7 @@ data class SymptomEntity (
     @ColumnInfo(name="charactPiercing") val charactPiercing : Boolean,
     @ColumnInfo(name="charactOther") val charactOther : Boolean,
     @ColumnInfo(name="charactOtherText") val charactOtherText : String,
-    @ColumnInfo(name="timeContinuous") val time : String,
+    @ColumnInfo(name="time") val time : String,
     @ColumnInfo(name="timeWhen") val timeWhen : String
 )
 

@@ -14,7 +14,7 @@ interface SymptomDao {
 
     @Query("SELECT idSymptom, symptoms_table.idMap, intensity, symptom, symptomOtherText, charactAgitating, " +
             "charactMiserable, charactAnnoying, charactUnbearable, charactFatiguing, " +
-            "charactPiercing, charactOther, charactOtherText, timeContinuous, timeWhen " +
+            "charactPiercing, charactOther, charactOtherText, time, timeWhen " +
             "FROM symptoms_table " +
             "INNER JOIN map_table ON symptoms_table.idMap = map_table.idMap " +
             "WHERE map_table.idEvaluation = :idEvaluation")
