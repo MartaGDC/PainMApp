@@ -194,12 +194,12 @@
       android:fillColor="#96ff96"
       android:fillAlpha="0.5"/>
   <path
-      android:name="Nervio cutáneo braquial post y lat inf derecho"
+      android:name="N cutáneo braquial post y lat inf derecho"
       android:pathData="M191.34,133.66s-3.79,5.52 -8.96,5.34c-5.18,-0.18 -10.66,-3.13 -10.66,-3.13s5.63,17.95 7,29.5c1.37,11.56 4.16,12.61 -1.5,16.72 -0.81,3.3 0.74,5.08 1.84,6.38 1.1,1.48 4.6,1.8 6.85,6.28 0,0 8.92,-7.03 9.93,-11.5 0.3,-2.88 0.22,-7.88 0.22,-7.88l0.06,0.07 1.16,-15.69 -1.31,-10.84 -4.63,-15.25Z"
       android:fillColor="#ff0096"
       android:fillAlpha="0.5"/>
   <path
-      android:name="Nervio cutáneo braquial post y lat inf izquierdo"
+      android:name="N cutáneo braquial post y lat inf izquierdo"
       android:pathData="M47.34,134.72s3.78,5.49 8.93,5.31c5.15,-0.17 10.6,-3.1 10.6,-3.1s-5.6,17.85 -6.96,29.35c-1.37,11.5 -4.14,12.54 1.49,16.63 0.8,3.28 -0.74,5.06 -1.84,6.35 -1.09,1.47 -4.56,1.8 -6.8,6.25 0,0 -8.89,-7 -9.9,-11.45 -0.29,-2.87 -0.21,-7.83 -0.21,-7.83l-0.06,0.06 -1.15,-15.61 1.3,-10.79 4.6,-15.17Z"
       android:fillColor="#ff0096"
       android:fillAlpha="0.5"/>
@@ -544,12 +544,12 @@
       android:fillColor="#aaaac8"
       android:fillAlpha="0.5"/>
   <path
-      android:name="N plantar medial (nervio tibial) derecho"
+      android:name="N plantar medial (N tibial) derecho"
       android:pathData="m129.88,468.69 l-0.35,0.97 0.35,4.18 -0.79,5 -1.75,5.32 -2.18,4.22 -0.16,5.46 1.19,2.28v3.94l0.65,2.85 2.25,4.09 3.82,2.78 3.09,-0.37 1.94,-2.1 2.53,-0.03 1.75,-2 2.22,0.63 2.12,-2.35 2.22,-0.03 -10.97,-32.1c-0.18,0.04 -0.33,0.14 -0.53,0.13 -3.39,-0.16 -6.84,-2.37 -6.84,-2.37l-0.56,-0.5Z"
       android:fillColor="#ff0000"
       android:fillAlpha="0.5"/>
   <path
-      android:name="N plantar medial (nervio tibial) izquierdo"
+      android:name="N plantar medial (N tibial) izquierdo"
       android:pathData="m90.98,496 l9.6,-26.55c0.18,0.03 0.32,0.13 0.52,0.12 3.36,-0.16 7.67,-1.14 7.67,-1.14l-0.32,3.4 0.77,4.96 1.73,5.27 2.17,4.18 0.16,5.42 -0.53,3.48 -0.25,4.3 -1.14,3.95 -2.74,3.96 -3.4,1.97 -3.33,-1.09 -1.39,-1.81 -2.4,1.14 -1.39,-0.84 -0.46,-2.02 -1.94,0.58 -2.31,-2.4 -1.69,0.09 -1.26,-1.64 1.35,-6.06"
       android:fillColor="#ff0000"
       android:fillAlpha="0.5"/>
