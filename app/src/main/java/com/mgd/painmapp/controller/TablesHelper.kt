@@ -197,6 +197,7 @@ object TablesHelper {
         val file = File(downloads, fileName)
         return try {
             val writer = file.bufferedWriter()
+            writer.write("\uFEFF") // Permite que excel lo lea correctamente aunque tenga caracteres especiales
             writer.write(header.joinToString(";"))
             writer.newLine()
             for (row in csvTable) {
