@@ -135,4 +135,11 @@ class LocationActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun onBackPressed(){
+        super.onBackPressed()
+        CoroutineScope(Dispatchers.IO).launch {
+            saveColorIndex((getColorIndex()-1) % ColorBrush.colorList.size)
+        }
+    }
 }
