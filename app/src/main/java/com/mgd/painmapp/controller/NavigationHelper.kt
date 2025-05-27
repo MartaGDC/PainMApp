@@ -64,9 +64,7 @@ object NavigationHelper {
         ).build()
         CoroutineScope(Dispatchers.IO).launch {
             val csvTable = database.getMapDao().getFullCSV()
-            context.runOnUiThread {
-                TablesHelper.exportCSV(csvTable, context)
-            }
+            TablesHelper.exportCSV(csvTable, context)
         }
     }
     fun navigateToNewPatient(context:Activity) {
@@ -152,7 +150,9 @@ object NavigationHelper {
             (dialogView.parent as? ViewGroup)?.removeView(dialogView) // Por si ha salido el dialogo y el usuario despues vuelto hacia atras a esta activity
             val dialog = AlertDialog.Builder(context).setView(dialogView).create()
             dialogView.findViewById<CardView>(R.id.btnOverwrite).setOnClickListener {
-                overwrite(test, database, context, patient, researcher, date)
+                CoroutineScope(Dispatchers.IO).launch {
+                    overwrite(test, database, context, patient, researcher, date)
+                }
                 dialog.dismiss()
             }
             if(activity=="summary"){
@@ -177,11 +177,9 @@ object NavigationHelper {
         }
         return true
     }
-    private fun overwrite(test: String, database: PatientDatabase, context: Activity, patient: String,
-                          researcher: String, date: String){
-        CoroutineScope(Dispatchers.IO).launch {
-            database.getEvaluationDao().deleteEvaluationByPatientAndTest(patient, test) //No es necesario eliminar en symptom table por las inner joins.
-        }
+    private suspend fun overwrite(test: String, database: PatientDatabase, context: Activity, patient: String,
+                                  researcher: String, date: String){
+        database.getEvaluationDao().deleteEvaluationByPatientAndTest(patient, test) //No es necesario eliminar en symptom table por las inner joins.
         when (test) {
             "sensorial" -> { navigateToSensorial(context, patient, researcher, date, idEval = -1) }
             "motor" -> { navigateToMotor() }

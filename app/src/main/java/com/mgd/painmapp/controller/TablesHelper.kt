@@ -72,7 +72,7 @@ object TablesHelper {
                     else -> Gravity.CENTER
                 }
                 if(fila[x].contains("_:_")){
-                    var color = colorList[index++]
+                    val color = colorList[index++]
                     fila[x] = fila[x].removeSuffix("_:_")
                     row.insertCell(fila[x], caps, gravity, color)
                 }

@@ -23,6 +23,7 @@ import com.mgd.painmapp.databinding.ActivitySensorialSurveyBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SensorialSurveyActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySensorialSurveyBinding
@@ -94,11 +95,15 @@ class SensorialSurveyActivity : AppCompatActivity() {
         //Guardado
         cvSave.setOnClickListener {
             if (validateFields()) {
-                fillDatabase()
-                val intent = Intent(this, SensorialActivity::class.java).apply {
-                    putExtra("idGeneratedEvaluation", idGeneratedEvaluation)
+                CoroutineScope(Dispatchers.IO).launch {
+                    fillDatabase()
+                    withContext(Dispatchers.Main){
+                        val intent = Intent(this@SensorialSurveyActivity, SensorialActivity::class.java).apply {
+                            putExtra("idGeneratedEvaluation", idGeneratedEvaluation)
+                        }
+                        startActivity(intent)
+                    }
                 }
-                startActivity(intent)
             }
         }
         //Eliminar datos antes de guardarlos: devolver la pantalla al estado inicial
@@ -199,7 +204,7 @@ class SensorialSurveyActivity : AppCompatActivity() {
         etWhen.visibility = View.INVISIBLE
     }
 
-    private fun fillDatabase() {
+    private suspend fun fillDatabase() {
         val selectedSymptom = rgSymptom.checkedRadioButtonId
         val selectedSymptomRB = findViewById<RadioButton>(selectedSymptom)
         val selectedTime = rgTime.checkedRadioButtonId
@@ -219,9 +224,7 @@ class SensorialSurveyActivity : AppCompatActivity() {
             etOtherChar.text.toString(),
             selectedTimeRB.text.toString(),
             etWhen.text.toString()).toDatabase()
-        CoroutineScope(Dispatchers.IO).launch {
             database.getSymptomDao().insertSymptom(symptomEntity)
-        }
     }
 
     private fun validateFields(): Boolean {

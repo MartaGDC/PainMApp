@@ -10,18 +10,18 @@ import com.mgd.painmapp.model.database.entities.EvaluationEntity
 
 interface EvaluationDao {
     @Query("SELECT * FROM evaluations_table")
-    fun getEvaluations(): List<EvaluationEntity>
+    suspend fun getEvaluations(): List<EvaluationEntity>
 
     @Query("SELECT * FROM evaluations_table WHERE idEvaluation = :idEvaluation")
-    fun getEvaluationById(idEvaluation: Long): EvaluationEntity
+    suspend fun getEvaluationById(idEvaluation: Long): EvaluationEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertEvaluation(evaluation: EvaluationEntity): Long //Para recuperar el id del registro insertado
+    suspend fun insertEvaluation(evaluation: EvaluationEntity): Long //Para recuperar el id del registro insertado
 
     @Query("DELETE FROM evaluations_table WHERE patient = :patient AND test = :test")
-    fun deleteEvaluationByPatientAndTest(patient: String, test: String)
+    suspend fun deleteEvaluationByPatientAndTest(patient: String, test: String)
 
     @Query("DELETE FROM evaluations_table WHERE idEvaluation NOT IN " +
             "(SELECT idEvaluation FROM map_table)")
-    fun eliminarEvaluacionesSinMapa()
+    suspend fun eliminarEvaluacionesSinMapa()
 }

@@ -104,7 +104,7 @@ class SummaryActivity : AppCompatActivity() {
         }
     }
 
-    private fun getFrontDrawings(): List<String> {
+    private suspend fun getFrontDrawings(): List<String> {
         val bPath: List<String>
         if (idGeneratedEvaluation != (-1).toLong()) { //Hay registro de evaluación
             bPath = database.getMapDao().getFrontPathsDrawnById(idGeneratedEvaluation)
@@ -112,7 +112,7 @@ class SummaryActivity : AppCompatActivity() {
         }
         return emptyList()
     }
-    private fun getBackDrawings(): List<String> {
+    private suspend fun getBackDrawings(): List<String> {
         val bPath: List<String>
         if (idGeneratedEvaluation != (-1).toLong()) { //Hay registro de evaluación
             bPath = database.getMapDao().getBackPathsDrawnById(idGeneratedEvaluation)

@@ -132,7 +132,7 @@ class SensorialActivity : AppCompatActivity() {
         }
     }
 
-    private fun getFrontDrawings(): List<String> {
+    private suspend fun getFrontDrawings(): List<String> {
         val bPath: List<String>
         if (idGeneratedEvaluation != (-1).toLong()) { //Hay registro de evaluación
             bPath = database.getMapDao().getFrontPathsDrawnById(idGeneratedEvaluation)
@@ -140,7 +140,7 @@ class SensorialActivity : AppCompatActivity() {
         }
         return emptyList()
     }
-    private fun getBackDrawings(): List<String> {
+    private suspend fun getBackDrawings(): List<String> {
         val bPath: List<String>
         if (idGeneratedEvaluation != (-1).toLong()) { //Hay registro de evaluación
             bPath = database.getMapDao().getBackPathsDrawnById(idGeneratedEvaluation)
@@ -149,7 +149,7 @@ class SensorialActivity : AppCompatActivity() {
         return emptyList()
     }
 
-    private fun fillDatabase() { //Suspend para que el hilo principal espere
+    private suspend fun fillDatabase() { //Suspend para que el hilo principal espere
         if (idGeneratedEvaluation == (-1).toLong()) { //Si no hay registro de evaluación
             val evaluationEntity =
                 Evaluation(patientName, researcherName, currentDate, type).toDatabase()

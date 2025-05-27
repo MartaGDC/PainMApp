@@ -22,6 +22,7 @@ import com.mgd.painmapp.view.MapResponsiveViews
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class LocationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLocationBinding
@@ -45,9 +46,7 @@ class LocationActivity : AppCompatActivity() {
         binding = ActivityLocationBinding.inflate(layoutInflater)
         setContentView(binding.root)
         idGeneratedEvaluation = intent.getLongExtra("idGeneratedEvaluation", -1)
-        CoroutineScope(Dispatchers.IO).launch {
-            saveColorIndex((getColorIndex()+1) % ColorBrush.colorList.size)
-        }
+
         database = Room.databaseBuilder(
             this, PatientDatabase::class.java,
             "patient_database"
@@ -70,19 +69,20 @@ class LocationActivity : AppCompatActivity() {
     private fun initListeners() {
         cvSave.setOnClickListener {
             if (!mrvFront.validateMap() && !mrvBack.validateMap()) {
-                Toast.makeText(this, getString(R.string.must_draw_symptom),
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(this@LocationActivity, getString(R.string.must_draw_symptom), Toast.LENGTH_SHORT).show()
             }
             else {
-                Toast.makeText(this, getString(R.string.calculating), Toast.LENGTH_SHORT).show()
-                CoroutineScope(Dispatchers.IO).launch { //Creamos aqui la coroutine, llamando a una funcion suspend
+                Toast.makeText(this@LocationActivity, getString(R.string.calculating), Toast.LENGTH_SHORT).show()
+                CoroutineScope(Dispatchers.IO).launch {
                     fillDatabase()
-                    val intent = Intent(this@LocationActivity, SensorialSurveyActivity::class.java).apply {
-                        putExtra("idGeneratedMap", idGeneratedMap)
-                        putExtra("idGeneratedEvaluation", idGeneratedEvaluation)
+                    saveColorIndex((getColorIndex()+1) % ColorBrush.colorList.size)
+                    withContext(Dispatchers.Main){
+                        val intent = Intent(this@LocationActivity, SensorialSurveyActivity::class.java).apply {
+                            putExtra("idGeneratedMap", idGeneratedMap)
+                            putExtra("idGeneratedEvaluation", idGeneratedEvaluation)
+                        }
+                        startActivity(intent)
                     }
-                    startActivity(intent)
                 }
             }
         }
@@ -93,7 +93,7 @@ class LocationActivity : AppCompatActivity() {
         }
     }
 
-    private fun fillDatabase() {
+    private suspend fun fillDatabase() {
         mapCalculate()
         val mapEntity = MapInterpretation(
             idGeneratedEvaluation,
@@ -112,9 +112,9 @@ class LocationActivity : AppCompatActivity() {
     }
 
     private fun mapCalculate() {
-        var resultFront = mrvFront.calcularPixeles("frente")
-        var resultBack = mrvBack.calcularPixeles("")
-        var results = InterpretationHelper.calculatePercentage(resultFront, resultBack)
+        val resultFront = mrvFront.calcularPixeles("frente")
+        val resultBack = mrvBack.calcularPixeles("")
+        val results = InterpretationHelper.calculatePercentage(resultFront, resultBack)
         totalPercentage = results["total"] ?: 0f
         totalRightPercentage = results["derecha"] ?: 0f
         totalLeftPercentage = results["izquierda"] ?: 0f
@@ -133,13 +133,6 @@ class LocationActivity : AppCompatActivity() {
             else{
                 dermatomes[name] = results[name] ?: 0f
             }
-        }
-    }
-
-    override fun onBackPressed(){
-        super.onBackPressed()
-        CoroutineScope(Dispatchers.IO).launch {
-            saveColorIndex((getColorIndex()-1) % ColorBrush.colorList.size)
         }
     }
 }
