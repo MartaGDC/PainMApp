@@ -10,9 +10,6 @@ import com.mgd.painmapp.model.database.entities.MapEntity
 
 @Dao
 interface MapDao {
-    @Query("SELECT * FROM map_table")
-    suspend fun getMaps(): List<MapEntity>
-
     @Query("SELECT * FROM map_table WHERE idMap = :idMap")
     suspend fun getMapById(idMap: Long): MapEntity
 
@@ -33,12 +30,6 @@ interface MapDao {
             "WHERE map_table.idEvaluation = :idEvaluation")
     suspend fun getBackPathsDrawnById(idEvaluation: Long): List<String>
 
-    @Query("SELECT pathsDrawnFront FROM map_table")
-    suspend fun getFrontPathsDrawn(): List<String>
-
-    @Query("SELECT pathsDrawnBack FROM map_table")
-    suspend fun getBackPathsDrawn(): List<String>
-
     @Query("SELECT symptoms_table.symptom, symptoms_table.symptomOtherText, " +
             "map_table.* " +
             "FROM map_table " +
@@ -51,9 +42,10 @@ interface MapDao {
             "rightPatientPercentage = :rightPatientPercentage, " +
             "leftPatientPercentage = :leftPatientPercentage " +
             "WHERE idEvaluation = :idEvaluation")
-    suspend fun updatePatientPercentages(idEvaluation: Long, totalPatientPercentage: Float,
-                                 rightPatientPercentage: Float,
-                                 leftPatientPercentage: Float)
+    suspend fun updatePatientPercentages(idEvaluation: Long,
+                                         totalPatientPercentage: Float,
+                                         rightPatientPercentage: Float,
+                                         leftPatientPercentage: Float)
 
     @Query("DELETE FROM map_table WHERE idMap NOT IN " +
             "(SELECT idMap FROM symptoms_table)")

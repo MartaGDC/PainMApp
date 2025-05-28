@@ -78,10 +78,8 @@ open class MapResponsiveViews(context: Context, attrs: AttributeSet) : View(cont
         // Calcula la escala
         val scaleX = width / bounds.width()
         val scaleY = height / bounds.height()
-        var scaleFactor = scaleY
-        if(scaleFactor*bounds.width() > width){
-            scaleFactor = scaleX
-        }
+        val scaleFactor = minOf(scaleX, scaleY)
+
         scaleMatrix.reset()
         scaleMatrix.setScale(scaleFactor, scaleFactor, bounds.centerX(), bounds.centerY())
         cPath.computeBounds(bounds, true)

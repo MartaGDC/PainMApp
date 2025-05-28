@@ -103,4 +103,8 @@ class ChooseActivity : AppCompatActivity() {
             }
         }
     }
+    override fun onBackPressed() {
+        super.onBackPressed()
+        NavigationHelper.navigateToNewPatient(this)
+    }
 }

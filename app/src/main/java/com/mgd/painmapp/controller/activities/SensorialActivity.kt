@@ -174,8 +174,8 @@ class SensorialActivity : AppCompatActivity() {
         }
     }
 
-    @Suppress("MissingSuperCall")
     override fun onBackPressed(){
+        super.onBackPressed()
         if(idGeneratedEvaluation != (-1).toLong()) {
             Toast.makeText(this, getString(R.string.leaving_registry), Toast.LENGTH_SHORT).show()
             NavigationHelper.navigateToNewPatient(this)
